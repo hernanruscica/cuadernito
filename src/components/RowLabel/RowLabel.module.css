@@ -1,0 +1,22 @@
+.RowLabelContainer{
+  width: 100%;
+  padding: 8px 0;
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  border-bottom: 2px var(--rowNormalColor) solid;
+  color: var(--textNormalColor);  
+}
+
+.RowLabelText{
+  padding: 2px 16px 2px 50px;
+  font-size: var(--rowFontSize);
+  margin: 0;
+  font-weight: 300;
+}
+.RowLabelInfo{
+  margin: 0;  
+  font-size: 0.9em;
+}
+

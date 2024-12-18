@@ -1,0 +1,22 @@
+.headerContainer{
+  width: 100%;
+  padding: 8px 0;
+  text-align: left;
+  border-bottom: 4px var(--rowAccentColor) solid;  
+  color: var(--textNormalColor);
+}
+
+.headerTitle{  
+  padding: 0px 16px 0px 50px;  
+  font-size: var(--rowHeaderFontSize);
+  margin: 0;
+  font-weight: normal;
+  
+}
+.headerSubtitle{
+  padding: 0px 16px 0px 50px;
+  margin: 0;
+  font-size: 0.8em;  
+  font-weight: 300;
+}
+

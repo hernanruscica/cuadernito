@@ -1,0 +1,25 @@
+.ItemCategoryContainer{
+    width: 100%;
+    padding: 8px 4px 8px 50px;
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;    
+    column-gap: 10px;
+    border-bottom: 4px var(--rowAccentColor) solid;
+    color: var(--textNormalColor);  
+  }
+  
+  .ItemCategoryText{
+    /* padding: 2px 16px 2px 50px; */
+    font-size: var(--rowFontSize);
+    margin: 0;
+    font-weight: 400;    
+  }
+  .ItemCategoryInfo{
+    margin: 0;  
+    font-size: 0.9em;
+  }
+  
+  

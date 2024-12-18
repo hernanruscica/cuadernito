@@ -1,0 +1,51 @@
+.RowButtonInputContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5px 0;  
+  /* border-bottom: 2px var(--rowNormalColor) solid;   */
+}
+
+.RowButtonInputItem{
+  width: 100%;
+  padding: 2px 16px 2px 50px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: solid 2px var(--rowNormalColor);
+}
+
+.RowButtonInputInput {
+  flex-grow: 1;
+  margin-right: 5px;
+  border: none;
+  background-color: var(--notebookBackColor);
+  font-family: var(--appFontFamily);
+  font-size: var(--rowFontSize);
+  color: var(--textNormalColor);
+  font-weight: 400;
+  outline: none; /* Quitar el borde azul predeterminado */
+  transition: border 0.3s ease; /* Agregar animación opcional */
+}
+
+.RowButtonInputInput:focus {
+  border: 2px solid var(--primaryColor); /* Cambia el borde cuando se está tipeando */
+}
+
+.RowButtonInputIcon {
+ cursor: pointer;
+  border: none;
+  transition: var(--rowIconTransition);
+  padding: 4px;
+  background-color: var(--notebookBackColor);  
+}
+.RowButtonInputIcon:hover{  
+  transform: var(--rowIconAnimation);
+  transition: var(--rowIconTransition);
+  
+}
+
+.RowButtonInputIcon svg {
+    width: var(--rowActionIconsSize);
+    height: var(--rowActionIconsSize);
+    fill: var(--notebookAccentColor);
+  }

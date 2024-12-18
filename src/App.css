@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+/*
+.kalam-light {
+  font-family: "Kalam", cursive;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.kalam-regular {
+  font-family: "Kalam", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.kalam-bold {
+  font-family: "Kalam", cursive;
+  font-weight: 700;
+  font-style: normal;
+}
+*/
+:root{
+  --notebookBackColor: #F3F3F3;
+  --appFontFamily: "Kalam", cursive;
+  --notebookAccentColor: #2B75FF;   
+  --rowNormalColor: #A9D1FF;
+  --rowAccentColor: #FFC1C1;
+  --rowSecondaryColor: #CCC;
+  --textNormalColor: #071329;
+  --rowFontSize: 18px;
+  --rowHeaderFontSize: 22px;
+  --rowActionIconsSize: 25px;
+  --rowIconAnimation: scale(1.3);
+  --rowIconTransition :  all ease-in-out 0.2s
+}
+*,*::after,*::before{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#root {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0rem;  
+}
+.App{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+body{
+  font-family: var(--appFontFamily);
+}

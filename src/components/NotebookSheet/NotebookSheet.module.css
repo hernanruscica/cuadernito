@@ -1,0 +1,65 @@
+.mainScreenContainer {
+    width: 100%;
+    max-width: 375px;
+    padding-bottom: 25px;
+    border-radius: 5px;
+    background-color: var(--notebookBackColor);
+    box-shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.65);
+    position: relative;
+    overflow: hidden; /* Evitar que la imagen se superponga con el borde */
+}
+
+.mainScreenContainer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 00px;
+    height: 100%;
+    width: 40px;
+    background-color: var(--notebookBackColor);
+    /* border-left: 1px solid rgba(0, 0, 0, 0.3); */
+    border-right: 3px solid var(--rowSecondaryColor);
+    z-index: 2; /* Asegura que la línea vertical esté por encima del anillado */
+}
+
+/* Nuevo pseudo-elemento para el anillado */
+.mainScreenContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 100%;
+  background-image: url("./images/anillado03.png");
+  background-repeat: repeat-y;
+  background-position: left center;
+  z-index: 3; /* Asegura que el anillado aparezca por debajo de la linea vertical pero por encima del resto del contenido*/
+}
+
+
+.listSection {
+    margin-bottom: 10px;
+}
+
+.newlist {
+    display: flex;
+}
+
+.newlist input {
+    flex-grow: 1;
+    margin-right: 5px;
+}
+
+
+.listContainer {
+    display: flex;
+    margin-bottom: 5px;
+    border-bottom: solid;
+    border-color: grey;
+    border-width: 1px;
+    padding: 5px;
+}
+
+.listInfo {
+    flex-grow: 1;
+}

@@ -1,0 +1,53 @@
+.listItem {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px 8px 50px;
+    border-bottom: 2px solid var(--rowNormalColor); /* Línea inferior */
+  }
+  
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: var(--rowSecondaryColor);
+    transition: background-color 0.3s, border 0.3s;
+  }
+  
+  .checkedBox {
+    background-color: var(--notebookAccentColor);
+    border-color: var(--notebookAccentColor);
+  }
+  
+  .checkmark {
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  
+  .text {
+    flex-grow: 1;    
+    font-size: var(--rowFontSize);    
+    color: var(--textNormalColor);
+    font-weight: 400;
+    cursor: pointer;
+  }
+  
+  .checkedText {
+    text-decoration: line-through;
+    color: var(--textNormalColor);
+    font-weight: 300;
+  }
+  
+  .eyeIcon {
+    width: var(--rowActionIconsSize);
+    height: var(--rowActionIconsSize);
+    color: var(--notebookAccentColor);
+    cursor: pointer;
+    margin-left: 10px;
+  }
+ 
