@@ -4,19 +4,19 @@
   text-align: left;
   border-bottom: 4px var(--rowAccentColor) solid;  
   color: var(--textNormalColor);
+  font-size: var(--rowHeaderFontSize);
 }
 
 .headerTitle{  
   padding: 0px 16px 0px 50px;  
-  font-size: var(--rowHeaderFontSize);
   margin: 0;
   font-weight: normal;
-  
+  font-size: 1em;
 }
 .headerSubtitle{
   padding: 0px 16px 0px 50px;
   margin: 0;
-  font-size: 0.8em;  
+  font-size: 0.7em;  
   font-weight: 300;
 }
 

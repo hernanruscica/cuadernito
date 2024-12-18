@@ -41,15 +41,7 @@ function ListScreen() {
         <RowButton info="Hide list">
           <HideButton/>
         </RowButton>
-        <RowButton info="Edit item">
-          <EditButton/>
-        </RowButton>
-        <RowButton info="Send to another list">
-          <NextButton/>
-        </RowButton>
-        <RowButton info="Back to list">
-          <PreviousButton/>
-        </RowButton>
+        
     </NotebookSheet>
   );
 }
