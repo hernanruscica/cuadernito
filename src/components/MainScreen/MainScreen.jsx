@@ -15,10 +15,7 @@ function MainScreen() {
     >     
         <RowLabel text="Now you can:" />
         <RowLabel text="Create a new list:" />
-                 
-        <RowButtonInput placeholder="List name" button={<AddButton/>} />
         
-
         <RowLabel text="Open your lists:" />
         <RowButtonShow info="car repair checklist" details="06/12/2024" />
         <RowButtonShow info="Grocery List" details="07/12/2024" />

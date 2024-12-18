@@ -3,7 +3,7 @@ import React from 'react';
 import MainScreen from './components/MainScreen/MainScreen';
 import ListScreen from './components/ListScreen/ListScreen';
 import ModalViewItem from './components/ModalViewItem/ModalViewItem';
-import './app.css';
+import './App.css';
 
 function App() {
   return (
