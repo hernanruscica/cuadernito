@@ -1,0 +1,12 @@
+.container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 4em;
+    font-size: var(--rowFontSize);
+    border-radius: 5px;    
+}
+

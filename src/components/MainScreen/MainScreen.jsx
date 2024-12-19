@@ -5,7 +5,7 @@ import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import RowButton from "../RowButton/RowButton";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
-import RowButtonShow from "../RowButtonShow/RowButtonShow";
+import ShowButton from "../Buttons/ShowButton";
 
 function MainScreen() {
   return (
@@ -17,10 +17,15 @@ function MainScreen() {
         <RowLabel text="Create a new list:" />
         <RowButtonInput placeholder="New item name" button={<AddButton/>} />                  
         <RowLabel text="Open your lists:" />
-        <RowButtonShow info="car repair checklist" details="06/12/2024" />
-        <RowButtonShow info="Grocery List" details="07/12/2024" />
-        <RowButtonShow info="Birthday cake" details="08/12/2024" />        
-        
+        <RowButton info="car repair checklist" details="06/12/2024" >
+          <ShowButton/>
+        </RowButton>
+        <RowButton info="car repair checklist" details="06/12/2024" >
+          <ShowButton/>
+        </RowButton>
+        <RowButton info="Birthday cake" details="08/12/2024"  >
+          <ShowButton/>
+        </RowButton>
     </NotebookSheet>
   );
 }

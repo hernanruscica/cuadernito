@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import styles from "./ListItem.module.css";
-import { FaEye } from 'react-icons/fa';
 import ShowButton from "../../Buttons/ShowButton";
 
-function ListItem({ text }) {
+function ListItem({ text, url }) {
   const [checked, setChecked] = useState(false);
 
   const toggleChecked = () => setChecked(!checked);
@@ -20,7 +19,7 @@ function ListItem({ text }) {
         onClick={toggleChecked}>
         {text}
       </span>
-      <ShowButton />      
+      <ShowButton url={url}/>      
     </div>
   );
 }

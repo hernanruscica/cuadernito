@@ -1,0 +1,10 @@
+.linkContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: var(--notebookBackColor);
+    padding: 10px;    
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: var(--shadow);
+}

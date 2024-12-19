@@ -5,17 +5,10 @@ import ListItem from "./ListItem/ListItem";
 import CategorySelector from "./ItemCategory/CategorySelector/CategorySelector";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
-/*
-import RowLabel from "../RowLabel/RowLabel";
-import RowButtonAdd from "../RowButtonAdd/RowButtonAdd";
-import RowButtonShow from "../RowButtonShow/RowButtonShow";
-*/
 
 import RowButton from "../RowButton/RowButton";
 import HideButton from "../Buttons/HideButton";
-import EditButton from "../Buttons/EditButton";
-import NextButton from "../Buttons/NextButton";
-import PreviousButton from "../Buttons/PreviousButton";
+
 
 function ListScreen() {
 
@@ -29,10 +22,10 @@ function ListScreen() {
       subtitle="07/12/2024"
     >     
         <ItemCategory text="Dry goods" />
-        <ListItem text='Dried Tomatoes' />
-        <ListItem text='Dries Shiitake Mushrooms' />
+        <ListItem text='Dried Tomatoes' url={'/modal'}/>
+        <ListItem text='Dries Shiitake Mushrooms'  url={'/modal'}/>
         <ItemCategory text="Produce" />
-        <ListItem text='Strawberries' />        
+        <ListItem text='Strawberries' url={'/modal'} />        
 
         <RowButtonInput placeholder="New item name" button={<AddButton/>} >
           <CategorySelector text="Click to select Category" onClick={handleClick} />

@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './button.module.css';
 import { FiEye } from "react-icons/fi";
+import { Link } from 'react-router-dom';
 
-function ShowButton() {
+
+function ShowButton({url='/'}) {
   return (
-    <button className={styles.button}>
+    <Link className={styles.button} to={url}>
       <FiEye />
-    </button>
+    </Link>
   );
 }
 
