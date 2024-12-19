@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import styles from "./RowButtonInput.module.css";
 
-function RowButtonInput({ placeholder = "", children, button }) {
-  const [textValue, setTextValue] = useState(placeholder);
-
-  const handleOnChange = (e) => {
-    setTextValue(e.target.value); // Actualiza el valor mientras escribe
+function RowButtonInput({ placeholder = "", children, button, textValue, setTextValue  }) {
+  
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setTextValue(value);
   };
+
+ 
 
   return (
     <div className={styles.RowButtonInputContainer}>
@@ -17,7 +19,7 @@ function RowButtonInput({ placeholder = "", children, button }) {
           value={textValue} // El input ahora usa textValue como valor
           placeholder={placeholder}
           className={styles.RowButtonInputInput}
-          onChange={handleOnChange} // Se dispara cada vez que el texto cambia
+          onChange={handleInputChange} // Se dispara cada vez que el texto cambia          
         />
         {button}
       </div>
@@ -31,3 +33,4 @@ function RowButtonInput({ placeholder = "", children, button }) {
 }
 
 export default RowButtonInput;
+
