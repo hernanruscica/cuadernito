@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import styles from "./RowButtonInput.module.css";
 
-function RowButtonInput({ placeholder = "", children, button, textValue, setTextValue  }) {
+function RowButtonInput({ placeholder = "", children, button, textValue, setTextValue, handleAddNew }) {
   
-  const handleInputChange = (event) => {
-    const value = event.target.value;
+  const handleInputChange = (e) => {
+    const value = e.target.value;
     setTextValue(value);
   };
+
+  const handlerKeyUp = (e) => {
+    if (e.key == "Enter"){
+      console.log('Enter pressed !', textValue);      
+      handleAddNew(textValue);      
+    }
+  }
 
  
 
@@ -15,11 +22,12 @@ function RowButtonInput({ placeholder = "", children, button, textValue, setText
       <div className={styles.RowButtonInputItem}>
         <input
           type="text"
-          maxLength="30"
-          value={textValue} // El input ahora usa textValue como valor
+          maxLength="24"
           placeholder={placeholder}
+          value={textValue} // El input ahora usa textValue como valor
           className={styles.RowButtonInputInput}
-          onChange={handleInputChange} // Se dispara cada vez que el texto cambia          
+          onChange={handleInputChange} // Se dispara cada vez que el texto cambia   
+          onKeyUp={handlerKeyUp}       
         />
         {button}
       </div>

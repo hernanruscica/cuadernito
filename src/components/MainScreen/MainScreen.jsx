@@ -6,13 +6,21 @@ import RowButton from "../RowButton/RowButton";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
 import ShowButton from "../Buttons/ShowButton";
+import HideButton from "../Buttons/HideButton";
+import LoginButton from "../Buttons/LoginButton";
+
 
 import { DataContext } from '../../context/DataContext';
 
 function MainScreen() {
   const { lists, items, categories, addList, addItem, addCategory } = useContext(DataContext);
-  
-  const [inputValue, setInputValue] = useState("");
+  const placeholder = "New list name";
+  const showListText = 'Show my lists...'
+  const HideListText = 'Hide my lists...'
+
+  const [inputValue, setInputValue] = useState(placeholder);
+  const [showList, setShowList] = useState(true);
+
 
   const handleAddNewlist = () => {
     if (!inputValue.trim()) {
@@ -29,8 +37,13 @@ function MainScreen() {
   
     addList(newList); // Usar la función de contexto para agregar la lista
     
-    setInputValue(''); // Limpiar el campo de entrada
+    setInputValue(placeholder); // Limpiar el campo de entrada
   };
+
+  const handlerClickShow = (e) => {
+    e.preventDefault();
+    setShowList(!showList);
+  }
   
  
   return (
@@ -40,20 +53,33 @@ function MainScreen() {
     >     
         <RowLabel text="Now you can:"  />
         <RowLabel text="Create a new list:" />
+
         <RowButtonInput
-          placeholder="New list name"
+          placeholder={inputValue}
           button={<AddButton onClick={handleAddNewlist} />}
           textValue={inputValue}
           setTextValue={setInputValue}
+          handleAddNew={handleAddNewlist}
         />
-        <RowLabel text="Open your lists:" />
+
+        {/* <RowLabel text="Open your lists:" /> */}
+
+        
+
         {(lists.length > 0) ?
+          <RowButton info={(showList) ? HideListText : showListText} 
+            onClick={handlerClickShow}>
+              {(showList) ? <HideButton /> :<ShowButton />}
+          </RowButton>          
+          :<RowLabel text="You don't have any list yet..." />
+        }
+        {(showList) ?  
           lists.map((list) => (
-            <RowButton info={list.name} details={list.createdDate} key={list.id} url={`/lists/${list.id}`}>
-              <ShowButton/>
+            <RowButton info={list.name} details={`${list.createdDate} - ${list.items.length} items`} key={list.id} url={`/lists/${list.id}`}>
+              <LoginButton/>
             </RowButton>
-          )) :
-          <RowLabel text="You don't have any list yet..." />
+          )) 
+          :<></>
         }        
     </NotebookSheet>
   );

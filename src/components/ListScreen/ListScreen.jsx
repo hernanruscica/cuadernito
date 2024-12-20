@@ -8,6 +8,7 @@ import AddButton from "../Buttons/AddButton";
 
 import RowButton from "../RowButton/RowButton";
 import HideButton from "../Buttons/HideButton";
+import LogoutButton from "../Buttons/LogoutButton";
 import RowLabel from "../RowLabel/RowLabel";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
@@ -16,15 +17,20 @@ import { DataContext } from "../../context/DataContext";
 function ListScreen() {
   const { lists, isDataLoaded, addItemToList  } = useContext(DataContext);
   const { listId } = useParams();
-
+  const placeholder = 'New item name';
+  const placeholderNote = 'Notes for '
   const [currentList, setCurrentList] = useState(null);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(placeholder);
 
   const handleAddItem = () => {
     const listId = currentList.id; // ID de la lista a la que quieres agregar el ítem
     const newItem = {
       id: Date.now(),
-      name: inputValue,      
+      name: inputValue,    
+      categoryId: 1,
+      note: placeholderNote + inputValue, 
+      checked: false,
+      photo: '',
     };
 
     addItemToList(listId, newItem);
@@ -59,8 +65,7 @@ function ListScreen() {
       <ListItem text="Dried Tomatoes" url={"/modal"} />
       <ListItem text="Dried Shiitake Mushrooms" url={"/modal"} />
       <ItemCategory text="Produce" />
-      <ListItem text="Strawberries" url={"/modal"} />     
-
+      <ListItem text="Strawberries" url={"/modal"} />   
       <RowButtonInput
         placeholder="New item name"
         button={<AddButton />}
@@ -69,15 +74,16 @@ function ListScreen() {
       </RowButtonInput>
       */}
       <RowButtonInput
-          placeholder="New Item name"
+          placeholder={inputValue}
           button={<AddButton onClick={handleAddItem} />}
           textValue={inputValue}
           setTextValue={setInputValue}
+          handleAddNew={handleAddItem}
         >
           <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
       </RowButtonInput >
-      <RowButton info="Hide list">
-        <HideButton />
+      <RowButton info="Back to home">
+        <LogoutButton />
       </RowButton>
     </NotebookSheet>
   );
