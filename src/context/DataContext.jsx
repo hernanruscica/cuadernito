@@ -79,7 +79,7 @@ const DataProvider = ({ children }) => {
     });
   
     const updatedData = { ...data, lists: updatedLists };
-    console.log("Updated data:", updatedData);
+    //console.log("Updated data:", updatedData);
   
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));

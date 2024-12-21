@@ -11,7 +11,7 @@ function RowButtonInput({ placeholder = "", children, button, textValue, setText
 
   const handlerKeyUp = (e) => {
     if (e.key == "Enter"){
-      console.log('Enter pressed !', textValue);      
+      //console.log('Enter pressed !', textValue);      
       handleAction(textValue);           
     }
   }

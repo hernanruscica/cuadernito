@@ -3,23 +3,23 @@ import styles from "./ListItem.module.css";
 import ShowButton from "../../Buttons/ShowButton";
 
 function ListItem({ text, url, id,  checked, toggleChecked }) {
-  //const [checked, setChecked] = useState(false);
-
   
 
   return (
-    <div className={`${styles.listItem} ${checked ? styles.checked : ""}`}>
-      <div id={id}
-        className={`${styles.checkbox} ${checked ? styles.checkedBox : ""}`} 
-        
+    <div className={`${styles.listItem} ${checked ? styles.checked : ""}`} >
+      <div onClick={toggleChecked} id={id}
+        className={`${styles.checkbox} ${checked ? styles.checkedBox : ""}`}        
       >
-        {checked && <span className={styles.checkmark}>✔</span>}
+        {checked && <span className={styles.checkmark}  id={id}  >✔</span>}
       </div>
-      <span id={id} className={`${styles.text} ${checked ? styles.checkedText : ""}`}
-        onClick={toggleChecked}>
+      <span        
+        id={id}
+        className={`${styles.text} ${checked ? styles.checkedText : ""}`}
+        onClick={toggleChecked}
+      >
         {text}
       </span>
-      <ShowButton url={url}/>      
+      <ShowButton url={url} />
     </div>
   );
 }

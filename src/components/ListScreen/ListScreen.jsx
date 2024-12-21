@@ -35,12 +35,12 @@ function ListScreen() {
 
     addItemToList(listId, newItem);
     setInputValue(''); // Limpiar el campo de entrada   
-    console.log('Item added to list:', listId, newItem);
+    //console.log('Item added to list:', listId, newItem);
   };
 
   const handlerToggleChecked = (e) => {
     const itemId = e.target.id;
-    //console.log(`checked: ${!currentList.items.find(item => item.id == itemId).checked}`, listId, itemId);
+    //console.log(listId, itemId, e.target);
     editItemFromList(listId, itemId, {
       checked: !currentList.items.find(item => item.id == itemId).checked
     });
