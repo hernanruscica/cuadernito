@@ -22,7 +22,7 @@ function App() {
           
           {/* Ruta para la vista modal de un ítem 
           <Route path="/item/:id" element={<ModalViewItem />} />*/}
-          <Route path="/modal" element={<ModalViewItem />} />
+          <Route path="/lists/:listId/items/:itemId" element={<ModalViewItem />} />
         </Routes>
       </DataProvider>
     </div>

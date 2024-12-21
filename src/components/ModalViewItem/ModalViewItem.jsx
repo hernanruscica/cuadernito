@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect, useContext} from "react";
 
 import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import RowButton from "../RowButton/RowButton";
@@ -7,19 +7,46 @@ import NextButton from "../Buttons/NextButton";
 import PreviousButton from "../Buttons/PreviousButton";
 import CategorySelector from "../ListScreen/ItemCategory/CategorySelector/CategorySelector";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
+import { useParams } from "react-router-dom";
+import { DataContext } from "../../context/DataContext";
 
-const handleClick = () =>{
-  alert("Select clicked");
-}
+
 
 function ModalViewItem() {
+  const {lists, isDataLoaded} = useContext(DataContext);
+  const { listId, itemId} = useParams();
+  const [currentItem, setCurrentItem] =useState([]);
+  const [inputValue, setInputValue] = useState('');
+
+  const handleClick = () =>{
+    alert("Select clicked");
+  }
+  const handlerEditName = () => {
+    console.log('edit item name', inputValue);
+  }
+
+useEffect(() => {
+
+  if (isDataLoaded) {
+    const currentListItems = lists.find(list => list.id == listId).items;    
+    setCurrentItem(currentListItems.find(item => item.id == itemId));
+    setInputValue(currentListItems.find(item => item.id == itemId).name)
+    //console.log(currentItem);
+}
+}, [isDataLoaded]);  
+  
   return (
     <NotebookSheet
-      title="Dries tomatoes"
+      title={currentItem.name}
       subtitle="Actions for this item:"
     >         
       
-      <RowButtonInput placeholder="Dries tomatoes" button={<EditButton/>} >
+      <RowButtonInput 
+          placeholder="Edit item name" 
+          textValue={inputValue} 
+          setTextValue={setInputValue} 
+          button={<EditButton/>} 
+          handleAction = {handlerEditName}>
         <CategorySelector text="Dry goods" onClick={handleClick} />
       </RowButtonInput >
 

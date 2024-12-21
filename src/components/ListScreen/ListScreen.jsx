@@ -15,12 +15,12 @@ import { DataContext } from "../../context/DataContext";
 
 
 function ListScreen() {
-  const { lists, isDataLoaded, addItemToList  } = useContext(DataContext);
-  const { listId } = useParams();
+  const { lists, isDataLoaded, addItemToList, editItemFromList  } = useContext(DataContext);
+  const { listId} = useParams();
   const placeholder = 'New item name';
   const placeholderNote = 'Notes for '
   const [currentList, setCurrentList] = useState(null);
-  const [inputValue, setInputValue] = useState(placeholder);
+  const [inputValue, setInputValue] = useState('');
 
   const handleAddItem = () => {
     const listId = currentList.id; // ID de la lista a la que quieres agregar el ítem
@@ -34,7 +34,16 @@ function ListScreen() {
     };
 
     addItemToList(listId, newItem);
+    setInputValue(''); // Limpiar el campo de entrada   
     console.log('Item added to list:', listId, newItem);
+  };
+
+  const handlerToggleChecked = (e) => {
+    const itemId = e.target.id;
+    //console.log(`checked: ${!currentList.items.find(item => item.id == itemId).checked}`, listId, itemId);
+    editItemFromList(listId, itemId, {
+      checked: !currentList.items.find(item => item.id == itemId).checked
+    });
   };
 
   useEffect(() => {
@@ -47,7 +56,7 @@ function ListScreen() {
   if (!isDataLoaded) {    
     return <div>Loading...</div>;
   }
-  //console.log(currentList.items.length > 0)
+  //console.log(currentList.items)
 
   if (!currentList) {    
     return <div>List not found</div>;
@@ -57,7 +66,13 @@ function ListScreen() {
     <NotebookSheet title={currentList.name} subtitle={currentList.createdDate}>      
       {(currentList.items.length > 0) ?
         currentList.items.map((item) => (
-          <ListItem text={item.name} url={"/modal"} key={item.id}/>
+          <ListItem 
+              text={item.name} 
+              url={`/lists/${currentList.id}/items/${item.id}`} 
+              key={item.id}
+              id={item.id}
+              checked={item.checked}
+              toggleChecked={handlerToggleChecked}/>
         )):
         <RowLabel text="You don't any item yet"/>
       }
@@ -74,11 +89,11 @@ function ListScreen() {
       </RowButtonInput>
       */}
       <RowButtonInput
-          placeholder={inputValue}
+          placeholder={placeholder}
           button={<AddButton onClick={handleAddItem} />}
           textValue={inputValue}
           setTextValue={setInputValue}
-          handleAddNew={handleAddItem}
+          handleAction={handleAddItem}
         >
           <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
       </RowButtonInput >

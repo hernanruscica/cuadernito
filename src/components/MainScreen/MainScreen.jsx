@@ -18,8 +18,9 @@ function MainScreen() {
   const showListText = 'Show my lists...'
   const HideListText = 'Hide my lists...'
 
-  const [inputValue, setInputValue] = useState(placeholder);
-  const [showList, setShowList] = useState(true);
+  const [inputValue, setInputValue] = useState('');
+  const [showList, setShowList] = useState(false);
+  //const [currentLists, setCurrentLists] = useState(lists)
 
 
   const handleAddNewlist = () => {
@@ -27,17 +28,27 @@ function MainScreen() {
       console.error('Input value is empty. Please enter a name for the list.');
       return;
     }
-  
-    const newList = {
-      id: Date.now(), // Usar timestamp como ID único
-      name: inputValue.trim(), // Eliminar espacios innecesarios
-      items: [],
-      createdDate: new Date().toISOString(), // Usar formato ISO para consistencia
+  const formatDate = (date) => {
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false, // Formato de 24 horas
     };
+    return new Intl.DateTimeFormat('es-ES', options).format(date);
+  };
   
-    addList(newList); // Usar la función de contexto para agregar la lista
-    
-    setInputValue(placeholder); // Limpiar el campo de entrada
+  const newList = {
+    id: Date.now(), // Usar timestamp como ID único
+    name: inputValue.trim(), // Eliminar espacios innecesarios
+    items: [],
+    createdDate: formatDate(new Date()), // Fecha en el formato deseado
+  };
+  
+    addList(newList); // Usar la función de contexto para agregar la lista    
+    setInputValue(''); // Limpiar el campo de entrada    
   };
 
   const handlerClickShow = (e) => {
@@ -55,11 +66,11 @@ function MainScreen() {
         <RowLabel text="Create a new list:" />
 
         <RowButtonInput
-          placeholder={inputValue}
+          placeholder={placeholder}
           button={<AddButton onClick={handleAddNewlist} />}
           textValue={inputValue}
           setTextValue={setInputValue}
-          handleAddNew={handleAddNewlist}
+          handleAction={handleAddNewlist}
         />
 
         {/* <RowLabel text="Open your lists:" /> */}
@@ -73,7 +84,7 @@ function MainScreen() {
           </RowButton>          
           :<RowLabel text="You don't have any list yet..." />
         }
-        {(showList) ?  
+        {(showList && lists.length > 0) ?  
           lists.map((list) => (
             <RowButton info={list.name} details={`${list.createdDate} - ${list.items.length} items`} key={list.id} url={`/lists/${list.id}`}>
               <LoginButton/>
