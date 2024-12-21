@@ -1,22 +1,17 @@
-import React, { useState } from "react";
+import React, { forwardRef } from "react";
 import styles from "./RowButtonInput.module.css";
 
-function RowButtonInput({ placeholder = "", children, button, textValue, setTextValue, handleAction }) {
-  
+const RowButtonInput = forwardRef(({ placeholder = "", children, button, textValue, setTextValue, handleAction }, ref) => {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setTextValue(value);
-   
   };
 
   const handlerKeyUp = (e) => {
-    if (e.key == "Enter"){
-      //console.log('Enter pressed !', textValue);      
-      handleAction(textValue);           
+    if (e.key === "Enter") {
+      handleAction();
     }
-  }
-
- 
+  };
 
   return (
     <div className={styles.RowButtonInputContainer}>
@@ -25,21 +20,17 @@ function RowButtonInput({ placeholder = "", children, button, textValue, setText
           type="text"
           maxLength="24"
           placeholder={placeholder}
-          value={textValue}  //El input ahora usa textValue como valor
+          value={textValue}
           className={styles.RowButtonInputInput}
-          onChange={handleInputChange} // Se dispara cada vez que el texto cambia   
-          onKeyUp={handlerKeyUp}       
+          onChange={handleInputChange}
+          onKeyUp={handlerKeyUp}
+          ref={ref} // Pasar la referencia aquí
         />
         {button}
       </div>
-      {children ? (
-        <div className={styles.RowButtonInputItem}>{children}</div>
-      ) : (
-        ""
-      )}
+      {children && <div className={styles.RowButtonInputItem}>{children}</div>}
     </div>
   );
-}
+});
 
 export default RowButtonInput;
-

@@ -56,7 +56,7 @@ function MainScreen() {
     setShowList(!showList);
   }
   
- 
+ console.log(lists)
   return (
     <NotebookSheet 
       title="Cuadernito App"

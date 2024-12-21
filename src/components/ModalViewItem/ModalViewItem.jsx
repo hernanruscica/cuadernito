@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useContext} from "react";
-
+import React, {useState, useEffect, useContext, useRef} from "react";
+import { useNavigate } from "react-router-dom";
 import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import RowButton from "../RowButton/RowButton";
 import EditButton from "../Buttons/EditButton";
@@ -13,25 +13,53 @@ import { DataContext } from "../../context/DataContext";
 
 
 function ModalViewItem() {
-  const {lists, isDataLoaded} = useContext(DataContext);
+  const {lists, categories, isDataLoaded, editItemFromList} = useContext(DataContext);
   const { listId, itemId} = useParams();
   const [currentItem, setCurrentItem] =useState([]);
-  const [inputValue, setInputValue] = useState('');
+  const [currentItemCategory, setCurrentItemCategory] =useState([]);
+  const [inputValueName, setInputValueName] = useState('');
+  const [inputValueNote, setInputValueNote] = useState('');
+  const inputValueNameRef = useRef(null);
+  const inputValueNoteRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleClick = () =>{
     alert("Select clicked");
   }
-  const handlerEditName = () => {
-    console.log('edit item name', inputValue);
+  const updateData = () => {
+    const editedItem = {
+      ...currentItem,
+      name: inputValueName,
+      note: inputValueNote
+    }
+    editItemFromList(listId, itemId, editedItem);
   }
+  const handlerEditName = () => {
+    updateData();
+    if (inputValueNoteRef.current)
+      {inputValueNoteRef.current.focus();}
+  }
+  const handlerEditNote = () => {
+    updateData();
+    if (inputValueNameRef.current)
+    {inputValueNameRef.current.focus();}
+  }
+  const goBack = () => {
+    updateData();
+    //console.log('Redirigir a la página anterior y guardar', editedItem)
+    navigate(-1); 
+  };
 
 useEffect(() => {
 
   if (isDataLoaded) {
     const currentListItems = lists.find(list => list.id == listId).items;    
-    setCurrentItem(currentListItems.find(item => item.id == itemId));
-    setInputValue(currentListItems.find(item => item.id == itemId).name)
-    //console.log(currentItem);
+    const currentItem = currentListItems.find(item => item.id == itemId);
+    setCurrentItem(currentItem);
+    setInputValueName(currentListItems.find(item => item.id == itemId).name);
+    setInputValueNote(currentListItems.find(item => item.id == itemId).note);
+    setCurrentItemCategory(categories.find(cat => cat.id == currentItem.categoryId).name)
+    //console.log(categories, curren);
 }
 }, [isDataLoaded]);  
   
@@ -43,21 +71,31 @@ useEffect(() => {
       
       <RowButtonInput 
           placeholder="Edit item name" 
-          textValue={inputValue} 
-          setTextValue={setInputValue} 
-          button={<EditButton/>} 
-          handleAction = {handlerEditName}>
-        <CategorySelector text="Dry goods" onClick={handleClick} />
+          textValue={inputValueName} 
+          setTextValue={setInputValueName} 
+          button={<EditButton onClick={handlerEditName}/>} 
+          handleAction = {handlerEditName}
+          ref={inputValueNameRef}
+          >
+          
+        <CategorySelector text={currentItemCategory} onClick={handleClick} />
       </RowButtonInput >
 
-      <RowButtonInput placeholder="Note for dries tomatoes" button={<EditButton/>} >        
+      <RowButtonInput 
+        placeholder="Edit item note"
+        textValue={inputValueNote} 
+        setTextValue={setInputValueNote}
+        button={<EditButton onClick={handlerEditNote}/>} 
+        handleAction={handlerEditNote}
+        ref={inputValueNoteRef}
+        >        
       </RowButtonInput >
 
-      <RowButton info="Send to another list">
+      <RowButton info="Save and send to another list">
         <NextButton />
       </RowButton>      
-      <RowButton info="Back to list">
-        <PreviousButton />
+      <RowButton info="Save and back to list"  onClick={goBack}>
+        <PreviousButton onClick={goBack}/>
       </RowButton>      
         
     </NotebookSheet>
