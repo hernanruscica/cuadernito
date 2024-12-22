@@ -13,6 +13,22 @@ const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
   const localStorageDataName = 'cuadernito-data';
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [translations, setTranslations] = useState({});
+  const [locale, setLocale] = useState('es');
+  const [currentTrans, setCurrentTrans] = useState({});
+
+  const loadTranslations = async () => {
+    try {
+      const response = await fetch('./data/translations.json');  // Adjust path
+      const data = await response.json();
+      
+      setTranslations(data);
+      setCurrentTrans(data[locale] || translations);
+    } catch (error) {
+      console.error('Error loading translations:', error);
+      setTranslations({}); // Empty object in case of failure.
+    }
+  };
 
   useEffect(() => {
     setIsDataLoaded(false);
@@ -26,6 +42,8 @@ const DataProvider = ({ children }) => {
         console.error('Error parsing localStorage data:', error);
       }
     }
+    loadTranslations();    
+   
     setIsDataLoaded(true);
   }, []); // Run only once on mount
 
@@ -86,7 +104,7 @@ const DataProvider = ({ children }) => {
   };
 
   const deleteItemFromList = (listId, itemId) => {    
-    
+
     //console.log(`Intentando eliminar item con ID: ${itemId} de la lista con ID: ${listId}`);  
     const updatedLists = data.lists.map((list) => {
       if (list.id == listId) {
@@ -112,6 +130,7 @@ const DataProvider = ({ children }) => {
       items: data.items,
       categories: data.categories,
       isDataLoaded: isDataLoaded,
+      translations: currentTrans,
       addList,
       addItem,
       addCategory,

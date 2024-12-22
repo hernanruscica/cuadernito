@@ -16,7 +16,7 @@ import { DataContext } from "../../context/DataContext";
 
 
 function ModalViewItem() {
-  const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList} = useContext(DataContext);
+  const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList, translations} = useContext(DataContext);
   const { listId, itemId} = useParams();
   const [currentItem, setCurrentItem] =useState([]);
   const [currentItemCategory, setCurrentItemCategory] =useState([]);
@@ -52,7 +52,7 @@ function ModalViewItem() {
   }
   const handleDeleteButton = (e) => {
     e.preventDefault();
-    if (confirm(deleteConfirmMsg.confirm)){
+    if (confirm(translations.deleteConfirmMsg)){
         //console.log(deleteConfirmMsg.yes);        
         deleteItemFromList(listId, itemId);
         //console.log(`Item con ID ${itemId} eliminado de la lista con ID ${listId}`);
@@ -83,7 +83,7 @@ useEffect(() => {
   return (
     <NotebookSheet
       title={inputValueName}
-      subtitle="Actions for this item:"
+      subtitle={translations.actionItemSubtitle}
     >         
       
       <RowButtonInput 
@@ -110,13 +110,13 @@ useEffect(() => {
       </RowButtonInput >
 
 
-      <RowButton info="Delete this item"    onClick={handleDeleteButton}>
+      <RowButton info={translations.rowButtonDelete}    onClick={handleDeleteButton}>
         <DeleteButton />               
       </RowButton>   
       
       
          
-      <RowButton info="Back to list"  onClick={goBack}>
+      <RowButton info={translations.backButtonList}  onClick={goBack}>
         <PreviousButton onClick={goBack}/>
       </RowButton>      
         

@@ -15,7 +15,7 @@ import { DataContext } from "../../context/DataContext";
 
 
 function ListScreen() {
-  const { lists, isDataLoaded, addItemToList, editItemFromList  } = useContext(DataContext);
+  const { lists, isDataLoaded, addItemToList, editItemFromList, translations  } = useContext(DataContext);
   const { listId} = useParams();
   const placeholder = 'New item name';
   const placeholderNote = 'Notes for '
@@ -28,7 +28,7 @@ function ListScreen() {
       id: Date.now(),
       name: inputValue,    
       categoryId: 1,
-      note: placeholderNote + inputValue, 
+      note: translations.placeholderNote + inputValue, 
       checked: false,
       photo: '',
     };
@@ -74,7 +74,7 @@ function ListScreen() {
               checked={item.checked}
               toggleChecked={handlerToggleChecked}/>
         )):
-        <RowLabel text="You don't any item yet"/>
+        <RowLabel text={translations.noItemMessage}/>
       }
       {/*
       <ListItem text="Dried Tomatoes" url={"/modal"} />
@@ -89,7 +89,7 @@ function ListScreen() {
       </RowButtonInput>
       */}
       <RowButtonInput
-          placeholder={placeholder}
+          placeholder={translations.placeholderNewItem}
           button={<AddButton onClick={handleAddItem} />}
           textValue={inputValue}
           setTextValue={setInputValue}
@@ -99,7 +99,7 @@ function ListScreen() {
           <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
           */}
       </RowButtonInput >
-      <RowButton info="Back to home">
+      <RowButton info={translations.backButton}>
         <LogoutButton />
       </RowButton>
     </NotebookSheet>

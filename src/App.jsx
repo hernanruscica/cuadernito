@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="App">
       <DataProvider>
-        <HeaderApp />
+        {/* <HeaderApp /> */}
         <Routes>
           {/* Ruta para la pantalla principal */}
           <Route path="/" element={<MainScreen />} />

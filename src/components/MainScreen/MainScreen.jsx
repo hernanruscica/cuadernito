@@ -13,21 +13,18 @@ import LoginButton from "../Buttons/LoginButton";
 import { DataContext } from '../../context/DataContext';
 
 function MainScreen() {
-  const { lists, items, categories, addList, addItem, addCategory } = useContext(DataContext);
-  const placeholder = "New list name";
-  const showListText = 'Show my lists...'
-  const HideListText = 'Hide my lists...'
+  const { lists, items, categories, addList, addItem, addCategory, translations, isDataLoaded } = useContext(DataContext);  
 
   const [inputValue, setInputValue] = useState('');
   const [showList, setShowList] = useState(false);
   //const [currentLists, setCurrentLists] = useState(lists)
 
-
   const handleAddNewlist = () => {
     if (!inputValue.trim()) {
-      console.error('Input value is empty. Please enter a name for the list.');
+      alert('Input value is empty. Please enter a name for the list.');
       return;
     }
+    
   const formatDate = (date) => {
     const options = {
       day: '2-digit',
@@ -46,6 +43,12 @@ function MainScreen() {
     items: [],
     createdDate: formatDate(new Date()), // Fecha en el formato deseado
   };
+
+  const existingList = lists.find(list => list.name.toLowerCase() === newList.name.toLowerCase());
+    if(existingList) {
+        alert("A list with this name already exists.")
+        return;
+    }
   
     addList(newList); // Usar la función de contexto para agregar la lista    
     setInputValue(''); // Limpiar el campo de entrada    
@@ -55,34 +58,40 @@ function MainScreen() {
     e.preventDefault();
     setShowList(!showList);
   }
+
+  if (!isDataLoaded){
+    return (
+      <div>cargando...</div>
+    )
+  }
   
- //console.log(lists)
+  //const currentTrans = translations[locale] || translations;
+  //console.log(translations)
+
   return (
     <NotebookSheet 
       title="Cuadernito App"
-      subtitle="Your daily friend !"
+      subtitle={translations.subtitle}
     >     
-        <RowLabel text="Now you can:"  />
-        <RowLabel text="Create a new list:" />
+        <RowLabel text={translations.welcome}  />
+        <RowLabel text={translations.newListText} />
 
         <RowButtonInput
-          placeholder={placeholder}
+          placeholder={translations.placeholder}
           button={<AddButton onClick={handleAddNewlist} />}
           textValue={inputValue}
           setTextValue={setInputValue}
           handleAction={handleAddNewlist}
         />
 
-        {/* <RowLabel text="Open your lists:" /> */}
-
-        
+        {/* <RowLabel text="Open your lists:" /> */}        
 
         {(lists.length > 0) ?
-          <RowButton info={(showList) ? HideListText : showListText} 
+          <RowButton info={(showList) ? translations.hideListText : translations.showListText} 
             onClick={handlerClickShow}>
               {(showList) ? <HideButton /> :<ShowButton />}
           </RowButton>          
-          :<RowLabel text="You don't have any list yet..." />
+          :<RowLabel text={translations.noListsMessage} />
         }
         {(showList && lists.length > 0) ?  
           lists.map((list) => (
