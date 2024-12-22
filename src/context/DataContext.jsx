@@ -76,13 +76,32 @@ const DataProvider = ({ children }) => {
         };
       }
       return list;
-    });
+    });    
   
     const updatedData = { ...data, lists: updatedLists };
     //console.log("Updated data:", updatedData);
   
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+
+  const deleteItemFromList = (listId, itemId) => {    
+    
+    //console.log(`Intentando eliminar item con ID: ${itemId} de la lista con ID: ${listId}`);  
+    const updatedLists = data.lists.map((list) => {
+      if (list.id == listId) {
+        const filteredItems = list.items.filter((item) => item.id != itemId); // Eliminar el item
+        //console.log(`Lista actualizada: `, filteredItems);
+        return { ...list, items: filteredItems };
+      }
+      return list; // Otras listas permanecen sin cambios
+    });
+  
+    const updatedData = { ...data, lists: updatedLists };
+    //console.log(`Datos actualizados después de la eliminación: `, updatedData);
+  
+    setData(updatedData); // Actualizar el estado
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Guardar cambios en localStorage
   };
   
   
@@ -98,6 +117,7 @@ const DataProvider = ({ children }) => {
       addCategory,
       addItemToList, 
       editItemFromList,
+      deleteItemFromList,
     }}>
       {children}
     </DataContext.Provider>

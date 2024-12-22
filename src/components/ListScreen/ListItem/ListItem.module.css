@@ -35,12 +35,14 @@
     color: var(--textNormalColor);
     font-weight: 400;
     cursor: pointer;
+    user-select: none;
   }
   
   .checkedText {
     text-decoration: line-through;
     color: var(--textNormalColor);
     font-weight: 300;
+    user-select: none;
   }
   
   .eyeIcon {

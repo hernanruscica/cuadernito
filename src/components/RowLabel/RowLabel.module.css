@@ -14,9 +14,11 @@
   font-size: var(--rowFontSize);
   margin: 0;
   font-weight: 300;
+  user-select: none;
 }
 .RowLabelInfo{
   margin: 0;  
   font-size: 0.9em;
+  user-select: none;
 }
 

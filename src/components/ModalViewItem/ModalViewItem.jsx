@@ -4,6 +4,7 @@ import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import RowButton from "../RowButton/RowButton";
 import EditButton from "../Buttons/EditButton";
 import NextButton from "../Buttons/NextButton";
+import DeleteButton from "../Buttons/DeleteButton";
 import PreviousButton from "../Buttons/PreviousButton";
 import CategorySelector from "../ListScreen/ItemCategory/CategorySelector/CategorySelector";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
@@ -12,8 +13,10 @@ import { DataContext } from "../../context/DataContext";
 
 
 
+
+
 function ModalViewItem() {
-  const {lists, categories, isDataLoaded, editItemFromList} = useContext(DataContext);
+  const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList} = useContext(DataContext);
   const { listId, itemId} = useParams();
   const [currentItem, setCurrentItem] =useState([]);
   const [currentItemCategory, setCurrentItemCategory] =useState([]);
@@ -22,8 +25,9 @@ function ModalViewItem() {
   const inputValueNameRef = useRef(null);
   const inputValueNoteRef = useRef(null);
   const navigate = useNavigate();
+  const deleteConfirmMsg = {confirm: 'Confirm delete item ?', yes:'Item deleted!', not: 'Item OK!'}
 
-  const handleClick = () =>{
+  const handleClickSelector = () =>{
     alert("Select clicked");
   }
   const updateData = () => {
@@ -40,9 +44,22 @@ function ModalViewItem() {
       {inputValueNoteRef.current.focus();}
   }
   const handlerEditNote = () => {
-    updateData();
-    if (inputValueNameRef.current)
-    {inputValueNameRef.current.focus();}
+    //updateData();
+    if (inputValueNameRef.current){
+      inputValueNameRef.current.focus();
+    }
+    goBack();
+  }
+  const handleDeleteButton = (e) => {
+    e.preventDefault();
+    if (confirm(deleteConfirmMsg.confirm)){
+        //console.log(deleteConfirmMsg.yes);        
+        deleteItemFromList(listId, itemId);
+        //console.log(`Item con ID ${itemId} eliminado de la lista con ID ${listId}`);
+        navigate(`/lists/${listId}`);
+    } else{
+      console.log(deleteConfirmMsg.not);
+    }   
   }
   const goBack = () => {
     updateData();
@@ -65,7 +82,7 @@ useEffect(() => {
   
   return (
     <NotebookSheet
-      title={currentItem.name}
+      title={inputValueName}
       subtitle="Actions for this item:"
     >         
       
@@ -73,28 +90,33 @@ useEffect(() => {
           placeholder="Edit item name" 
           textValue={inputValueName} 
           setTextValue={setInputValueName} 
-          button={<EditButton onClick={handlerEditName}/>} 
+          button={<EditButton onClick={() => {inputValueNameRef.current.focus()}}/>} 
           handleAction = {handlerEditName}
           ref={inputValueNameRef}
           >
-          
-        <CategorySelector text={currentItemCategory} onClick={handleClick} />
+        {/*  
+        <CategorySelector text={currentItemCategory} onClick={handleClickSelector} />
+        */}
       </RowButtonInput >
 
       <RowButtonInput 
         placeholder="Edit item note"
         textValue={inputValueNote} 
         setTextValue={setInputValueNote}
-        button={<EditButton onClick={handlerEditNote}/>} 
+        button={<EditButton onClick={() => {inputValueNoteRef.current.focus()}}/>} 
         handleAction={handlerEditNote}
         ref={inputValueNoteRef}
         >        
       </RowButtonInput >
 
-      <RowButton info="Save and send to another list">
-        <NextButton />
-      </RowButton>      
-      <RowButton info="Save and back to list"  onClick={goBack}>
+
+      <RowButton info="Delete this item"    onClick={handleDeleteButton}>
+        <DeleteButton />               
+      </RowButton>   
+      
+      
+         
+      <RowButton info="Back to list"  onClick={goBack}>
         <PreviousButton onClick={goBack}/>
       </RowButton>      
         

@@ -15,12 +15,14 @@
   margin: 0;
   font-weight: normal;
   font-size: 1em;
+  user-select: none;
 }
 .headerSubtitle{
   padding: 0px 16px 0px 50px;
   margin: 0;
   font-size: 0.7em;  
   font-weight: 300;
+  user-select: none;
 }
 
 .headerImage{

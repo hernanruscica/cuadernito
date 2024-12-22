@@ -95,7 +95,9 @@ function ListScreen() {
           setTextValue={setInputValue}
           handleAction={handleAddItem}
         >
+          {/*
           <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
+          */}
       </RowButtonInput >
       <RowButton info="Back to home">
         <LogoutButton />
