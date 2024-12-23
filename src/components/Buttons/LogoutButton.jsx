@@ -1,14 +1,12 @@
 import React from 'react';
 import styles from './button.module.css';
 import { FiLogOut  } from "react-icons/fi";
-import { Link } from 'react-router-dom';
 
-
-function LogoutButton({url='/'}) {
+function LogoutButton() {
   return (
-    <Link className={styles.button} to={url}>
+    <button className={styles.button} >
       <FiLogOut  />
-    </Link>
+    </button>
   );
 }
 

@@ -1,26 +1,25 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import ItemCategory from "./ItemCategory/ItemCategory";
-import ListItem from "./ListItem/ListItem";
 import CategorySelector from "./ItemCategory/CategorySelector/CategorySelector";
+import ListItem from "./ListItem/ListItem";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
-
 import RowButton from "../RowButton/RowButton";
-import HideButton from "../Buttons/HideButton";
 import LogoutButton from "../Buttons/LogoutButton";
 import RowLabel from "../RowLabel/RowLabel";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
+import PreviousButton from "../Buttons/PreviousButton";
 
 
-function ListScreen() {
+function ViewList() {
   const { lists, isDataLoaded, addItemToList, editItemFromList, translations  } = useContext(DataContext);
   const { listId} = useParams();
-  const placeholder = 'New item name';
-  const placeholderNote = 'Notes for '
+  
   const [currentList, setCurrentList] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const inputNewItemRef = useRef(null);
 
   const handleAddItem = () => {
     const listId = currentList.id; // ID de la lista a la que quieres agregar el ítem
@@ -39,28 +38,43 @@ function ListScreen() {
   };
 
   const handlerToggleChecked = (e) => {
-    const itemId = e.target.id;
-    //console.log(listId, itemId, e.target);
+    const parentDiv = e.currentTarget; // Siempre captura el div con la clase checkbox
+    //console.log("item id:", parentDiv.id);
+    const itemId = parentDiv.id;
+    
     editItemFromList(listId, itemId, {
       checked: !currentList.items.find(item => item.id == itemId).checked
     });
+    
   };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (inputNewItemRef.current) {
+        inputNewItemRef.current.focus();
+        clearInterval(interval); // Enfocar y detener el intervalo
+      }
+    }, 10); // Revisa cada 10ms
+  
+    return () => clearInterval(interval); // Limpieza en caso de desmontaje
+  }, []);
 
   useEffect(() => {
     if (isDataLoaded) {
       const foundList = lists.find((list) => list.id == listId);
-      setCurrentList(foundList || null); 
-    }
+      setCurrentList(foundList || null);         
+    }    
   }, [isDataLoaded, lists, listId]);
 
   if (!isDataLoaded) {    
     return <div>Loading...</div>;
   }
   //console.log(currentList.items)
-
+  
   if (!currentList) {    
     return <div>List not found</div>;
   }
+  
+  
 
   return (
     <NotebookSheet title={currentList.name} subtitle={currentList.createdDate}>      
@@ -91,19 +105,20 @@ function ListScreen() {
       <RowButtonInput
           placeholder={translations.placeholderNewItem}
           button={<AddButton onClick={handleAddItem} />}
-          textValue={inputValue}
+          textValue={inputValue}          
           setTextValue={setInputValue}
           handleAction={handleAddItem}
+          ref={inputNewItemRef}
         >
           {/*
           <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
           */}
       </RowButtonInput >
       <RowButton info={translations.backButton}>
-        <LogoutButton />
+        <PreviousButton />
       </RowButton>
     </NotebookSheet>
   );
 }
 
-export default ListScreen;
+export default ViewList;

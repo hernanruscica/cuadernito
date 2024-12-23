@@ -1,41 +1,53 @@
 .listItem {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
+    column-gap: 20px;
     padding: 8px 12px 8px 50px;
     border-bottom: 2px solid var(--rowNormalColor); /* Línea inferior */
   }
   
   .checkbox {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #ccc;
+    width: 50px;
+    height: 30px;
+    /* border: 2px solid #ccc; */
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 10px;
     cursor: pointer;
-    background-color: var(--rowSecondaryColor);
+    /* background-color: var(--rowSecondaryColor); */
     transition: background-color 0.3s, border 0.3s;
   }
   
   .checkedBox {
     background-color: var(--notebookAccentColor);
     border-color: var(--notebookAccentColor);
+    font-size: 34px;
   }
   
   .checkmark {
     color: white;
-    font-size: 16px;
+    font-size: 34px;
     font-weight: bold;
   }
   
   .text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     flex-grow: 1;    
     font-size: var(--rowFontSize);    
     color: var(--textNormalColor);
-    font-weight: 400;
-    cursor: pointer;
+    font-weight: 400;    
     user-select: none;
+    transition:  var(--rowIconTransition)
+  }
+  .text:hover{
+    transform: scale(1.08) translate(5px, 0px);
+    transition:  var(--rowIconTransition)
   }
   
   .checkedText {
@@ -43,6 +55,7 @@
     color: var(--textNormalColor);
     font-weight: 300;
     user-select: none;
+    transition:  var(--rowIconTransition)
   }
   
   .eyeIcon {

@@ -6,14 +6,11 @@ import EditButton from "../Buttons/EditButton";
 import NextButton from "../Buttons/NextButton";
 import DeleteButton from "../Buttons/DeleteButton";
 import PreviousButton from "../Buttons/PreviousButton";
-import CategorySelector from "../ListScreen/ItemCategory/CategorySelector/CategorySelector";
+import CategorySelector from "../ViewList/ItemCategory/CategorySelector/CategorySelector";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
-
-
-
-
+import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 
 function ModalViewItem() {
   const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList, translations} = useContext(DataContext);
@@ -26,6 +23,7 @@ function ModalViewItem() {
   const inputValueNoteRef = useRef(null);
   const navigate = useNavigate();
   const deleteConfirmMsg = {confirm: 'Confirm delete item ?', yes:'Item deleted!', not: 'Item OK!'}
+  const [showModalDelete, setShowModalDelete] = useState(false);
 
   const handleClickSelector = () =>{
     alert("Select clicked");
@@ -52,6 +50,9 @@ function ModalViewItem() {
   }
   const handleDeleteButton = (e) => {
     e.preventDefault();
+    setShowModalDelete(!showModalDelete);
+    console.log(showModalDelete)
+    /*
     if (confirm(translations.deleteConfirmMsg)){
         //console.log(deleteConfirmMsg.yes);        
         deleteItemFromList(listId, itemId);
@@ -59,7 +60,12 @@ function ModalViewItem() {
         navigate(`/lists/${listId}`);
     } else{
       console.log(deleteConfirmMsg.not);
-    }   
+    } 
+      */  
+  }
+  const deleteItem = () => {
+    deleteItemFromList(listId, itemId);
+    navigate(`/lists/${listId}`);
   }
   const goBack = () => {
     updateData();
@@ -77,15 +83,27 @@ useEffect(() => {
     setInputValueNote(currentListItems.find(item => item.id == itemId).note);
     setCurrentItemCategory(categories.find(cat => cat.id == currentItem.categoryId).name)
     //console.log(categories, curren);
+    if (inputValueNameRef.current){    
+      inputValueNameRef.current.focus();
+    }
 }
 }, [isDataLoaded]);  
+
+
   
-  return (
+  return (  
     <NotebookSheet
       title={inputValueName}
       subtitle={translations.actionItemSubtitle}
     >         
-      
+      {
+      (showModalDelete)
+        ? <ModalConfirm title="Desea borrar el item" subtitle={currentItem.name}
+            onClickNot={() => setShowModalDelete(false)}
+            onClickYes={deleteItem}
+            />
+        : <></>
+      }
       <RowButtonInput 
           placeholder="Edit item name" 
           textValue={inputValueName} 
@@ -109,15 +127,12 @@ useEffect(() => {
         >        
       </RowButtonInput >
 
-
-      <RowButton info={translations.rowButtonDelete}    onClick={handleDeleteButton}>
+      <RowButton info={translations.rowButtonDelete}  onClick={handleDeleteButton}>
         <DeleteButton />               
-      </RowButton>   
-      
-      
+      </RowButton>       
          
       <RowButton info={translations.backButtonList}  onClick={goBack}>
-        <PreviousButton onClick={goBack}/>
+        <PreviousButton />
       </RowButton>      
         
     </NotebookSheet>

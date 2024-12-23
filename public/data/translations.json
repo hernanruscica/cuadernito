@@ -1,7 +1,7 @@
 {
     "subtitle": "Your daily friend !",
-    "placeholder": "New list name",
-    "placeholderNewItem": "New item name",
+    "placeholderNewList": "Create new list",
+    "placeholderNewItem": "Create new item",
     "welcome": "Bienvenid@, ahora puedes",
     "newListText": "Create a new list:",
     "showListText": "Show my lists...",
@@ -21,8 +21,8 @@
   
     "es": {
         "subtitle": "Tu compañero diario !",
-      "placeholder": "Nombre nueva lista",
-      "placeholderNewItem": "Nombre nuevo item",
+      "placeholderNewList": "Crear nueva lista",
+      "placeholderNewItem": "Crear nuevo item",
       "welcome": "Bienvenid@, ahora puedes...",
       "newListText": "Crear nueva lista:",
       "showListText": "Mostrar mis listas...",
@@ -42,9 +42,9 @@
     },
   
     "en": {
-        "subtitle": "Your daily friend !",
-      "placeholder": "New list name",
-      "placeholderNewItem": "New item name",
+      "subtitle": "Your daily friend !",
+      "placeholderNewList": "Create new list",
+      "placeholderNewItem": "Create new item",
       "welcome": "Welcome, now you can ...",
       "newListText": "Create a new list:",
       "showListText": "Show my lists...",

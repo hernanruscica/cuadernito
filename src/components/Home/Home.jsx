@@ -7,17 +7,20 @@ import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
 import ShowButton from "../Buttons/ShowButton";
 import HideButton from "../Buttons/HideButton";
-import LoginButton from "../Buttons/LoginButton";
+import NotebookButton from "../Buttons/NotebookButton";
 
+
+import { useNavigate } from "react-router-dom";
 
 import { DataContext } from '../../context/DataContext';
 
-function MainScreen() {
+function Home() {
   const { lists, items, categories, addList, addItem, addCategory, translations, isDataLoaded } = useContext(DataContext);  
 
   const [inputValue, setInputValue] = useState('');
   const [showList, setShowList] = useState(false);
   //const [currentLists, setCurrentLists] = useState(lists)
+  const navigate = useNavigate();
 
   const handleAddNewlist = () => {
     if (!inputValue.trim()) {
@@ -52,6 +55,7 @@ function MainScreen() {
   
     addList(newList); // Usar la función de contexto para agregar la lista    
     setInputValue(''); // Limpiar el campo de entrada    
+    navigate(`/lists/${newList.id}`);
   };
 
   const handlerClickShow = (e) => {
@@ -74,10 +78,10 @@ function MainScreen() {
       subtitle={translations.subtitle}
     >     
         <RowLabel text={translations.welcome}  />
-        <RowLabel text={translations.newListText} />
+        {/* <RowLabel text={translations.newListText} /> */}
 
         <RowButtonInput
-          placeholder={translations.placeholder}
+          placeholder={translations.placeholderNewList}
           button={<AddButton onClick={handleAddNewlist} />}
           textValue={inputValue}
           setTextValue={setInputValue}
@@ -96,7 +100,7 @@ function MainScreen() {
         {(showList && lists.length > 0) ?  
           lists.map((list) => (
             <RowButton info={list.name} details={`${list.createdDate} - ${list.items.length} items`} key={list.id} url={`/lists/${list.id}`}>
-              <LoginButton/>
+              <NotebookButton/>
             </RowButton>
           )) 
           :<></>
@@ -105,4 +109,4 @@ function MainScreen() {
   );
 }
 
-export default MainScreen;
+export default Home;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import styles from './RowButton.module.css';
-import { FiCornerDownRight } from "react-icons/fi";
+// import { FiCornerDownRight } from "react-icons/fi";
 
 function RowButton({ info='info', details='', url='/', onClick=null, children }) {
   return (
@@ -9,7 +9,7 @@ function RowButton({ info='info', details='', url='/', onClick=null, children })
       <div className={styles.info}>
         <span> {info}</span>
         {(details !== '') ? <span className={styles.infoDetails}>{details}</span> : ''}
-      </div>
+      </div>      
       {children}
     </Link>
   );

@@ -8,6 +8,7 @@ const initialState = {
 };
 
 const DataContext = createContext(initialState);
+const publicUrl = 'https://cuadernito.onrender.com'
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
@@ -19,7 +20,7 @@ const DataProvider = ({ children }) => {
 
   const loadTranslations = async () => {
     try {
-      const response = await fetch('./data/translations.json');  // Adjust path
+      const response = await fetch(`${publicUrl}/data/translations.json`);  // Adjust path
       const data = await response.json();
       
       setTranslations(data);

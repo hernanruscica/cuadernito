@@ -5,10 +5,11 @@
   cursor: pointer;
   transition: var(--rowIconTransition);
 }
-.button:hover{
+
+/* .button:hover{
   transition: var(--rowIconTransition);
   transform: var(--rowIconAnimation);
-}
+} */
 
 .button svg{
   width: var(--rowActionIconsSize);

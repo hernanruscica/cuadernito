@@ -1,0 +1,41 @@
+
+.overlay{
+    position: fixed;
+    top: 0;
+    right: 0px; 
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background: rgba(0, 0, 0, 0.8);    
+    padding-top: 30vh;        
+}
+
+.ModalConfirmContainer{       
+    position: absolute;
+    right: calc(50vw - 375px / 2 );
+    width: 375px;
+    height: auto;
+    transition: right ease-out 0.4s;
+}
+
+.ModalConfirmContainerHide{
+    right: calc(50vw - 375px / 2 );
+    transition: right ease-out 0.4s;
+}
+
+.confirmButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    padding-top: 12px;
+    padding-left: 40px;
+}
+
+.confirmButton{
+    text-transform: uppercase;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}

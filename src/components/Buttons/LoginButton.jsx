@@ -1,14 +1,13 @@
 import React from 'react';
 import styles from './button.module.css';
 import { FiLogIn  } from "react-icons/fi";
-import { Link } from 'react-router-dom';
 
 
-function LoginButton({url='/'}) {
+function LoginButton() {
   return (
-    <Link className={styles.button} to={url}>
+    <button  className={styles.button} >
       <FiLogIn  />
-    </Link>
+    </button>
   );
 }
 

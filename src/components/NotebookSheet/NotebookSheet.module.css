@@ -30,7 +30,7 @@
   left: 0;
   width: 30px;
   height: 100%;
-  background-image: url("../images/anillado03.png");
+  background-image: url('https://cuadernito.onrender.com/images/anillado03.png');
   background-repeat: repeat-y;
   background-position: left center;
   z-index: 3; /* Asegura que el anillado aparezca por debajo de la linea vertical pero por encima del resto del contenido*/
