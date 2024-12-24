@@ -13,7 +13,7 @@ import { DataContext } from "../../context/DataContext";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 
 function ModalViewItem() {
-  const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList, translations} = useContext(DataContext);
+  const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList, translations, themes} = useContext(DataContext);
   const { listId, itemId} = useParams();
   const [currentItem, setCurrentItem] =useState([]);
   const [currentItemCategory, setCurrentItemCategory] =useState([]);
@@ -79,7 +79,7 @@ useEffect(() => {
 }
 }, [isDataLoaded]);  
 
-
+console.log(lists)
   
   return (  
     <NotebookSheet

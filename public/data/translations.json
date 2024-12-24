@@ -24,6 +24,8 @@
     "deleteListConfirmMsg": "Confirm delete list ?",
     "deleteListYesText": "Yes, delete it",
     "deleteListNotText": "Not, I want to keep it",
+    "headerListButton": "My lists",
+    "headerSettingsButton": "Settings",
   
     "es": {
         "subtitle": "Tu compañero diario !",
@@ -50,7 +52,9 @@
       "deleteItemNotText": "No, quiero conservarlo",
       "deleteListConfirmMsg": "Realmente quiere eliminar esta lista ?",
       "deleteListYesText": "!Sí, bórrala!",
-      "deleteListNotText": "No, quiero conservarla"
+      "deleteListNotText": "No, quiero conservarla",
+      "headerListButton": "Mis listas",
+      "headerSettingsButton": "Preferencias"
     },
   
     "en": {
@@ -76,6 +80,8 @@
       "deleteConfirmMsg": "Confirm delete item ?",
       "deleteListConfirmMsg": "Confirm delete list ?",
       "deleteListYesText": "Yes, delete it",
-      "deleteListNotText": "Not, I want to keep it"
+      "deleteListNotText": "Not, I want to keep it",
+      "headerListButton": "My lists",
+      "headerSettingsButton": "Settings"
     }
   }

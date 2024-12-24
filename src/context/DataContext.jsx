@@ -5,18 +5,20 @@ const initialState = {
   lists: [],
   items: [],
   categories: defaultCategories,
+  userSettings: {language: "es", themeId:0},
+  themes: [{id: 0, name: 'default'}, {id: 1, name: 'strawberry'}]
 };
 
 const DataContext = createContext(initialState);
-const publicUrl = 'https://cuadernito.onrender.com';
-//const publicUrl = 'http://localhost:5173';
+//const publicUrl = 'https://cuadernito.onrender.com';
+const publicUrl = 'http://localhost:5173';
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
   const localStorageDataName = 'cuadernito-data';
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [translations, setTranslations] = useState({});
-  const [locale, setLocale] = useState('es');
+  const [locale, setLocale] = useState(initialState.userSettings.language);
   const [currentTrans, setCurrentTrans] = useState({});
 
   const loadTranslations = async () => {
@@ -39,7 +41,7 @@ const DataProvider = ({ children }) => {
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        setData(parsedData); // Directly update the data state
+        setData(parsedData); // Directly update the data state        
       } catch (error) {
         console.error('Error parsing localStorage data:', error);
       }
@@ -134,6 +136,19 @@ const DataProvider = ({ children }) => {
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Guardar cambios en localStorage
   };
   
+  const editUserSetting = (updatedSettings) => {
+    const updatedData = {
+      ...data,
+      userSettings: {
+        ...data.userSettings, // Mantén los valores existentes
+        ...updatedSettings,   // Sobrescribe solo los valores enviados
+      },
+    };
+  
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+  
   
 
   return (
@@ -143,6 +158,8 @@ const DataProvider = ({ children }) => {
       categories: data.categories,
       isDataLoaded: isDataLoaded,
       translations: currentTrans,
+      userSettings: data.userSettings,
+      themes: data.themes,
       addList,
       addItem,
       addCategory,
@@ -150,6 +167,7 @@ const DataProvider = ({ children }) => {
       editItemFromList,
       deleteItemFromList,
       deleteListFromContext,
+      editUserSetting,
     }}>
       {children}
     </DataContext.Provider>

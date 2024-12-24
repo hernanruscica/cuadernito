@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
 import styles from "./HeaderAppButton.module.css";
 
-const HeaderAppButton = ({ url = "/", text = "", side = "left", children }) => {
+const HeaderAppButton = ({ url = "/", text = "", children, onClickHandler=null }) => {
   return (
-    <Link to={url} className={styles.linkContainer}>
-      {
-        (side == 'left') ?      
-        <>{children}{text}</>
-        : <>{text}{children}</>
-      }
+    <Link to={url} className={styles.linkContainer} onClick={onClickHandler}>
+      
+        {text}{children}
+      
     </Link>
   );
 };

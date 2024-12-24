@@ -12,18 +12,12 @@ function App() {
   return (
     <div className="App">
       <DataProvider>
-         {/* <HeaderApp /> */}
-         
-        <Routes>
-          {/* Ruta para la pantalla principal */}
-          <Route path="/" element={<Home />} />
-          
-          {/* Ruta para la pantalla de listas */}
-          <Route path="/lists/:listId" element={<ViewList />} />
-          
-          {/* Ruta para la vista modal de un ítem 
-          <Route path="/item/:id" element={<ModalViewItem />} />*/}
+          <HeaderApp />          
+        <Routes>          
+          <Route path="/" element={<Home />} />      
+          <Route path="/lists/:listId" element={<ViewList />} />  
           <Route path="/lists/:listId/items/:itemId" element={<ViewItem />} />
+            
         </Routes>
       </DataProvider>
     </div>
