@@ -16,7 +16,7 @@
 
 .RowButtonInputInput {
   flex-grow: 1;
-  margin-right: 5px;
+  
   border: none;
   background-color: var(--notebookBackColor);
   font-family: var(--appFontFamily);
