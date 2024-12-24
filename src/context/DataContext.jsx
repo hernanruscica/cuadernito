@@ -8,7 +8,8 @@ const initialState = {
 };
 
 const DataContext = createContext(initialState);
-const publicUrl = 'https://cuadernito.onrender.com'
+const publicUrl = 'https://cuadernito.onrender.com';
+//const publicUrl = 'http://localhost:5173';
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
@@ -53,6 +54,16 @@ const DataProvider = ({ children }) => {
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
+
+  const deleteListFromContext = (listId) => {
+    const updatedData = {
+      ...data,
+      lists: data.lists.filter(list => list.id != listId), // Filtrar la lista por ID
+    };
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+  
 
   const addItem = (newItem) => {
     const updatedData = { ...data, items: [...data.items, newItem] };
@@ -138,6 +149,7 @@ const DataProvider = ({ children }) => {
       addItemToList, 
       editItemFromList,
       deleteItemFromList,
+      deleteListFromContext,
     }}>
       {children}
     </DataContext.Provider>

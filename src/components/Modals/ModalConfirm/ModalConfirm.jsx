@@ -1,7 +1,8 @@
 import NotebookSheet from "../../NotebookSheet/NotebookSheet";
 import styles from './ModalConfirm.module.css';
 
-export const ModalConfirm = ({title='title', subtitle='subtitle', onClickYes, onClickNot}) => {
+
+export const ModalConfirm = ({title='title', subtitle='subtitle', onClickYes, onClickNot, yesText, notText}) => {
     return(     
         <div className={styles.overlay}>
             <div className={styles.ModalConfirmContainer }>
@@ -11,12 +12,12 @@ export const ModalConfirm = ({title='title', subtitle='subtitle', onClickYes, on
                 >
                     <div className={styles.confirmButtonsContainer}>
                         <button className={styles.confirmButton} 
-                            onClick={onClickYes}>
-                            Yes
+                            onClick={onClickYes}>   
+                            {yesText}                        
                         </button>
                         <button className={styles.confirmButton}
                             onClick={onClickNot}>
-                            Not
+                            {notText}
                         </button>
                     </div>
                 </NotebookSheet>        

@@ -10,17 +10,8 @@ function ListItem({ text, url, id,  checked, toggleChecked }) {
   
   //console.log(id, checked)
   return (
-    <div className={`${styles.listItem} ${checked ? styles.checked : ""}`} >
-      {/* <div onClick={toggleChecked} id={id}
-        className={`${styles.checkbox} ${checked ? styles.checkedBox : ""}`}        
-      >
-        {checked && <span className={styles.checkmark}  id={id}  ></span>}
-      </div> */}
-      <div className={styles.checkbox} onClick={toggleChecked} id={id}>
-        {(checked) ?      
-        <CheckButton />
-        : <NoCheckButton />}
-      </div>
+    <div className={`${styles.listItem} ${checked ? styles.checked : ""}`} >      
+      
       <Link        
         id={id}
         to={url}
@@ -30,6 +21,11 @@ function ListItem({ text, url, id,  checked, toggleChecked }) {
         {text}
         <ShowButton />
       </Link>
+      <div className={styles.checkbox} onClick={toggleChecked} id={id}>
+        {(checked) ?      
+        <CheckButton />
+        : <NoCheckButton />}
+      </div>
 
     </div>
   );

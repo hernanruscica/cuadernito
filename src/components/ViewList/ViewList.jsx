@@ -8,20 +8,28 @@ import AddButton from "../Buttons/AddButton";
 import RowButton from "../RowButton/RowButton";
 import LogoutButton from "../Buttons/LogoutButton";
 import RowLabel from "../RowLabel/RowLabel";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import PreviousButton from "../Buttons/PreviousButton";
+import DeleteButton from "../Buttons/DeleteButton";
+import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 
 
 function ViewList() {
-  const { lists, isDataLoaded, addItemToList, editItemFromList, translations  } = useContext(DataContext);
+  const { lists, isDataLoaded, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
   const { listId} = useParams();
   
+  const navigate = useNavigate();
   const [currentList, setCurrentList] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const inputNewItemRef = useRef(null);
+  const [showModalDelete, setShowModalDelete] = useState(false);
 
   const handleAddItem = () => {
+    if (!inputValue.trim()) {
+      alert('Input value is empty. Please enter a name for the item.');
+      return;
+    }
     const listId = currentList.id; // ID de la lista a la que quieres agregar el ítem
     const newItem = {
       id: Date.now(),
@@ -31,6 +39,12 @@ function ViewList() {
       checked: false,
       photo: '',
     };
+
+    const existingtItem = currentList.items.find(item => item.name.toLowerCase() === newItem.name.toLowerCase());
+    if(existingtItem) {
+        alert("A Item with this name already exists.")
+        return;
+    }
 
     addItemToList(listId, newItem);
     setInputValue(''); // Limpiar el campo de entrada   
@@ -47,16 +61,16 @@ function ViewList() {
     });
     
   };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (inputNewItemRef.current) {
-        inputNewItemRef.current.focus();
-        clearInterval(interval); // Enfocar y detener el intervalo
-      }
-    }, 10); // Revisa cada 10ms
-  
-    return () => clearInterval(interval); // Limpieza en caso de desmontaje
-  }, []);
+
+  const handleDeleteList = (e) => {  
+    e.preventDefault();      
+    setShowModalDelete(!showModalDelete);    
+  }
+
+  const deleteList = () => {
+    deleteListFromContext(listId);
+    navigate('/');
+  }
 
   useEffect(() => {
     if (isDataLoaded) {
@@ -77,7 +91,17 @@ function ViewList() {
   
 
   return (
-    <NotebookSheet title={currentList.name} subtitle={currentList.createdDate}>      
+    <NotebookSheet title={currentList.name} subtitle={currentList.createdDate}>     
+
+    {
+      (showModalDelete)
+      ? <ModalConfirm 
+          title={`"${currentList.name}"`} subtitle={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
+          onClickNot={() => setShowModalDelete(false)}
+          onClickYes={deleteList}
+        />
+      : ''
+    } 
       {(currentList.items.length > 0) ?
         currentList.items.map((item) => (
           <ListItem 
@@ -90,18 +114,7 @@ function ViewList() {
         )):
         <RowLabel text={translations.noItemMessage}/>
       }
-      {/*
-      <ListItem text="Dried Tomatoes" url={"/modal"} />
-      <ListItem text="Dried Shiitake Mushrooms" url={"/modal"} />
-      <ItemCategory text="Produce" />
-      <ListItem text="Strawberries" url={"/modal"} />   
-      <RowButtonInput
-        placeholder="New item name"
-        button={<AddButton />}
-      >
-        <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
-      </RowButtonInput>
-      */}
+    
       <RowButtonInput
           placeholder={translations.placeholderNewItem}
           button={<AddButton onClick={handleAddItem} />}
@@ -114,6 +127,11 @@ function ViewList() {
           <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
           */}
       </RowButtonInput >
+
+      <RowButton info={translations.rowButtonDeleteList} onClick={handleDeleteList}>
+        <DeleteButton />
+      </RowButton>
+
       <RowButton info={translations.backButton}>
         <PreviousButton />
       </RowButton>

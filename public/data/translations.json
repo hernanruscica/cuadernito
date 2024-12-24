@@ -16,8 +16,14 @@
     "backButton": "Back to home",
     "actionItemSubtitle": "Actions for this item:",
     "rowButtonDelete": "Delete this item",
+    "rowButtonDeleteList": "Delete this List",
     "backButtonList": "Back to list",
-    "deleteConfirmMsg": "Confirm delete item ?",
+    "deleteItemConfirmMsg": "Confirm delete item ?",
+    "deleteItemYesText": "Yes, delete it",
+    "deleteItemNotText": "Not, I want to keep it",
+    "deleteListConfirmMsg": "Confirm delete list ?",
+    "deleteListYesText": "Yes, delete it",
+    "deleteListNotText": "Not, I want to keep it",
   
     "es": {
         "subtitle": "Tu compañero diario !",
@@ -37,8 +43,14 @@
       "backButton": "Volver al inicio",
       "actionItemSubtitle": "Acciones para este item:",
       "rowButtonDelete": "Borrar este item",
+      "rowButtonDeleteList": "Borrar esta lista",
       "backButtonList": "Volver a la lista",
-      "deleteConfirmMsg": "Realmente quiere eliminar este item ?"
+      "deleteItemConfirmMsg": "Realmente quiere eliminar este item ?",
+      "deleteItemYesText": "!Sí, bórralo!",
+      "deleteItemNotText": "No, quiero conservarlo",
+      "deleteListConfirmMsg": "Realmente quiere eliminar esta lista ?",
+      "deleteListYesText": "!Sí, bórrala!",
+      "deleteListNotText": "No, quiero conservarla"
     },
   
     "en": {
@@ -59,7 +71,11 @@
       "backButton": "Back to home",
       "actionItemSubtitle": "Actions for this item:",
       "rowButtonDelete": "Delete this item",
+      "rowButtonDeleteList": "Delete this List",
       "backButtonList": "Back to list",
-      "deleteConfirmMsg": "Confirm delete item ?"
+      "deleteConfirmMsg": "Confirm delete item ?",
+      "deleteListConfirmMsg": "Confirm delete list ?",
+      "deleteListYesText": "Yes, delete it",
+      "deleteListNotText": "Not, I want to keep it"
     }
   }

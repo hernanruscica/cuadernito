@@ -36,6 +36,7 @@
 .confirmButton{
     text-transform: uppercase;
     padding: 8px;
-    border-radius: 5px;
+    border-radius: 5px;    
     cursor: pointer;
+    border: solid 3px var(--notebookAccentColor);
 }

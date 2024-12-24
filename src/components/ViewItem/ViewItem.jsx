@@ -51,17 +51,7 @@ function ModalViewItem() {
   const handleDeleteButton = (e) => {
     e.preventDefault();
     setShowModalDelete(!showModalDelete);
-    console.log(showModalDelete)
-    /*
-    if (confirm(translations.deleteConfirmMsg)){
-        //console.log(deleteConfirmMsg.yes);        
-        deleteItemFromList(listId, itemId);
-        //console.log(`Item con ID ${itemId} eliminado de la lista con ID ${listId}`);
-        navigate(`/lists/${listId}`);
-    } else{
-      console.log(deleteConfirmMsg.not);
-    } 
-      */  
+    console.log(showModalDelete)    
   }
   const deleteItem = () => {
     deleteItemFromList(listId, itemId);
@@ -98,7 +88,7 @@ useEffect(() => {
     >         
       {
       (showModalDelete)
-        ? <ModalConfirm title="Desea borrar el item" subtitle={currentItem.name}
+        ? <ModalConfirm title={`"${currentItem.name}"`} subtitle={translations.deleteItemConfirmMsg} yesText={translations.deleteItemYesText} notText={translations.deleteItemNotText}
             onClickNot={() => setShowModalDelete(false)}
             onClickYes={deleteItem}
             />

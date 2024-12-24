@@ -32,7 +32,8 @@
   --rowActionIconsSize: 25px;
   --rowIconAnimation: scale(1.3);
   --rowIconTransition :  all ease-in-out 0.2s;
-  --shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.65);
+  --shadow: 3px 3px 10px 1px rgba(0, 0, 0, 0.65); 
+  --shadowListItem: 1px 1px 6px 1px rgba(0, 0, 0, 0.25);
 }
 *,*::after,*::before{
   margin: 0;
