@@ -22,14 +22,12 @@ function ModalViewItem() {
   const [inputValueNote, setInputValueNote] = useState('');
   const inputValueNameRef = useRef(null);
   const inputValueNoteRef = useRef(null);
-  const navigate = useNavigate();
-  const deleteConfirmMsg = {confirm: 'Confirm delete item ?', yes:'Item deleted!', not: 'Item OK!'}
+  const navigate = useNavigate();  
   const [showModalDelete, setShowModalDelete] = useState(false);
+  const [showModalEmptyName, setShowModalEmptyName] = useState(false);
 
-  const handleClickSelector = () =>{
-    alert("Select clicked");
-  }
-  const updateData = () => {
+ 
+  const updateData = () => {    
     const editedItem = {
       ...currentItem,
       name: inputValueName,
@@ -38,19 +36,21 @@ function ModalViewItem() {
     editItemFromList(listId, itemId, editedItem);
   }
   const handlerEditName = () => {
-    updateData();
-    if (inputValueNoteRef.current)
-      {inputValueNoteRef.current.focus();}
+  
+    if (inputValueNoteRef.current){
+      inputValueNoteRef.current.focus();
+      inputValueNoteRef.current.select();
+    }
   }
   const handlerEditNote = () => {
-    //updateData();
+    
     if (inputValueNameRef.current){
       inputValueNameRef.current.focus();
     }
     goBack();
   }
-  const handleDeleteButton = (e) => {
-    e.preventDefault();
+  const handleDeleteButton = (e) => {    
+    e.preventDefault();    
     setShowModalDelete(!showModalDelete);
     console.log(showModalDelete)    
   }
@@ -58,33 +58,40 @@ function ModalViewItem() {
     deleteItemFromList(listId, itemId);
     navigate(`/lists/${listId}`);
   }
-  const goBack = () => {
+  const goBack = (e) => {
+    if (inputValueName == ''){
+      setShowModalEmptyName(!showModalEmptyName);
+      //alert('Tiene que ponerle algun nombre!');          
+      if (e) {
+        e.preventDefault()}
+      return;
+    }
     updateData();
     //console.log('Redirigir a la página anterior y guardar', editedItem)
     navigate(-1); 
   };
 
-useEffect(() => {
-
-  if (isDataLoaded) {
-    const currentListItems = lists.find(list => list.id == listId).items;    
-    const currentItem = currentListItems.find(item => item.id == itemId);
-    setCurrentItem(currentItem);
-    setInputValueName(currentListItems.find(item => item.id == itemId).name);
-    setInputValueNote(currentListItems.find(item => item.id == itemId).note);
-    setCurrentItemCategory(categories.find(cat => cat.id == currentItem.categoryId).name)
-    //console.log(categories, curren);
-    if (inputValueNameRef.current){    
-      inputValueNameRef.current.focus();
+  useEffect(() => {
+    if (isDataLoaded) {
+      const currentList = lists.find(list => list.id == listId);
+      const currentItem = currentList?.items.find(item => item.id == itemId);
+      setCurrentItem(currentItem);
+      setInputValueName(currentItem?.name || '');
+      setInputValueNote(currentItem?.note || '');
+      setCurrentItemCategory(categories.find(cat => cat.id == currentItem?.categoryId)?.name || '');    
+      
+      if (inputValueNameRef.current) {            
+        inputValueNameRef.current.focus();        
+      }      
     }
-}
-}, [isDataLoaded]);  
+  }, [isDataLoaded]);
+   
 
-console.log(lists)
+//console.log(lists)
   
   return (  
     <NotebookSheet>         
-    <Header title={inputValueName} subtitle={translations.actionItemSubtitle} />    
+    <Header title={(inputValueName == '' ? translations.itemName : inputValueName)} subtitle={translations.actionItemSubtitle} />    
       {
       (showModalDelete)
         ? <ModalConfirm title={`"${currentItem.name}"`} subtitle={translations.deleteItemConfirmMsg} yesText={translations.deleteItemYesText} notText={translations.deleteItemNotText}
@@ -93,11 +100,19 @@ console.log(lists)
             />
         : <></>
       }
+      {
+        (showModalEmptyName)
+        ? <ModalConfirm title={`"${currentItem.name}"`} subtitle={translations.emptyItemConfirmMsg} yesText={translations.emptyItemYesText} notText={translations.emptyItemNotText}
+            onClickNot={() => {navigate(`/lists/${listId}`)}}
+            onClickYes={() => setShowModalEmptyName(false)}
+        />
+        : <></>
+      }
       <RowButtonInput 
-          placeholder="Edit item name" 
-          textValue={inputValueName} 
+          placeholder={inputValueName} 
+          textValue={inputValueName}  
           setTextValue={setInputValueName} 
-          button={<EditButton onClick={() => {inputValueNameRef.current.focus()}}/>} 
+          button={<EditButton onClick={() => {inputValueNameRef.current.focus(); inputValueNameRef.current.select()}}/>} 
           handleAction = {handlerEditName}
           ref={inputValueNameRef}
           >
@@ -110,7 +125,7 @@ console.log(lists)
         placeholder="Edit item note"
         textValue={inputValueNote} 
         setTextValue={setInputValueNote}
-        button={<EditButton onClick={() => {inputValueNoteRef.current.focus()}}/>} 
+        button={<EditButton onClick={() => {inputValueNoteRef.current.focus(); inputValueNoteRef.current.select()}}/>} 
         handleAction={handlerEditNote}
         ref={inputValueNoteRef}
         >        

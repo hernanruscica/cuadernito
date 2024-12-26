@@ -19,6 +19,7 @@ const RowButtonInput = forwardRef(({ placeholder = "", children, button, textVal
         <input
           type="text"
           maxLength="24"
+          
           placeholder={placeholder}
           value={textValue}
           className={styles.RowButtonInputInput}
