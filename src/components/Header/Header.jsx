@@ -7,7 +7,7 @@ function Header({ title, subtitle }) {
   return (
     <div className={styles.headerContainer}>
       <div className={styles.headerText}>
-        <h1 className={styles.headerTitle}>{title}</h1>
+        <h1 className={styles.headerTitle}>{title}</h1>        
         <p className={styles.headerSubtitle}>{subtitle}</p>     
       </div>
       <img src={`${imageSiteUrl}/Cuadernitoapp.png`} alt="Cuadernito app" title="Cuadernito app"  className={styles.headerImage}/>

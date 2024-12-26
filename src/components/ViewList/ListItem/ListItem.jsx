@@ -3,7 +3,7 @@ import styles from "./ListItem.module.css";
 import NotebookButton from "../../Buttons/NotebookButton";
 import CheckButton from "../../Buttons/CheckButton";
 import NoCheckButton from "../../Buttons/NoCheckButton";
-import ShowButton from "../../Buttons/ShowButton";
+import MoreButton from "../../Buttons/MoreButton";
 import { Link } from "react-router-dom";
 
 function ListItem({ text, url, id,  checked, toggleChecked }) {
@@ -19,7 +19,7 @@ function ListItem({ text, url, id,  checked, toggleChecked }) {
         
       >
         {text}
-        <ShowButton />
+        <MoreButton />
       </Link>
       <div className={styles.checkbox} onClick={toggleChecked} id={id}>
         {(checked) ?      

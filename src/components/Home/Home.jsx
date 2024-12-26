@@ -8,6 +8,7 @@ import AddButton from "../Buttons/AddButton";
 import ShowButton from "../Buttons/ShowButton";
 import HideButton from "../Buttons/HideButton";
 import NotebookButton from "../Buttons/NotebookButton";
+import Header from "../Header/Header";
 
 
 import { useNavigate } from "react-router-dom";
@@ -17,46 +18,56 @@ import { DataContext } from '../../context/DataContext';
 function Home() {
   const { lists, items, categories, addList, addItem, addCategory, translations, isDataLoaded } = useContext(DataContext);  
 
-  const [inputValue, setInputValue] = useState('');
+ // const [inputValue, setInputValue] = useState('');
   const [showList, setShowList] = useState(false);
   //const [currentLists, setCurrentLists] = useState(lists)
   const navigate = useNavigate();
 
-  const handleAddNewlist = () => {
-    if (!inputValue.trim()) {
-      alert('Input value is empty. Please enter a name for the list.');
+  const handleAddNewList = (e) => {
+    e.preventDefault();
+  
+    const formatDate = (date) => {
+      const options = {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false, // Formato de 24 horas
+      };
+      return new Intl.DateTimeFormat("es-ES", options).format(date);
+    };
+  
+    const baseName = translations.listName; // Nombre base sin índice
+    let newName = baseName; // Inicialmente, el nombre sin cambios
+    let index = 1; // Iniciar el índice desde 1
+  
+    // Asegurar que el nombre sea único
+    while (
+      lists.some((list) => list.name.toLowerCase() === newName.toLowerCase()) &&
+      index <= 99
+    ) {
+      newName = `${baseName} ${index}`;
+      index++;
+    }
+  
+    // Si se alcanzó el límite de 99 nombres repetidos
+    if (index > 99) {
+      alert("No se pueden crear más listas con este nombre.");
       return;
     }
-    
-  const formatDate = (date) => {
-    const options = {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false, // Formato de 24 horas
+  
+    const newList = {
+      id: Date.now(), // Usar timestamp como ID único
+      name: newName,
+      items: [],
+      createdDate: formatDate(new Date()), // Fecha en el formato deseado
     };
-    return new Intl.DateTimeFormat('es-ES', options).format(date);
-  };
   
-  const newList = {
-    id: Date.now(), // Usar timestamp como ID único
-    name: inputValue.trim(), // Eliminar espacios innecesarios
-    items: [],
-    createdDate: formatDate(new Date()), // Fecha en el formato deseado
-  };
-
-  const existingList = lists.find(list => list.name.toLowerCase() === newList.name.toLowerCase());
-    if(existingList) {
-        alert("A list with this name already exists.")
-        return;
-    }
-  
-    addList(newList); // Usar la función de contexto para agregar la lista    
-    setInputValue(''); // Limpiar el campo de entrada    
+    addList(newList); // Usar la función de contexto para agregar la lista
     navigate(`/lists/${newList.id}`);
   };
+  
 
   const handlerClickShow = (e) => {
     e.preventDefault();
@@ -73,12 +84,10 @@ function Home() {
   //console.log(translations)
 
   return (
-    <NotebookSheet 
-      title="Cuadernito App"
-      subtitle={translations.subtitle}
-    >     
+    <NotebookSheet >     
+      <Header title="Cuadernito App" subtitle={translations.subtitle} />
         <RowLabel text={translations.welcome}  />
-        {/* <RowLabel text={translations.newListText} /> */}
+        {/* <RowLabel text={translations.newListText} /> 
 
         <RowButtonInput
           placeholder={translations.placeholderNewList}
@@ -87,17 +96,20 @@ function Home() {
           setTextValue={setInputValue}
           handleAction={handleAddNewlist}
         />
+*/}
+        <RowButton
+          info={translations.placeholderNewList}
+          onClick={handleAddNewList}
+        >
+          <AddButton />
+        </RowButton>
 
-        {/* <RowLabel text="Open your lists:" /> */}        
-
+        
         {(lists.length > 0) ?
-          <RowButton info={(showList) ? translations.hideListText : translations.showListText} 
-            onClick={handlerClickShow}>
-              {(showList) ? <HideButton /> :<ShowButton />}
-          </RowButton>          
+          <RowLabel text={translations.listsMessage} />
           :<RowLabel text={translations.noListsMessage} />
         }
-        {(showList && lists.length > 0) ?  
+        {(lists.length > 0) ?  
           lists.map((list) => (
             <RowButton info={list.name} details={`${list.createdDate} - ${list.items.length} items`} key={list.id} url={`/lists/${list.id}`}>
               <NotebookButton/>

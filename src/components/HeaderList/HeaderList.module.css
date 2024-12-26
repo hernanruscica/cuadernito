@@ -1,0 +1,28 @@
+.headerContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 0px;
+  text-align: left;
+  border-bottom: 4px var(--rowAccentColor) solid;  
+  color: var(--textNormalColor);
+  font-size: var(--rowHeaderFontSize);
+}
+
+.headerText{    
+  margin: 0;
+  width: 100%;  
+  font-weight: normal;
+  font-size: 0.9em;
+  user-select: none;
+}
+.headerSubtitle{
+  padding: 8px 16px 2px 50px;
+  margin: 0;
+  font-size: 0.7em;  
+  font-weight: 300;
+  user-select: none;
+}
+
+

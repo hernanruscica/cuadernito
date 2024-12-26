@@ -38,7 +38,7 @@
     justify-content: space-between;      
     font-size: var(--rowFontSize);    
     color: var(--textNormalColor);
-    font-weight: 600;    
+    font-weight: 400;    
     user-select: none;
     transition:  var(--rowIconTransition);
     border: solid 2px var(--notebookAccentColor);
@@ -55,7 +55,7 @@
   .checkedText {
     text-decoration: line-through;
     color: var(--textNormalColor);
-    font-weight: 300;
+    
     user-select: none;
     transition:  var(--rowIconTransition);
     background-color: var(--rowNormalColor);

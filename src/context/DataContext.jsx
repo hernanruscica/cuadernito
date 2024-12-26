@@ -10,8 +10,8 @@ const initialState = {
 };
 
 const DataContext = createContext(initialState);
-const publicUrl = 'https://cuadernito.onrender.com';
-//const publicUrl = 'http://localhost:5173';
+//const publicUrl = 'https://cuadernito.onrender.com';
+const publicUrl = 'http://localhost:5173';
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
@@ -56,6 +56,19 @@ const DataProvider = ({ children }) => {
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
+
+  const editList = (listId, updatedListData) => {
+    const updatedLists = data.lists.map((list) =>
+      list.id === listId
+        ? { ...list, ...updatedListData } // Actualizar solo la lista con el ID coincidente
+        : list
+    );
+  
+    const updatedData = { ...data, lists: updatedLists };
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+  
 
   const deleteListFromContext = (listId) => {
     const updatedData = {
@@ -161,6 +174,7 @@ const DataProvider = ({ children }) => {
       userSettings: data.userSettings,
       themes: data.themes,
       addList,
+      editList,
       addItem,
       addCategory,
       addItemToList, 

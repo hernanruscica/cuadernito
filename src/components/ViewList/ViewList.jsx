@@ -6,23 +6,26 @@ import ListItem from "./ListItem/ListItem";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
 import RowButton from "../RowButton/RowButton";
-import LogoutButton from "../Buttons/LogoutButton";
+import EditButton from "../Buttons/EditButton";
 import RowLabel from "../RowLabel/RowLabel";
 import { useParams, useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import PreviousButton from "../Buttons/PreviousButton";
 import DeleteButton from "../Buttons/DeleteButton";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
+import HeaderList from "../HeaderList/HeaderList";
 
 
 function ViewList() {
-  const { lists, isDataLoaded, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
+  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
   const { listId} = useParams();
   
   const navigate = useNavigate();
   const [currentList, setCurrentList] = useState(null);
   const [inputValue, setInputValue] = useState('');
+  const [inputValueListName, setInputValueListName] = useState('');
   const inputNewItemRef = useRef(null);
+  const inputEditListRef = useRef(null);
   const [showModalDelete, setShowModalDelete] = useState(false);
 
   const handleAddItem = () => {
@@ -68,14 +71,37 @@ function ViewList() {
   }
 
   const deleteList = () => {
-    deleteListFromContext(listId);
     navigate('/');
+    deleteListFromContext(listId);
+  }
+
+  const handleEditList = () => {
+    // console.log('edit list')
+    if (inputEditListRef.current){
+      inputEditListRef.current.focus();
+      //console.log(inputEditListRef)
+    }
+  }
+  const handlerConfirmEditListName = () => {
+    const updatedNameList = {
+      ...currentList,
+      name: inputValueListName
+    }
+    console.log('confirm edit list name', updatedNameList);
+
+    editList(currentList.id, updatedNameList);
+    if (inputNewItemRef.current){
+      inputNewItemRef.current.focus();
+    }
+
+
   }
 
   useEffect(() => {
     if (isDataLoaded) {
       const foundList = lists.find((list) => list.id == listId);
-      setCurrentList(foundList || null);         
+      setCurrentList(foundList || null);   
+      setInputValueListName(foundList?.name || null);            
     }    
   }, [isDataLoaded, lists, listId]);
 
@@ -86,13 +112,20 @@ function ViewList() {
   
   if (!currentList) {    
     return <div>List not found</div>;
-  }
-  
-  
+  } 
 
   return (
-    <NotebookSheet title={currentList.name} subtitle={currentList.createdDate}>     
-
+    <NotebookSheet  >     
+      <HeaderList subtitle={currentList.createdDate} >        
+        <RowButtonInput 
+          placeholder={translations.placeholderEditList}
+          button={<EditButton 
+          onClick={handleEditList}/>} 
+          textValue={inputValueListName} 
+          setTextValue={setInputValueListName} 
+          handleAction={handlerConfirmEditListName}      
+          ref={inputEditListRef}/>    
+      </HeaderList>
     {
       (showModalDelete)
       ? <ModalConfirm 
@@ -132,7 +165,7 @@ function ViewList() {
         <DeleteButton />
       </RowButton>
 
-      <RowButton info={translations.backButton}>
+      <RowButton info={translations.backButton} onClick={handlerConfirmEditListName}>
         <PreviousButton />
       </RowButton>
     </NotebookSheet>

@@ -11,6 +11,7 @@ import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
+import Header from "../Header/Header";
 
 function ModalViewItem() {
   const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList, translations, themes} = useContext(DataContext);
@@ -82,10 +83,8 @@ useEffect(() => {
 console.log(lists)
   
   return (  
-    <NotebookSheet
-      title={inputValueName}
-      subtitle={translations.actionItemSubtitle}
-    >         
+    <NotebookSheet>         
+    <Header title={inputValueName} subtitle={translations.actionItemSubtitle} />    
       {
       (showModalDelete)
         ? <ModalConfirm title={`"${currentItem.name}"`} subtitle={translations.deleteItemConfirmMsg} yesText={translations.deleteItemYesText} notText={translations.deleteItemNotText}

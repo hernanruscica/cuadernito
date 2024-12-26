@@ -24,7 +24,7 @@ const RowButtonInput = forwardRef(({ placeholder = "", children, button, textVal
           className={styles.RowButtonInputInput}
           onChange={handleInputChange}
           onKeyUp={handlerKeyUp}
-          ref={ref} // Pasar la referencia aquí
+          ref={ref} 
         />
         {button}
       </div>
