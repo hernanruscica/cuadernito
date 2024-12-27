@@ -6,7 +6,7 @@ const initialState = {
   items: [],
   categories: defaultCategories,
   userSettings: {language: "es", themeId:0},
-  themes: [{id: 0, name: 'default'}, {id: 1, name: 'strawberry'}]
+  themes: [{id: 0, name: 'default'}, {id: 1, name: 'strawberry'}, {id: 2, name: 'chocolate'}]
 };
 
 const DataContext = createContext(initialState);

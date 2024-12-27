@@ -6,10 +6,11 @@ function RowSelect({ text = '', nameSelect = 'default',  options=[], selectedVal
     <div className={styles.RowSelectContainer}>
       
       <label htmlFor={nameSelect} className={styles.RowSelectText}>{text}</label>      
-      <select name={nameSelect} id={nameSelect} value={selectedValue} onClick={handlerSelect}>
+      <select name={nameSelect} id={nameSelect} value={selectedValue} onChange={handlerSelect} className={styles.select}>
         {
           options.map((option, index) => (
-            <option value={option.id} key={`${index}-${option.name}` }
+            <option value={option.id} key={`${index}-${option.name}` } 
+              className={styles.option}
             >{option.name}</option>
           ))
         }        

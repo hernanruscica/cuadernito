@@ -1,28 +1,29 @@
 import NotebookSheet from "../../NotebookSheet/NotebookSheet";
 import styles from './ModalConfirm.module.css';
 import RowSelect from "../../RowSelect/RowSelect";
+import Header from '../../Header/Header';
 
 
 
 export const ModalSettings = ({title='title', subtitle='subtitle', onClickYes, onClickNot, yesText, notText, data=null}) => {
     
 
-   console.log(data)
+   //console.log(data)
     
     return(     
         <div className={styles.overlay}>
             <div className={styles.ModalConfirmContainer }>
                 <NotebookSheet 
-                    title={title}
-                    subtitle={subtitle}
-                >       
+                >    
+                <Header title={title} subtitle={subtitle} />   
                 <RowSelect 
-                    text='Seleccione tema:'
+                    text='Tema:'
                     nameSelect='theme' 
                     options={data.themes}
                     selectedValue={data.userSettings.themeId}
                     handlerSelect = {data.setThemeHandler}
-                />        
+                />    
+                    
                 <div className={styles.confirmButtonsContainer}>
                     <button className={styles.confirmButton} 
                         onClick={onClickYes}>   

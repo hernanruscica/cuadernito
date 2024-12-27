@@ -6,21 +6,26 @@ import ViewList from "./components/ViewList/ViewList";
 import ViewItem from "./components/ViewItem/ViewItem";
 import HeaderApp from "./components/HeaderApp/HeaderApp";
 import "./App.css";
+// import "./default_theme.css";
 import {DataProvider } from './context/DataContext';
+import ThemeLoader from "./components/ThemeLoader/ThemeLoader";
 
 function App() {
   return (
-    <div className="App">
-      <DataProvider>
-          <HeaderApp />          
-        <Routes>          
-          <Route path="/" element={<Home />} />      
-          <Route path="/lists/:listId" element={<ViewList />} />  
-          <Route path="/lists/:listId/items/:itemId" element={<ViewItem />} />
-            
-        </Routes>
-      </DataProvider>
-    </div>
+    <>
+      <div className="App">
+        <DataProvider>
+            <ThemeLoader />
+            <HeaderApp />          
+          <Routes>          
+            <Route path="/" element={<Home />} />      
+            <Route path="/lists/:listId" element={<ViewList />} />  
+            <Route path="/lists/:listId/items/:itemId" element={<ViewItem />} />
+              
+          </Routes>
+        </DataProvider>
+      </div>
+    </>
   );
 }
 

@@ -1,0 +1,9 @@
+:root{
+    --notebookBackColor: #F3F3F3;
+    --bodyBackgroundColor: #d6e4ff;
+    --notebookAccentColor: #2B75FF;   
+    --rowNormalColor: #A9D1FF;
+    --rowAccentColor: #FFC1C1;
+    --rowSecondaryColor: #CCC;
+    --textNormalColor: #071329;
+}

@@ -4,21 +4,28 @@
   text-align: left;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;  
+  justify-content: flex-start;
   border-bottom: 2px var(--rowNormalColor) solid;
   color: var(--textNormalColor);  
 }
 
 .RowSelectText{
   padding: 2px 16px 2px 50px;
-  font-size: var(--rowFontSize);
+  font-size: calc(var(--rowFontSize) * 1.2);  
   margin: 0;
   font-weight: 300;
   user-select: none;
+  width: 50%;
 }
-.RowSelectInfo{
-  margin: 0;  
-  font-size: 0.9em;
-  user-select: none;
+
+.select{
+  font-size: var(--rowFontSize) ;
+  border-radius: 5px;
+  padding: 6px 8px;
+  width: 40%;
+}
+.option{  
+  padding: 10px;
 }
 

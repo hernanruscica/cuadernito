@@ -69,7 +69,7 @@ function ViewList() {
 
     addItemToList(listId, newItem);
     //setInputValue('');  Limpiar el campo de entrada   
-    console.log(`/lists/${listId}/items/${newItem.id}`);
+    //console.log(`/lists/${listId}/items/${newItem.id}`);
     navigate(`/lists/${listId}/items/${newItem.id}`);
   };
 

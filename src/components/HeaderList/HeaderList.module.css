@@ -14,13 +14,13 @@
   margin: 0;
   width: 100%;  
   font-weight: normal;
-  font-size: 0.9em;
+  font-size: 0.7em;
   user-select: none;
 }
 .headerSubtitle{
   padding: 8px 16px 2px 50px;
   margin: 0;
-  font-size: 0.7em;  
+  font-size: 0.9em;  
   font-weight: 300;
   user-select: none;
 }
