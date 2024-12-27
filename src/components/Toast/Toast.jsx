@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./Toast.css";
 
-const Toast = ({ messages, onClose, duration = 1000 }) => {
+const Toast = ({ messages, onClose, duration = 2000 }) => {
   useEffect(() => {
     if (messages.length > 0) {
       const timer = setTimeout(() => {
