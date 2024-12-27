@@ -4,8 +4,8 @@ import { DataContext } from "../../context/DataContext";
 function ThemeLoader() {
   const { userSettings, themes, isDataLoaded } = useContext(DataContext);
 
-  const publicUrl = 'https://cuadernito.onrender.com';
-  //const publicUrl = 'http://localhost:5173';
+   const publicUrl = 'https://cuadernito.onrender.com';
+ //const publicUrl = 'http://localhost:5173';
 
   useEffect(() => {
    

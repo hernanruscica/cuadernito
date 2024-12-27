@@ -90,14 +90,16 @@ function ViewList() {
   }
 
   const deleteList = () => {
-    navigate('/');
     deleteListFromContext(listId);
+    alert('lista borrada')    
+    navigate('/');
   }
 
   const handleEditList = () => {
     // console.log('edit list')
     if (inputEditListRef.current){
       inputEditListRef.current.focus();
+      inputEditListRef.current.select();
       //console.log(inputEditListRef)
     }
   }
@@ -105,29 +107,36 @@ function ViewList() {
     const updatedNameList = {
       ...currentList,
       name: inputValueListName
-    }
-    console.log('confirm edit list name', updatedNameList);
+    }  
 
     editList(currentList.id, updatedNameList);
-    if (inputNewItemRef.current){
-      inputNewItemRef.current.focus();
-    }
-
-
+    
+    //alert('nombre editado');    
+   
   }
 
   useEffect(() => {
     if (isDataLoaded) {
       const foundList = lists.find((list) => list.id == listId);
-      setCurrentList(foundList || null);   
-      setInputValueListName(foundList?.name || null);            
+      const orderedItems = (foundList) ? foundList.items.sort((a,b) => { return b.id  - a.id}) : null;
+
+      const listWithOrdenedItems = {
+        ...foundList,
+        items: orderedItems
+      }
+
+      //console.log(orderedItems)
+      setCurrentList(listWithOrdenedItems || null);   
+      setInputValueListName(foundList?.name || null);         
+      
+      
     }    
   }, [isDataLoaded, lists, listId]);
 
   if (!isDataLoaded) {    
     return <div>Loading...</div>;
   }
-  //console.log(currentList.items)
+  //console.log(currentList)
   
   if (!currentList) {    
     return <div>List not found</div>;
@@ -135,7 +144,7 @@ function ViewList() {
 
   return (
     <NotebookSheet  >     
-      <HeaderList subtitle={currentList.createdDate} >        
+              
         <RowButtonInput 
           placeholder={translations.placeholderEditList}
           button={<EditButton 
@@ -143,8 +152,10 @@ function ViewList() {
           textValue={inputValueListName} 
           setTextValue={setInputValueListName} 
           handleAction={handlerConfirmEditListName}      
-          ref={inputEditListRef}/>    
-      </HeaderList>
+          ref={inputEditListRef}/>
+        <RowLabel text={currentList.createdDate}/>
+       {/* <HeaderList subtitle={currentList.createdDate} >       
+      </HeaderList> */}
     {
       (showModalDelete)
       ? <ModalConfirm 
@@ -154,35 +165,30 @@ function ViewList() {
         />
       : ''
     } 
-      {(currentList.items.length > 0) ?
-        currentList.items.map((item) => (
-          <ListItem 
-              text={item.name} 
-              url={`/lists/${currentList.id}/items/${item.id}`} 
-              key={item.id}
-              id={item.id}
-              checked={item.checked}
-              toggleChecked={handlerToggleChecked}/>
-        )):
-        <RowLabel text={translations.noItemMessage}/>
-      }
-    {/*
-      <RowButtonInput
-          placeholder={translations.placeholderNewItem}
-          button={<AddButton onClick={handleAddItem} />}
-          textValue={inputValue}          
-          setTextValue={setInputValue}
-          handleAction={handleAddItem}
-          ref={inputNewItemRef}
-        >
-          
-          <CategorySelector text="Click to select Category" onClick={() => alert("Select clicked")} />
-          
-      </RowButtonInput >
-*/}
-      <RowButton info={translations.placeholderNewItem} onClick={handleAddItem}>
+
+      <RowButton info={translations.placeholderNewItem} onClick={handleAddItem} ref={inputNewItemRef}>
         <AddButton />
-      </RowButton>
+      </RowButton>      
+
+      {
+      currentList && currentList.items?.length > 0 ? (
+        currentList.items.map((item) => (
+          <ListItem
+            text={item.name}
+            url={`/lists/${currentList.id}/items/${item.id}`}
+            key={item.id}
+            id={item.id}
+            checked={item.checked}
+            toggleChecked={handlerToggleChecked}
+          />
+        ))
+      ) : currentList ? (
+        <RowLabel text={translations.noItemMessage} />
+      ) : null
+    }
+
+   
+
       <RowButton info={translations.rowButtonDeleteList} onClick={handleDeleteList}>
         <DeleteButton />
       </RowButton>

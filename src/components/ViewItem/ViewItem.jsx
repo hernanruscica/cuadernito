@@ -81,17 +81,21 @@ function ModalViewItem() {
       setCurrentItemCategory(categories.find(cat => cat.id == currentItem?.categoryId)?.name || '');    
       
       if (inputValueNameRef.current) {            
-        inputValueNameRef.current.focus();        
-      }      
+        setTimeout(() => {
+          inputValueNameRef.current.focus();
+          inputValueNameRef.current.select();
+        }, 100); // Pequeño retraso para asegurar que el DOM esté actualizado
+      }
     }
   }, [isDataLoaded]);
+  
    
-
+    
 //console.log(lists)
   
   return (  
     <NotebookSheet>         
-    <Header title={(inputValueName == '' ? translations.itemName : inputValueName)} subtitle={translations.actionItemSubtitle} />    
+    {/* <Header title={(inputValueName == '' ? translations.itemName : inputValueName)} subtitle={translations.actionItemSubtitle} />     */}
       {
       (showModalDelete)
         ? <ModalConfirm title={`"${currentItem.name}"`} subtitle={translations.deleteItemConfirmMsg} yesText={translations.deleteItemYesText} notText={translations.deleteItemNotText}

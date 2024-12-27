@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {forwardRef} from 'react';
 import {Link} from 'react-router-dom';
 import styles from './RowButton.module.css';
 // import { FiCornerDownRight } from "react-icons/fi";
 
-function RowButton({ info='info', details='', url='/', onClick=null, children }) {
+const  RowButton = forwardRef(({ info='info', details='', url='/', onClick=null, children}, ref) => {
+  
   return (
-    <Link to={url} className={styles.container} onClick={onClick}>
+    <Link to={url} className={styles.container} onClick={onClick} ref={ref}>
       <div className={styles.info}>
         <span> {info}</span>
         {(details !== '') ? <span className={styles.infoDetails}>{details}</span> : ''}
@@ -13,6 +14,6 @@ function RowButton({ info='info', details='', url='/', onClick=null, children })
       {children}
     </Link>
   );
-}
+})
 
 export default RowButton;

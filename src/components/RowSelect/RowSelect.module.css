@@ -24,6 +24,8 @@
   border-radius: 5px;
   padding: 6px 8px;
   width: 40%;
+  background-color: var(--rowNormalColor);
+  color: var(--textNormalColor);
 }
 .option{  
   padding: 10px;
