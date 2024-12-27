@@ -9,6 +9,7 @@ import ShowButton from "../Buttons/ShowButton";
 import HideButton from "../Buttons/HideButton";
 import NotebookButton from "../Buttons/NotebookButton";
 import Header from "../Header/Header";
+import Toast from "../Toast/Toast";
 
 
 import { useNavigate } from "react-router-dom";
@@ -20,7 +21,16 @@ function Home() {
 
  // const [inputValue, setInputValue] = useState('');
   const [showList, setShowList] = useState(false);
-  //const [currentLists, setCurrentLists] = useState(lists)
+  const [toasts, setToasts] = useState([]);
+
+  const addToast = (message) => {    
+    setToasts((prevToasts) => [...prevToasts, message]);
+  };
+
+  const handleToastClose = (closedToast) => {
+    setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
+  };
+
   const navigate = useNavigate();
 
   const handleAddNewList = (e) => {
@@ -65,6 +75,7 @@ function Home() {
     };
   
     addList(newList); // Usar la función de contexto para agregar la lista
+    //addToast("Lista creada !")
     navigate(`/lists/${newList.id}`);
   };
   
@@ -86,6 +97,10 @@ function Home() {
   return (
     <NotebookSheet >     
       <Header title="Cuadernito App" subtitle={translations.subtitle} />
+
+          <div>         
+          <Toast messages={toasts} onClose={handleToastClose} />
+        </div>
         <RowLabel text={translations.welcome}  />
         {/* <RowLabel text={translations.newListText} /> 
 

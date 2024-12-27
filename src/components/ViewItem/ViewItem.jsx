@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 import Header from "../Header/Header";
+import Toast from "../Toast/Toast";
 
 function ModalViewItem() {
   const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList, translations, themes} = useContext(DataContext);
@@ -25,8 +26,17 @@ function ModalViewItem() {
   const navigate = useNavigate();  
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalEmptyName, setShowModalEmptyName] = useState(false);
+   const [toasts, setToasts] = useState([]);
 
- 
+   const addToast = (message) => {    
+    setToasts((prevToasts) => [...prevToasts, message]);
+  };
+
+  const handleToastClose = (closedToast) => {
+    setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
+  };
+
+
   const updateData = () => {    
     const editedItem = {
       ...currentItem,
@@ -56,7 +66,9 @@ function ModalViewItem() {
   }
   const deleteItem = () => {
     deleteItemFromList(listId, itemId);
-    navigate(`/lists/${listId}`);
+    addToast('Item borrado !')
+    setTimeout(()=> {navigate(`/lists/${listId}`);}, 1000)   
+    
   }
   const goBack = (e) => {
     if (inputValueName == ''){
@@ -86,6 +98,12 @@ function ModalViewItem() {
           inputValueNameRef.current.select();
         }, 100); // Pequeño retraso para asegurar que el DOM esté actualizado
       }
+
+      const isNewItem =  (currentItem ) ? (Date.now() - currentItem.id) < 250 : false;
+      console.log(`${isNewItem ? 'new item' : 'oldie'}`);
+      if (isNewItem) {
+          addToast("Nueva item creado !");
+        }
     }
   }, [isDataLoaded]);
   
@@ -94,7 +112,8 @@ function ModalViewItem() {
 //console.log(lists)
   
   return (  
-    <NotebookSheet>         
+    <NotebookSheet>    
+      <Toast messages={toasts} onClose={handleToastClose} />     
     {/* <Header title={(inputValueName == '' ? translations.itemName : inputValueName)} subtitle={translations.actionItemSubtitle} />     */}
       {
       (showModalDelete)

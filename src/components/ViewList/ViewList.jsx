@@ -14,6 +14,7 @@ import PreviousButton from "../Buttons/PreviousButton";
 import DeleteButton from "../Buttons/DeleteButton";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 import HeaderList from "../HeaderList/HeaderList";
+import Toast from "../Toast/Toast";
 
 
 function ViewList() {
@@ -27,6 +28,17 @@ function ViewList() {
   const inputNewItemRef = useRef(null);
   const inputEditListRef = useRef(null);
   const [showModalDelete, setShowModalDelete] = useState(false);
+  const [showList, setShowList] = useState(false);
+  const [toasts, setToasts] = useState([]);
+  
+
+  const addToast = (message) => {    
+    setToasts((prevToasts) => [...prevToasts, message]);
+  };
+
+  const handleToastClose = (closedToast) => {
+    setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
+  };
 
   const handleAddItem = (e) => {
     /*
@@ -91,8 +103,9 @@ function ViewList() {
 
   const deleteList = () => {
     deleteListFromContext(listId);
-    alert('lista borrada')    
-    navigate('/');
+    addToast('Lista borrada !')
+    setTimeout(()=> {navigate('/');}, 1000)   
+    
   }
 
   const handleEditList = () => {
@@ -108,11 +121,9 @@ function ViewList() {
       ...currentList,
       name: inputValueListName
     }  
-
-    editList(currentList.id, updatedNameList);
-    
+    editList(currentList.id, updatedNameList);    
     //alert('nombre editado');    
-   
+    addToast("Nombre de la lista editado !");   
   }
 
   useEffect(() => {
@@ -127,16 +138,28 @@ function ViewList() {
 
       //console.log(orderedItems)
       setCurrentList(listWithOrdenedItems || null);   
-      setInputValueListName(foundList?.name || null);         
+      setInputValueListName(foundList?.name || null);        
       
-      
+      const isNewList =  (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;
+      //console.log(`${isNewList ? 'new list' : 'oldie'}`);
+      if (isNewList) {
+          addToast("Nueva lista creada !");
+        }
     }    
+    
+    
+    
   }, [isDataLoaded, lists, listId]);
+
+
 
   if (!isDataLoaded) {    
     return <div>Loading...</div>;
   }
   //console.log(currentList)
+
+
+
   
   if (!currentList) {    
     return <div>List not found</div>;
@@ -144,7 +167,7 @@ function ViewList() {
 
   return (
     <NotebookSheet  >     
-              
+        <Toast messages={toasts} onClose={handleToastClose} />
         <RowButtonInput 
           placeholder={translations.placeholderEditList}
           button={<EditButton 
