@@ -1,35 +1,33 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import NotebookSheet from "../NotebookSheet/NotebookSheet";
-import ItemCategory from "./ItemCategory/ItemCategory";
-import CategorySelector from "./ItemCategory/CategorySelector/CategorySelector";
 import ListItem from "./ListItem/ListItem";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
 import RowButton from "../RowButton/RowButton";
 import EditButton from "../Buttons/EditButton";
 import RowLabel from "../RowLabel/RowLabel";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import PreviousButton from "../Buttons/PreviousButton";
 import DeleteButton from "../Buttons/DeleteButton";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
-import HeaderList from "../HeaderList/HeaderList";
 import Toast from "../Toast/Toast";
-
+import { GetNewName } from "../../utils/GetNewName";
 
 function ViewList() {
   const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
   const { listId} = useParams();
   
   const navigate = useNavigate();
-  const [currentList, setCurrentList] = useState(null);
-  const [inputValue, setInputValue] = useState('');
+  const [currentList, setCurrentList] = useState(null);  
   const [inputValueListName, setInputValueListName] = useState('');
   const inputNewItemRef = useRef(null);
   const inputEditListRef = useRef(null);
-  const [showModalDelete, setShowModalDelete] = useState(false);
-  const [showList, setShowList] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);  
   const [toasts, setToasts] = useState([]);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const toastMessage = queryParams.get("toast");
   
 
   const addToast = (message) => {    
@@ -40,35 +38,11 @@ function ViewList() {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
   };
 
-  const handleAddItem = (e) => {
-    /*
-    if (!inputValue.trim()) {
-      alert('Input value is empty. Please enter a name for the item.');
-      return;
-    }
-      */
+  const handleAddItem = (e) => {    
     e.preventDefault();
-    const listId = currentList.id; // ID de la lista a la que quieres agregar el ítem
-  
+    const listId = currentList.id;  
 
-    const baseName = translations.itemName; // Nombre base sin índice
-    let newName = baseName; // Inicialmente, el nombre sin cambios
-    let index = 1; // Iniciar el índice desde 1
-  
-    // Asegurar que el nombre sea único
-    while (
-      currentList.items.some((item) => item.name.toLowerCase() === newName.toLowerCase()) &&
-      index <= 99
-    ) {
-      newName = `${baseName} ${index}`;
-      index++;
-    }
-  
-    // Si se alcanzó el límite de 99 nombres repetidos
-    if (index > 99) {
-      alert("No se pueden crear más listas con este nombre.");
-      return;
-    }
+    const newName = GetNewName(translations.itemName, currentList.items.map(item=>item.name), 99);  
 
     const newItem = {
       id: Date.now(),
@@ -80,20 +54,15 @@ function ViewList() {
     };
 
     addItemToList(listId, newItem);
-    //setInputValue('');  Limpiar el campo de entrada   
-    //console.log(`/lists/${listId}/items/${newItem.id}`);
     navigate(`/lists/${listId}/items/${newItem.id}`);
   };
 
   const handlerToggleChecked = (e) => {
-    const parentDiv = e.currentTarget; // Siempre captura el div con la clase checkbox
-    //console.log("item id:", parentDiv.id);
-    const itemId = parentDiv.id;
-    
+    const parentDiv = e.currentTarget; // Always capture the checkbox div    
+    const itemId = parentDiv.id;    
     editItemFromList(listId, itemId, {
       checked: !currentList.items.find(item => item.id == itemId).checked
-    });
-    
+    });    
   };
 
   const handleDeleteList = (e) => {  
@@ -102,28 +71,28 @@ function ViewList() {
   }
 
   const deleteList = () => {
-    deleteListFromContext(listId);
-    addToast('Lista borrada !')
-    setTimeout(()=> {navigate('/');}, 1000)   
-    
+    deleteListFromContext(listId);    
+    navigate(`/?toast=${translations.toastListDeleted}`);    
   }
 
-  const handleEditList = () => {
-    // console.log('edit list')
+  const handleEditList = () => {   
     if (inputEditListRef.current){
       inputEditListRef.current.focus();
-      inputEditListRef.current.select();
-      //console.log(inputEditListRef)
+      inputEditListRef.current.select();      
     }
   }
   const handlerConfirmEditListName = () => {
+   
     const updatedNameList = {
       ...currentList,
       name: inputValueListName
     }  
-    editList(currentList.id, updatedNameList);    
-    //alert('nombre editado');    
-    addToast("Nombre de la lista editado !");   
+    if (inputValueListName !== null && inputValueListName !== ''){
+      editList(currentList.id, updatedNameList);        
+      addToast(translations.toastListEdited);   
+    }else{
+      addToast(translations.toastListWithoutName); 
+    }
   }
 
   useEffect(() => {
@@ -135,31 +104,24 @@ function ViewList() {
         ...foundList,
         items: orderedItems
       }
-
-      //console.log(orderedItems)
-      setCurrentList(listWithOrdenedItems || null);   
-      setInputValueListName(foundList?.name || null);        
       
-      const isNewList =  (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;
-      //console.log(`${isNewList ? 'new list' : 'oldie'}`);
+      setCurrentList(listWithOrdenedItems || null);   
+      setInputValueListName(foundList?.name || null);  
+      
+      const isNewList =  (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;      
       if (isNewList) {
-          addToast("Nueva lista creada !");
-        }
-    }    
-    
-    
+          addToast(translations.toastNewList); 
+        }     
+
+    }       
     
   }, [isDataLoaded, lists, listId]);
 
-
-
-  if (!isDataLoaded) {    
-    return <div>Loading...</div>;
-  }
-  //console.log(currentList)
-
-
-
+    useEffect(() => {
+      if (toastMessage) {
+        addToast(toastMessage)
+      }
+    }, [])
   
   if (!currentList) {    
     return <div>List not found</div>;
@@ -172,13 +134,12 @@ function ViewList() {
           placeholder={translations.placeholderEditList}
           button={<EditButton 
           onClick={handleEditList}/>} 
-          textValue={inputValueListName} 
+          textValue={inputValueListName || ''} 
           setTextValue={setInputValueListName} 
           handleAction={handlerConfirmEditListName}      
           ref={inputEditListRef}/>
         <RowLabel text={currentList.createdDate}/>
-       {/* <HeaderList subtitle={currentList.createdDate} >       
-      </HeaderList> */}
+      
     {
       (showModalDelete)
       ? <ModalConfirm 
@@ -208,9 +169,7 @@ function ViewList() {
       ) : currentList ? (
         <RowLabel text={translations.noItemMessage} />
       ) : null
-    }
-
-   
+    }   
 
       <RowButton info={translations.rowButtonDeleteList} onClick={handleDeleteList}>
         <DeleteButton />

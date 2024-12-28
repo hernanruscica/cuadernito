@@ -3,22 +3,19 @@ import { useNavigate } from "react-router-dom";
 import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import RowButton from "../RowButton/RowButton";
 import EditButton from "../Buttons/EditButton";
-import NextButton from "../Buttons/NextButton";
 import DeleteButton from "../Buttons/DeleteButton";
 import PreviousButton from "../Buttons/PreviousButton";
-import CategorySelector from "../ViewList/ItemCategory/CategorySelector/CategorySelector";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
-import Header from "../Header/Header";
+
 import Toast from "../Toast/Toast";
 
 function ModalViewItem() {
-  const {lists, categories, isDataLoaded, editItemFromList, deleteItemFromList, translations, themes} = useContext(DataContext);
+  const {lists, isDataLoaded, editItemFromList, deleteItemFromList, translations } = useContext(DataContext);
   const { listId, itemId} = useParams();
-  const [currentItem, setCurrentItem] =useState([]);
-  const [currentItemCategory, setCurrentItemCategory] =useState([]);
+  const [currentItem, setCurrentItem] =useState([]); 
   const [inputValueName, setInputValueName] = useState('');
   const [inputValueNote, setInputValueNote] = useState('');
   const inputValueNameRef = useRef(null);
@@ -35,7 +32,6 @@ function ModalViewItem() {
   const handleToastClose = (closedToast) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
   };
-
 
   const updateData = () => {    
     const editedItem = {
@@ -61,26 +57,23 @@ function ModalViewItem() {
   }
   const handleDeleteButton = (e) => {    
     e.preventDefault();    
-    setShowModalDelete(!showModalDelete);
-    console.log(showModalDelete)    
+    setShowModalDelete(!showModalDelete);       
   }
   const deleteItem = () => {
-    deleteItemFromList(listId, itemId);
-    addToast('Item borrado !')
-    setTimeout(()=> {navigate(`/lists/${listId}`);}, 1000)   
-    
+    deleteItemFromList(listId, itemId);    
+    navigate(`/lists/${listId}/?toast=${translations.toastItemDeleted}`)
   }
   const goBack = (e) => {
     if (inputValueName == ''){
-      setShowModalEmptyName(!showModalEmptyName);
-      //alert('Tiene que ponerle algun nombre!');          
+      setShowModalEmptyName(!showModalEmptyName);               
       if (e) {
         e.preventDefault()}
       return;
     }
-    updateData();
-    //console.log('Redirigir a la página anterior y guardar', editedItem)
-    navigate(-1); 
+    if (e) {
+      e.preventDefault()}
+    updateData();   
+    navigate(`/lists/${listId}`); 
   };
 
   useEffect(() => {
@@ -90,31 +83,25 @@ function ModalViewItem() {
       setCurrentItem(currentItem);
       setInputValueName(currentItem?.name || '');
       setInputValueNote(currentItem?.note || '');
-      setCurrentItemCategory(categories.find(cat => cat.id == currentItem?.categoryId)?.name || '');    
+      
       
       if (inputValueNameRef.current) {            
         setTimeout(() => {
           inputValueNameRef.current.focus();
           inputValueNameRef.current.select();
-        }, 100); // Pequeño retraso para asegurar que el DOM esté actualizado
+        }, 100); // Little delay to wait the DOM have updated
       }
 
-      const isNewItem =  (currentItem ) ? (Date.now() - currentItem.id) < 250 : false;
-      console.log(`${isNewItem ? 'new item' : 'oldie'}`);
+      const isNewItem =  (currentItem ) ? (Date.now() - currentItem.id) < 250 : false;      
       if (isNewItem) {
-          addToast("Nueva item creado !");
+          addToast(translations.toastNewItem);
         }
     }
   }, [isDataLoaded]);
   
-   
-    
-//console.log(lists)
-  
   return (  
     <NotebookSheet>    
-      <Toast messages={toasts} onClose={handleToastClose} />     
-    {/* <Header title={(inputValueName == '' ? translations.itemName : inputValueName)} subtitle={translations.actionItemSubtitle} />     */}
+      <Toast messages={toasts} onClose={handleToastClose} />         
       {
       (showModalDelete)
         ? <ModalConfirm title={`"${currentItem.name}"`} subtitle={translations.deleteItemConfirmMsg} yesText={translations.deleteItemYesText} notText={translations.deleteItemNotText}
@@ -139,9 +126,7 @@ function ModalViewItem() {
           handleAction = {handlerEditName}
           ref={inputValueNameRef}
           >
-        {/*  
-        <CategorySelector text={currentItemCategory} onClick={handleClickSelector} />
-        */}
+
       </RowButtonInput >
 
       <RowButtonInput 

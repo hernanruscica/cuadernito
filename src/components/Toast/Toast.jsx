@@ -5,7 +5,7 @@ const Toast = ({ messages, onClose, duration = 2000 }) => {
   useEffect(() => {
     if (messages.length > 0) {
       const timer = setTimeout(() => {
-        onClose(messages[0]); // Cierra el primer mensaje
+        onClose(messages[0]); 
       }, duration);
 
       return () => clearTimeout(timer);

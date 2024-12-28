@@ -20,7 +20,7 @@
   background-color: var(--notebookBackColor);
   font-family: var(--appFontFamily);
   font-size: var(--rowFontSize);
-  font-size: 1.8em;
+  font-size: 1.5em;
   color: var(--textNormalColor);
   font-weight: 400;
   letter-spacing: .05em;

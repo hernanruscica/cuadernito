@@ -10,65 +10,59 @@ const HeaderApp = () => {
     const { translations, isDataLoaded, userSettings, editUserSetting, themes } = useContext(DataContext);  
     const [ showSettingsModal, setShowSettingsModal] = useState(false);
     const [ currentUserSettings, setCurrentUserSettings] = useState({});
+    const [ backupUserSettings, setBackupUserSettings] = useState({});
    
     const handlerSettings = (e) => {
-        e.preventDefault();
-        console.log('click on settings button !');
+        e.preventDefault();        
+        setBackupUserSettings(userSettings);
         setShowSettingsModal(!showSettingsModal);
     }
 
-    const handlerSelectThemeChange = (e) => {
-        console.log(`click en el select theme - Value: ${e.target.value}`);
-        setCurrentUserSettings(
-            {
-                ...currentUserSettings,
-                themeId: e.target.value
-            }
-        )
-        //editUserSetting(updatedSetting);
+    const handlerSelectThemeChange = (e) => {           
+        editUserSetting({
+            ...currentUserSettings,
+            themeId: e.target.value
+        });      
     }
-    const handlerSaveSettings = () => {
-        console.log('Click on save settings button', currentUserSettings);
-        editUserSetting(currentUserSettings);
+    const handlerSelectLanguageChange = (e) => {             
+        editUserSetting({
+            ...currentUserSettings,
+            language: e.target.value
+        });
+    }
+
+    const handlerSaveSettings = () => {        
         setShowSettingsModal(!showSettingsModal);
     }
 
-    const handlerCancelSettings = () => {
-        setCurrentUserSettings(userSettings);
+    const handlerCancelSettings = () => {        
+        editUserSetting(backupUserSettings);
         setShowSettingsModal(false);
-    }
-    
+    }    
     
     useEffect(() => {
         if (isDataLoaded){
             setCurrentUserSettings(userSettings);
         }
-    }, [isDataLoaded]);
-    
-    if (!isDataLoaded){
-        return (
-          <div>cargando...</div>
-        )
-      }
-
-    
+    }, [isDataLoaded, userSettings]);    
 
     const data = {
         themes: themes,
+        languages: [{id: "en", name: "English"}, {id: "es", name: "Español"}],
         userSettings: currentUserSettings,
-        setThemeHandler: handlerSelectThemeChange
+        setThemeHandler: handlerSelectThemeChange,
+        setLanguageHandler: handlerSelectLanguageChange
     }
     
     return(
         <header className={styles.container}>
-
             {
                 (showSettingsModal)
                 ? <ModalSettings 
-                    title='Preferencias'
-                    subtitle='Aquí puedes editar tus preferencias de aplicación.'
-                    yesText='Guardar'
-                    notText='Cancelar'
+                    title={translations.modalSettingsTitle}
+                    subtitle={translations.modalSettingsSubtitle}
+                    yesText={translations.modalSettingsYesText}
+                    notText={translations.modalSettingsNotText}
                     onClickYes={handlerSaveSettings}
                     onClickNot={handlerCancelSettings}
                     data={data}

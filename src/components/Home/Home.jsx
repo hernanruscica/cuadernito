@@ -1,37 +1,36 @@
-import React, {useState, useEffect, useContext} from "react";
-import RowLabel from "../RowLabel/RowLabel";
-import NotebookSheet from "../NotebookSheet/NotebookSheet";
+import React, {useState, useContext, useEffect} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
+import { DataContext } from '../../context/DataContext';
+import NotebookSheet from "../NotebookSheet/NotebookSheet";
+import RowLabel from "../RowLabel/RowLabel";
 import RowButton from "../RowButton/RowButton";
-import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
-import ShowButton from "../Buttons/ShowButton";
-import HideButton from "../Buttons/HideButton";
 import NotebookButton from "../Buttons/NotebookButton";
 import Header from "../Header/Header";
 import Toast from "../Toast/Toast";
-
-
-import { useNavigate } from "react-router-dom";
-
-import { DataContext } from '../../context/DataContext';
+import { GetNewName } from "../../utils/GetNewName";
 
 function Home() {
-  const { lists, items, categories, addList, addItem, addCategory, translations, isDataLoaded } = useContext(DataContext);  
-
- // const [inputValue, setInputValue] = useState('');
-  const [showList, setShowList] = useState(false);
+  const { lists, addList, translations } = useContext(DataContext);    
   const [toasts, setToasts] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const toastMessage = queryParams.get("toast");
+  
+  useEffect(() => {
+    if (toastMessage) {
+      addToast(toastMessage)
+    }
+  }, [])
 
   const addToast = (message) => {    
     setToasts((prevToasts) => [...prevToasts, message]);
   };
-
   const handleToastClose = (closedToast) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
   };
-
-  const navigate = useNavigate();
 
   const handleAddNewList = (e) => {
     e.preventDefault();
@@ -47,71 +46,31 @@ function Home() {
       };
       return new Intl.DateTimeFormat("es-ES", options).format(date);
     };
-  
-    const baseName = translations.listName; // Nombre base sin índice
-    let newName = baseName; // Inicialmente, el nombre sin cambios
-    let index = 1; // Iniciar el índice desde 1
-  
-    // Asegurar que el nombre sea único
-    while (
-      lists.some((list) => list.name.toLowerCase() === newName.toLowerCase()) &&
-      index <= 99
-    ) {
-      newName = `${baseName} ${index}`;
-      index++;
+
+    const newName = GetNewName(translations.listName, lists.map(list=>list.name), 99);    
+
+    if (newName !== -1){  
+      const newList = {
+        id: Date.now(), // Use timestamp as unique ID
+        name: newName,
+        items: [],
+        createdDate: formatDate(new Date()), // Fecha en el formato deseado
+      };    
+      addList(newList);       
+      navigate(`/lists/${newList.id}`);
+    }else{
+      addToast(translations.toastNameRepeat);
     }
-  
-    // Si se alcanzó el límite de 99 nombres repetidos
-    if (index > 99) {
-      alert("No se pueden crear más listas con este nombre.");
-      return;
-    }
-  
-    const newList = {
-      id: Date.now(), // Usar timestamp como ID único
-      name: newName,
-      items: [],
-      createdDate: formatDate(new Date()), // Fecha en el formato deseado
-    };
-  
-    addList(newList); // Usar la función de contexto para agregar la lista
-    //addToast("Lista creada !")
-    navigate(`/lists/${newList.id}`);
   };
   
-
-  const handlerClickShow = (e) => {
-    e.preventDefault();
-    setShowList(!showList);
-  }
-
-  if (!isDataLoaded){
-    return (
-      <div>cargando...</div>
-    )
-  }
-  
-  //const currentTrans = translations[locale] || translations;
-  //console.log(translations)
-
   return (
     <NotebookSheet >     
-      <Header title="Cuadernito App" subtitle={translations.subtitle} />
+      <Toast messages={toasts} onClose={handleToastClose} />
+      
+        <Header title={translations.appName} subtitle={translations.subtitle} />        
 
-          <div>         
-          <Toast messages={toasts} onClose={handleToastClose} />
-        </div>
-        <RowLabel text={translations.welcome}  />
-        {/* <RowLabel text={translations.newListText} /> 
+        <RowLabel text={translations.welcome}  />       
 
-        <RowButtonInput
-          placeholder={translations.placeholderNewList}
-          button={<AddButton onClick={handleAddNewlist} />}
-          textValue={inputValue}
-          setTextValue={setInputValue}
-          handleAction={handleAddNewlist}
-        />
-*/}
         <RowButton
           info={translations.placeholderNewList}
           onClick={handleAddNewList}
@@ -119,7 +78,6 @@ function Home() {
           <AddButton />
         </RowButton>
 
-        
         {(lists.length > 0) ?
           <RowLabel text={translations.listsMessage} />
           :<RowLabel text={translations.noListsMessage} />

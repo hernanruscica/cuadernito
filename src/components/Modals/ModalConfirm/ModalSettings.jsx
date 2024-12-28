@@ -2,11 +2,13 @@ import NotebookSheet from "../../NotebookSheet/NotebookSheet";
 import styles from './ModalConfirm.module.css';
 import RowSelect from "../../RowSelect/RowSelect";
 import Header from '../../Header/Header';
+import { useContext } from "react";
+import { DataContext } from "../../../context/DataContext";
 
 
 
 export const ModalSettings = ({title='title', subtitle='subtitle', onClickYes, onClickNot, yesText, notText, data=null}) => {
-    
+    const { translations} = useContext(DataContext);
 
    //console.log(data)
     
@@ -17,12 +19,19 @@ export const ModalSettings = ({title='title', subtitle='subtitle', onClickYes, o
                 >    
                 <Header title={title} subtitle={subtitle} />   
                 <RowSelect 
-                    text='Tema:'
+                    text={translations.modalSettingsThemeText}
                     nameSelect='theme' 
                     options={data.themes}
                     selectedValue={data.userSettings.themeId}
                     handlerSelect = {data.setThemeHandler}
                 />    
+                <RowSelect 
+                    text={translations.modalSettingsLanguageText}
+                    nameSelect='language' 
+                    options={data.languages}
+                    selectedValue={data.userSettings.language}
+                    handlerSelect = {data.setLanguageHandler}
+                />   
                     
                 <div className={styles.confirmButtonsContainer}>
                     <button className={styles.confirmButton} 

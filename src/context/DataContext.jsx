@@ -1,37 +1,25 @@
 import React, { createContext, useState, useEffect } from 'react';
 import defaultCategories from '../categories.json/';
+import defaultThemes from '../themes.json';
+import translationsSrc from '../translations.json';
 
 const initialState = {
   lists: [],
   items: [],
   categories: defaultCategories,
   userSettings: {language: "es", themeId:0},
-  themes: [{id: 0, name: 'default'}, {id: 1, name: 'strawberry'}, {id: 2, name: 'chocolate'}]
+  themes: defaultThemes
 };
 
 const DataContext = createContext(initialState);
-const publicUrl = import.meta.env.VITE_APP_URL;
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
   const localStorageDataName = 'cuadernito-data';
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [translations, setTranslations] = useState({});
+  const [translations, setTranslations] = useState(translationsSrc);
   const [locale, setLocale] = useState(initialState.userSettings.language);
-  const [currentTrans, setCurrentTrans] = useState({});
-
-  const loadTranslations = async () => {
-    try {
-      const response = await fetch(`${publicUrl}/data/translations.json`);  // Adjust path
-      const data = await response.json();
-      
-      setTranslations(data);
-      setCurrentTrans(data[locale] || translations);
-    } catch (error) {
-      console.error('Error loading translations:', error);
-      setTranslations({}); // Empty object in case of failure.
-    }
-  };
+  const [currentTrans, setCurrentTrans] = useState({}); 
 
   useEffect(() => {
     setIsDataLoaded(false);
@@ -44,124 +32,109 @@ const DataProvider = ({ children }) => {
       } catch (error) {
         console.error('Error parsing localStorage data:', error);
       }
-    }
-    loadTranslations();    
-   
+    }    
+    setCurrentTrans(translations[locale] || translations);        
     setIsDataLoaded(true);
-  }, []); // Run only once on mount
+  }, [locale]);
+
+  /* STARTS CRUD SECTION: For each action, each function update the context value and save it to the local storage  */
 
   const addList = (newList) => {
     const updatedData = { ...data, lists: [...data.lists, newList] };
     setData(updatedData);
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage
   };
 
   const editList = (listId, updatedListData) => {
     const updatedLists = data.lists.map((list) =>
-      list.id === listId
-        ? { ...list, ...updatedListData } // Actualizar solo la lista con el ID coincidente
+      list.id == listId
+        ? { ...list, ...updatedListData } // Update the list with the found id
         : list
-    );
-  
+    );  
     const updatedData = { ...data, lists: updatedLists };
     setData(updatedData);
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
-  };
-  
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage
+  };  
 
   const deleteListFromContext = (listId) => {
     const updatedData = {
       ...data,
-      lists: data.lists.filter(list => list.id != listId), // Filtrar la lista por ID
+      lists: data.lists.filter(list => list.id != listId), 
     };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
-  };
-  
+  };  
 
   const addItem = (newItem) => {
     const updatedData = { ...data, items: [...data.items, newItem] };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
-
-  const addCategory = (newCategory) => {
-    const updatedData = { ...data, categories: [...data.categories, newCategory] };
-    setData(updatedData);
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
-  };
-
+  
   const addItemToList = (listId, newItem) => {
     const updatedLists = data.lists.map((list) =>
       list.id === listId
-        ? { ...list, items: [...list.items, newItem] } // Add the new item to the items array of the matching list
-        : list
-    );
-    const updatedData = { ...data, lists: updatedLists };
-    //console.log(updatedData)
-    setData(updatedData);
+    ? { ...list, items: [...list.items, newItem] }
+    : list
+  );
+  const updatedData = { ...data, lists: updatedLists };    
+  setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
-  const editItemFromList = (listId, itemId, editedItem) => {
-    //console.log("Editing item:", { listId, itemId, editedItem });  
+  const editItemFromList = (listId, itemId, editedItem) => {    
     const updatedLists = data.lists.map((list) => {
-      if (list.id == listId) {
-        //console.log("Found matching list:", list);  
+      if (list.id == listId) {        
         return {
           ...list,
           items: list.items.map((item) => {
-            if (item.id == itemId) {
-              //console.log("Found matching item:", item);
-              return { ...item, ...editedItem }; // Actualizar el ítem
+            if (item.id == itemId) {              
+              return { ...item, ...editedItem }; // Update ítem
             }
             return item;
           }),
         };
       }
       return list;
-    });    
-  
-    const updatedData = { ...data, lists: updatedLists };
-    //console.log("Updated data:", updatedData);
-  
+    });      
+    const updatedData = { ...data, lists: updatedLists };    
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
-  const deleteItemFromList = (listId, itemId) => {    
-
-    //console.log(`Intentando eliminar item con ID: ${itemId} de la lista con ID: ${listId}`);  
+  const deleteItemFromList = (listId, itemId) => {        
     const updatedLists = data.lists.map((list) => {
       if (list.id == listId) {
-        const filteredItems = list.items.filter((item) => item.id != itemId); // Eliminar el item
-        //console.log(`Lista actualizada: `, filteredItems);
+        const filteredItems = list.items.filter((item) => item.id != itemId); // Delete item        
         return { ...list, items: filteredItems };
       }
-      return list; // Otras listas permanecen sin cambios
-    });
-  
-    const updatedData = { ...data, lists: updatedLists };
-    //console.log(`Datos actualizados después de la eliminación: `, updatedData);
-  
-    setData(updatedData); // Actualizar el estado
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Guardar cambios en localStorage
+      return list; // Other lists remains the same
+    });  
+    const updatedData = { ...data, lists: updatedLists };  
+    setData(updatedData); // Update data state
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage
   };
   
   const editUserSetting = (updatedSettings) => {
     const updatedData = {
       ...data,
       userSettings: {
-        ...data.userSettings, // Mantén los valores existentes
-        ...updatedSettings,   // Sobrescribe solo los valores enviados
+        ...data.userSettings, // Keep the current data 
+        ...updatedSettings,   // Override the incomming changes
       },
-    };
+    };  
+    setLocale(updatedSettings.language);
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };  
   
+  const addCategory = (newCategory) => {
+    const updatedData = { ...data, categories: [...data.categories, newCategory] };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
-  
-  
+
+  /* ENDS CRUD SECTION: For each action, each function update the context value and save it to the local storage  */
 
   return (
     <DataContext.Provider value={{

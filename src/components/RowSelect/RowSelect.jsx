@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './RowSelect.module.css'
 
-function RowSelect({ text = '', nameSelect = 'default',  options=[], selectedValue, handlerSelect=null }) {
+function RowSelect({ text = '', nameSelect = 'default',  options=[{id: 0, name: "default"}], selectedValue, handlerSelect=null }) {
   return (
     <div className={styles.RowSelectContainer}>
       

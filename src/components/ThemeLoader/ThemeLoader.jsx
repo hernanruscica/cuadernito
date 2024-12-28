@@ -32,6 +32,8 @@ function ThemeLoader() {
     }
   }, [userSettings.themeId, themes, isDataLoaded]);
 
+
   return null; 
 }
+
 export default ThemeLoader;
