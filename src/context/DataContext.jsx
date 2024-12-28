@@ -10,8 +10,7 @@ const initialState = {
 };
 
 const DataContext = createContext(initialState);
-const publicUrl = 'https://cuadernito.onrender.com';
-//const publicUrl = 'http://localhost:5173';
+const publicUrl = import.meta.env.VITE_APP_URL;
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data

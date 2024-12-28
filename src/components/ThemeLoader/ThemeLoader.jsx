@@ -4,15 +4,12 @@ import { DataContext } from "../../context/DataContext";
 function ThemeLoader() {
   const { userSettings, themes, isDataLoaded } = useContext(DataContext);
 
-   const publicUrl = 'https://cuadernito.onrender.com';
- //const publicUrl = 'http://localhost:5173';
+  const publicUrl = import.meta.env.VITE_APP_URL;
 
-  useEffect(() => {
+  useEffect(() => {   
+    
+    if (!isDataLoaded) return;    
    
-    
-    if (!isDataLoaded) return;
-    
-    // Busca el tema actual en función del `themeId`
     const currentTheme = themes.find(
       (theme) => theme.id == userSettings.themeId
     );
@@ -21,10 +18,9 @@ function ThemeLoader() {
       const link = document.createElement("link");
       link.rel = "stylesheet";
       link.type = "text/css";
-      link.href = `${publicUrl}/themes/${currentTheme.name.toLowerCase()}_theme.css`; // Ajusta la ruta según tus archivos
-      link.id = "theme-stylesheet";
+      link.href = `${publicUrl}/themes/${currentTheme.name.toLowerCase()}_theme.css`; 
+      link.id = "theme-stylesheet";      
       
-      console.log(link.href)
       // Verifica si ya existe un enlace de tema y reemplázalo
       const existingLink = document.getElementById("theme-stylesheet");
       if (existingLink) {
@@ -36,12 +32,6 @@ function ThemeLoader() {
     }
   }, [userSettings.themeId, themes, isDataLoaded]);
 
-  useEffect(() => {
-    if (!isDataLoaded) return;
-    console.log("Datos cargados, aplicando tema:", userSettings.themeId);
-  }, [isDataLoaded]);
-
-  return null; // Este componente no renderiza nada
+  return null; 
 }
-
 export default ThemeLoader;
