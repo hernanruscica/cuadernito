@@ -1,16 +1,20 @@
 import styles from './HeaderApp.module.css';
 import SettingsButton from "../Buttons/SettingsButton";
 import NotebookButton from '../Buttons/NotebookButton';
+import PreviousButton from '../Buttons/PreviousButton';
 import HeaderAppButton from "./HeaderAppButton";
 import { useContext, useState, useEffect } from 'react';
 import { DataContext } from '../../context/DataContext';
 import { ModalSettings } from '../Modals/ModalConfirm/ModalSettings';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderApp = () => {
+    const imageSiteUrl = import.meta.env.VITE_IMAGE_DIRECTORY;  
     const { translations, isDataLoaded, userSettings, editUserSetting, themes } = useContext(DataContext);  
     const [ showSettingsModal, setShowSettingsModal] = useState(false);
     const [ currentUserSettings, setCurrentUserSettings] = useState({});
     const [ backupUserSettings, setBackupUserSettings] = useState({});
+    const navigate =  useNavigate();
    
     const handlerSettings = (e) => {
         e.preventDefault();        
@@ -39,6 +43,11 @@ const HeaderApp = () => {
         editUserSetting(backupUserSettings);
         setShowSettingsModal(false);
     }    
+
+    const GoBack = (e) => {
+        e.preventDefault();        
+        navigate(-1);
+    }
     
     useEffect(() => {
         if (isDataLoaded){
@@ -70,16 +79,24 @@ const HeaderApp = () => {
                 : ''
             }
             
-            <HeaderAppButton url="/" 
-                text={translations.headerListButton} >
-                <NotebookButton />
+            <img src={`${imageSiteUrl}/Cuadernitoapp50opacity.png`} alt="Cuadernito app" title="Cuadernito app"  className={styles.headerImage}/>
+
+            <HeaderAppButton onClickHandler={GoBack} 
+                text={translations.backButton} >
+                <PreviousButton />
             </HeaderAppButton>
-            
+
             <HeaderAppButton url="/" 
                 text={translations.headerSettingsButton} 
                 onClickHandler = {handlerSettings}>
                 <SettingsButton />
             </HeaderAppButton>
+
+            <HeaderAppButton url="/" 
+                text={translations.headerListButton} >
+                <NotebookButton />
+            </HeaderAppButton>
+            
             
         </header>
     )

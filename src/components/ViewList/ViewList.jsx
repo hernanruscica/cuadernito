@@ -13,6 +13,7 @@ import DeleteButton from "../Buttons/DeleteButton";
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 import Toast from "../Toast/Toast";
 import { GetNewName } from "../../utils/GetNewName";
+import AddItemButton from "../AddItemButton/AddItemButton";
 
 function ViewList() {
   const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
@@ -130,6 +131,8 @@ function ViewList() {
   return (
     <NotebookSheet  >     
         <Toast messages={toasts} onClose={handleToastClose} />
+        <AddItemButton />
+
         <RowButtonInput 
           placeholder={translations.placeholderEditList}
           button={<EditButton 

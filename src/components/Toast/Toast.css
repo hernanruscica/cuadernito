@@ -1,11 +1,11 @@
 .toast-container {
     position: fixed;
-    top: 4px;
-    right: 10px;
+    bottom: 160px;
+    left: 10px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    z-index: 9999;
+    z-index: 89;
   }
   
   .toast {
@@ -23,7 +23,7 @@
   @keyframes fadeInOut {
     0% {
       opacity: 0;
-      transform: translateY(50px);
+      transform: translateY(150px);
     }
     100% {
       opacity: 1;

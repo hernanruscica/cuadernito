@@ -14,5 +14,5 @@
 .button svg{
   width: var(--rowActionIconsSize);
   height: var(--rowActionIconsSize);
-  color: var(--notebookAccentColor);
+  color: var(--textNormalColor);
 }

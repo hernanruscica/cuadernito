@@ -1,13 +1,14 @@
-.linkContainer{
+.NavBarBtn{
     display: flex;
-    flex-direction: row;
+    flex-direction: column ;
     align-items: center;
     justify-content: center;    
-    background-color: var(--notebookBackColor);
+    background-color: var(--bodyBackgroundColor);
     color: var(--textNormalColor);
-    padding: 8px 4px 2px 12px;    
+    padding:  4px 8px;    
     text-decoration: none;
-    font-size: 0.8em;
-    border-radius: 20px;
-    border: solid 2px var(--notebookAccentColor);
+    font-size: 11px;
+    border-radius: 4px;
+    border: 1px solid var(--textNormalColor); 
+    box-shadow: var(--shadowListItem);
 }
