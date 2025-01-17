@@ -4,8 +4,9 @@
   text-align: left;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  border-bottom: 2px var(--rowNormalColor) solid;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 4px var(--rowAccentColor) solid;
   color: var(--textNormalColor);  
 }
 
@@ -17,8 +18,16 @@
   user-select: none;
 }
 .RowLabelInfo{
+  width: 60px;   
+  text-align: center;
   margin: 0;  
   font-size: 0.9em;
   user-select: none;
 }
 
+@media (min-width: 700px) {
+
+  .RowLabelInfo{
+    width: 110px;
+  }
+}

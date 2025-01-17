@@ -1,0 +1,94 @@
+/* Modal.css */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 90;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+  .modal-backdrop.show {
+    opacity: 1;
+    pointer-events: all;
+    transition: all 0.3s ease;
+  }
+  
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2em;
+    background: var(--bodyBackgroundColor);
+    width: 360px;
+    height: fit-content;
+    box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+    right: calc((100% - 360px)/2);
+    border-radius: 20px;
+    border: solid 2px var(--textNormalColor);
+    padding: 60px 10px 20px 10px;
+    translate: 100% 0;
+    transition: translate 0.3s ;
+  }
+  
+  .modal-content.slide-in {
+    translate: 0% 0;
+    transition: translate 0.3s;
+  }
+  
+  .modal-content.slide-out {
+    translate: 100% 0;
+    transition: translate 0.3s;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;    
+    cursor: pointer;
+  }
+
+  .close-button svg {
+    width: var(--rowActionIconsSize);
+  height: var(--rowActionIconsSize);
+  color: var(--textNormalColor);
+  }
+
+  .buttons-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    column-gap: 2em;
+  }
+  
+  .inputs-container{
+    display: flex;
+    flex-direction: column;    
+    align-items: flex-start;
+    /* padding: 1.5em 0; */
+  }
+
+  .input{
+    width: 100%;
+    font-family: var(--appFontFamily);
+    font-size: var(--rowHeaderFontSize);
+    background-color: var(--bodyBackgroundColor);
+    border: none;
+    padding-left: 1rem;
+  }
+
+  .input-button{
+    display: flex;
+    flex-direction: row;
+  }

@@ -5,19 +5,24 @@ import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import AddButton from "../Buttons/AddButton";
 import RowButton from "../RowButton/RowButton";
 import EditButton from "../Buttons/EditButton";
+import DeleteButton from "../Buttons/DeleteButton";
 import RowLabel from "../RowLabel/RowLabel";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import PreviousButton from "../Buttons/PreviousButton";
-import DeleteButton from "../Buttons/DeleteButton";
+
 import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 import Toast from "../Toast/Toast";
 import { GetNewName } from "../../utils/GetNewName";
 import AddItemButton from "../AddItemButton/AddItemButton";
+import ModalViewItem from "../MyModals/ModalViewItem";
+import HeaderAppButton from "../HeaderApp/HeaderAppButton";
+
+
 
 function ViewList() {
   const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
-  const { listId} = useParams();
+  const { listId  } = useParams();
   
   const navigate = useNavigate();
   const [currentList, setCurrentList] = useState(null);  
@@ -31,6 +36,9 @@ function ViewList() {
   const toastMessage = queryParams.get("toast");
   
   const [inputValue, setInputValue] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
+  
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value); // Actualiza el estado con el valor del input
@@ -104,6 +112,21 @@ function ViewList() {
     }
   }
 
+  const handleView = (e) => {
+    e.preventDefault();
+
+    //console.log('From handleView', e.target.id);
+    const currentItem = currentList.items.find(item=>item.id==parseInt(e.target.id))
+    //console.log(currentItem);
+
+    setClickedItem(currentItem);
+    setIsModalOpen(true);   
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  }
+
   useEffect(() => {
     if (isDataLoaded) {
       const foundList = lists.find((list) => list.id == listId);
@@ -145,7 +168,8 @@ function ViewList() {
         onChange={handleInputChange} // Actualiza el estado en el padre
         onAdd={handleAddItem} // Lógica para manejar el clic o el Enter
       />
-
+      <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>     
+      
         <RowButtonInput 
           placeholder={translations.placeholderEditList}
           button={<EditButton 
@@ -154,7 +178,9 @@ function ViewList() {
           setTextValue={setInputValueListName} 
           handleAction={handlerConfirmEditListName}      
           ref={inputEditListRef}/>
-        <RowLabel text={currentList.createdDate}/>
+        <RowLabel text={currentList.createdDate} info={`${currentList.items.length} items`}>
+          <DeleteButton onClick={handleDeleteList}/>
+        </RowLabel>     
       
     {
       (showModalDelete)
@@ -173,6 +199,7 @@ function ViewList() {
           <ListItem
             text={item.name}
             url={`/lists/${currentList.id}/items/${item.id}`}
+            handleView={handleView}
             key={item.id}
             id={item.id}
             checked={item.checked}
@@ -184,13 +211,11 @@ function ViewList() {
       ) : null
     }   
 
-      <RowButton info={translations.rowButtonDeleteList} onClick={handleDeleteList}>
-        <DeleteButton />
-      </RowButton>
+      {/* <RowButton info={translations.rowButtonDeleteList} onClick={handleDeleteList}>
+        
+      </RowButton> */}
 
-      <RowButton info={translations.backButton} onClick={handlerConfirmEditListName}>
-        <PreviousButton />
-      </RowButton>
+      
     </NotebookSheet>
   );
 }

@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './button.module.css';
-import { FiMoreHorizontal } from "react-icons/fi";
+import { FiMoreVertical } from "react-icons/fi";
 
 function MoreButton({onClick}) {
   return (
     <button className={styles.button} onClick={onClick}>
-      <FiMoreHorizontal  />
+      <FiMoreVertical  style={{height: "25px", width: "25px"}}/>
     </button>
   );
 }
