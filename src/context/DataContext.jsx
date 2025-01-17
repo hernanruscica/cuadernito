@@ -72,12 +72,14 @@ const DataProvider = ({ children }) => {
   };
   
   const addItemToList = (listId, newItem) => {
+    console.log('additem', listId,newItem)
     const updatedLists = data.lists.map((list) =>
       list.id === listId
     ? { ...list, items: [...list.items, newItem] }
     : list
   );
   const updatedData = { ...data, lists: updatedLists };    
+  console.log(updatedData)
   setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };

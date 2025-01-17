@@ -30,6 +30,31 @@ function ViewList() {
   const queryParams = new URLSearchParams(location.search);
   const toastMessage = queryParams.get("toast");
   
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value); // Actualiza el estado con el valor del input
+  };
+
+  const handleAddItem = () => {
+    if (inputValue.trim() === "") {
+      
+      addToast(translations.emptyItemConfirmMsg); 
+      return;
+    }
+    const listId = currentList.id;  
+    const newItem = {
+      id: Date.now(),
+      name: inputValue,    
+      categoryId: 1,
+      note: translations.placeholderNote , 
+      checked: false,
+      photo: '',
+    };
+    addItemToList(listId,  newItem );
+    setInputValue(""); // Limpia el input después de añadir
+    addToast(translations.toastNewItem); 
+  };
 
   const addToast = (message) => {    
     setToasts((prevToasts) => [...prevToasts, message]);
@@ -39,24 +64,7 @@ function ViewList() {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
   };
 
-  const handleAddItem = (e) => {    
-    e.preventDefault();
-    const listId = currentList.id;  
 
-    const newName = GetNewName(translations.itemName, currentList.items.map(item=>item.name), 99);  
-
-    const newItem = {
-      id: Date.now(),
-      name: newName,    
-      categoryId: 1,
-      note: translations.placeholderNote , 
-      checked: false,
-      photo: '',
-    };
-
-    addItemToList(listId, newItem);
-    navigate(`/lists/${listId}/items/${newItem.id}`);
-  };
 
   const handlerToggleChecked = (e) => {
     const parentDiv = e.currentTarget; // Always capture the checkbox div    
@@ -131,7 +139,12 @@ function ViewList() {
   return (
     <NotebookSheet  >     
         <Toast messages={toasts} onClose={handleToastClose} />
-        <AddItemButton />
+        <AddItemButton
+        placeholder="Type a new item"
+        value={inputValue} // Estado controlado por el padre
+        onChange={handleInputChange} // Actualiza el estado en el padre
+        onAdd={handleAddItem} // Lógica para manejar el clic o el Enter
+      />
 
         <RowButtonInput 
           placeholder={translations.placeholderEditList}
@@ -152,10 +165,7 @@ function ViewList() {
         />
       : ''
     } 
-
-      <RowButton info={translations.placeholderNewItem} onClick={handleAddItem} ref={inputNewItemRef}>
-        <AddButton />
-      </RowButton>      
+      
 
       {
       currentList && currentList.items?.length > 0 ? (

@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './button.module.css';
-import { FiPlusSquare  } from "react-icons/fi";
+import { FiPlusSquare } from "react-icons/fi";
+import { FiPlusCircle  } from "react-icons/fi";
 
-function AddButton({onClick}) {
+function AddButton({variant='square', onClick}) {
   return (
     <button className={styles.button} onClick={onClick}>
-      <FiPlusSquare  />
+      {variant == 'square' ? <FiPlusSquare  /> : <FiPlusCircle  />}
     </button>
   );
 }
