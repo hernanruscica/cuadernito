@@ -9,6 +9,7 @@ import DeleteButton from "../Buttons/DeleteButton";
 import HeaderAppButton from "../HeaderApp/HeaderAppButton";
 import EditButton from "../Buttons/EditButton";
 import Modal from './Modal';
+import { ModalConfirm } from "./ModalConfirm";
 
 const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
   const { lists, isDataLoaded, editItemFromList, deleteItemFromList, translations } = useContext(DataContext);
@@ -91,9 +92,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     setInputValueName(item?.name);
   }, [item]);
 
-  const handleInputClick = (e) => {
-    e.target.select();
-  };
+  
 
   return (
     <>
@@ -113,8 +112,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
                 type="text"
                 className="input"
                 value={inputValueName}
-                onChange={(e) => setInputValueName(e.target.value)}
-                onClick={handleInputClick}
+                onChange={(e) => setInputValueName(e.target.value)}                
                 onKeyUp={handleKeyUp}
                 ref={inputValueNameRef}
               />
@@ -135,20 +133,17 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
-      {isDeleteConfirmationOpen && (
-       <Modal isOpen={isDeleteConfirmationOpen} onClose={handleCancelDelete} style={{fontSize: "2em"}}>            
-            <p style={{fontSize: "1.5em", textAlign: "center"}}>{translations.deleteItemConfirmMsg} <strong><em>{item.name}</em></strong></p>
-            <div className="buttons-container">
-              <HeaderAppButton onClickHandler={handleCancelDelete} >
-                <p  style={{fontSize: "1.5em"}}>{translations.deleteItemNotText || 'Cancel'} </p>
-              </HeaderAppButton>
-              <HeaderAppButton onClickHandler={handleConfirmDelete} >
-              <p  style={{fontSize: "1.5em"}}>{translations.deleteItemYesText || 'Delete'}  </p>               
-              </HeaderAppButton>
-            </div>
-        </Modal>
-      )}
+      {/* Delete Confirmation Modal */}        
+      <ModalConfirm 
+        title={translations.deleteItemConfirmMsg}
+        itemName={item?.name}
+        onClickNot={handleCancelDelete}
+        onClickYes={handleConfirmDelete}
+        notText={translations.deleteItemNotText}
+        yesText={translations.deleteItemYesText}
+        isOpen={isDeleteConfirmationOpen} onClose={handleCancelDelete}
+      />
+      
     </>
   );
 };

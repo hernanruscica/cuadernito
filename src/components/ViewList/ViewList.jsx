@@ -2,23 +2,19 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import ListItem from "./ListItem/ListItem";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
-import AddButton from "../Buttons/AddButton";
-import RowButton from "../RowButton/RowButton";
+import RowLabel from "../RowLabel/RowLabel";
+
 import EditButton from "../Buttons/EditButton";
 import DeleteButton from "../Buttons/DeleteButton";
-import RowLabel from "../RowLabel/RowLabel";
+
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
-import PreviousButton from "../Buttons/PreviousButton";
 
-import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
 import Toast from "../Toast/Toast";
-import { GetNewName } from "../../utils/GetNewName";
 import AddItemButton from "../AddItemButton/AddItemButton";
+
 import ModalViewItem from "../MyModals/ModalViewItem";
-import HeaderAppButton from "../HeaderApp/HeaderAppButton";
-
-
+import { ModalConfirm } from "../MyModals/ModalConfirm";
 
 function ViewList() {
   const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
@@ -26,8 +22,7 @@ function ViewList() {
   
   const navigate = useNavigate();
   const [currentList, setCurrentList] = useState(null);  
-  const [inputValueListName, setInputValueListName] = useState('');
-  const inputNewItemRef = useRef(null);
+  const [inputValueListName, setInputValueListName] = useState('');  
   const inputEditListRef = useRef(null);
   const [showModalDelete, setShowModalDelete] = useState(false);  
   const [toasts, setToasts] = useState([]);
@@ -41,7 +36,7 @@ function ViewList() {
   
 
   const handleInputChange = (e) => {
-    setInputValue(e.target.value); // Actualiza el estado con el valor del input
+    setInputValue(e.target.value);
   };
 
   const handleAddItem = () => {
@@ -72,10 +67,8 @@ function ViewList() {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
   };
 
-
-
   const handlerToggleChecked = (e) => {
-    const parentDiv = e.currentTarget; // Always capture the checkbox div    
+    const parentDiv = e.currentTarget;
     const itemId = parentDiv.id;    
     editItemFromList(listId, itemId, {
       checked: !currentList.items.find(item => item.id == itemId).checked
@@ -98,8 +91,8 @@ function ViewList() {
       inputEditListRef.current.select();      
     }
   }
-  const handlerConfirmEditListName = () => {
-   
+
+  const handlerConfirmEditListName = () => {   
     const updatedNameList = {
       ...currentList,
       name: inputValueListName
@@ -113,12 +106,8 @@ function ViewList() {
   }
 
   const handleView = (e) => {
-    e.preventDefault();
-
-    //console.log('From handleView', e.target.id);
+    e.preventDefault();    
     const currentItem = currentList.items.find(item=>item.id==parseInt(e.target.id))
-    //console.log(currentItem);
-
     setClickedItem(currentItem);
     setIsModalOpen(true);   
   }
@@ -163,12 +152,19 @@ function ViewList() {
     <NotebookSheet  >     
         <Toast messages={toasts} onClose={handleToastClose} />
         <AddItemButton
-        placeholder="Type a new item"
+        placeholder={translations.placeholderNewItem}
         value={inputValue} // Estado controlado por el padre
         onChange={handleInputChange} // Actualiza el estado en el padre
         onAdd={handleAddItem} // Lógica para manejar el clic o el Enter
       />
       <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>     
+      
+      <ModalConfirm //{isOpen, onClose, title='confirm the action?', itemName='item name', onClickYes, onClickNot, yesText, notText}
+         isOpen={showModalDelete} onClose={()=>{setShowModalDelete(false)}}
+         itemName={`"${currentList.name}"`} title={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
+         onClickNot={() => setShowModalDelete(false)}
+         onClickYes={deleteList}
+       />
       
         <RowButtonInput 
           placeholder={translations.placeholderEditList}
@@ -178,18 +174,12 @@ function ViewList() {
           setTextValue={setInputValueListName} 
           handleAction={handlerConfirmEditListName}      
           ref={inputEditListRef}/>
-        <RowLabel text={currentList.createdDate} info={`${currentList.items.length} items`}>
+        <RowLabel text={currentList?.createdDate} info={`${currentList.items?.length} items`}>
           <DeleteButton onClick={handleDeleteList}/>
         </RowLabel>     
       
     {
-      (showModalDelete)
-      ? <ModalConfirm 
-          title={`"${currentList.name}"`} subtitle={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
-          onClickNot={() => setShowModalDelete(false)}
-          onClickYes={deleteList}
-        />
-      : ''
+      
     } 
       
 
