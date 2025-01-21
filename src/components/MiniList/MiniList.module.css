@@ -1,0 +1,45 @@
+.mainScreenContainer {
+    width: 100%;
+    max-width: 150px;
+    padding-bottom: 16px;
+    border-radius: 5px;
+    background-color: var(--notebookBackColor);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden; 
+    color: black;
+}
+
+.listHeader{
+    border-bottom: 4px solid var(--rowAccentColor);
+    padding: 0.5em 0 0.5em 0.5em;
+    font-size: var(--rowFontSize); 
+    
+}
+
+.listSection {
+    padding: 0.2em 0 0.2em 0.2em;
+    border-bottom: 2px solid var(--rowNormalColor);
+}
+
+.newlist {
+    display: flex;
+}
+
+.newlist input {
+    flex-grow: 1;
+    margin-right: 5px;
+}
+
+.listContainer {
+    display: flex;
+    margin-bottom: 5px;
+    border-bottom: solid;
+    border-color: grey;
+    border-width: 1px;
+    padding: 5px;
+}
+
+.listInfo {
+    flex-grow: 1;
+}

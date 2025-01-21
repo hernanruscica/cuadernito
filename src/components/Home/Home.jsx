@@ -5,11 +5,13 @@ import { DataContext } from '../../context/DataContext';
 import NotebookSheet from "../NotebookSheet/NotebookSheet";
 import RowLabel from "../RowLabel/RowLabel";
 import RowButton from "../RowButton/RowButton";
-import AddButton from "../Buttons/AddButton";
+import { FiPlus  } from "react-icons/fi";
 import NotebookButton from "../Buttons/NotebookButton";
 import Header from "../Header/Header";
 import Toast from "../Toast/Toast";
 import { GetNewName } from "../../utils/GetNewName";
+import MiniList from "../MiniList/MiniList";
+import styles from './Home.module.css';
 
 function Home() {
   const { lists, addList, translations } = useContext(DataContext);    
@@ -62,8 +64,27 @@ function Home() {
       addToast(translations.toastNameRepeat);
     }
   };
+  console.log(lists)
   
-  return (
+  return (    
+    <div className={styles.MiniListContainer}>
+      <MiniList onClick={handleAddNewList}  itemQty={0}>
+        <div style={{display: "Flex", alignItems: "center", justifyContent: "space-around", gap: "5px"}}>
+          <span>{translations.listName}</span>
+          <FiPlus />
+        </div>
+      </MiniList>
+
+      {(lists.length > 0) ?  
+        lists.map((list) => (
+          <MiniList id={list.id} date={list.createdDate} itemQty={list.items.length}>    
+            <span>{list.name}</span>         
+          </MiniList>
+        ))
+        : <div>No lists</div>  
+      }      
+    </div>
+    /*
     <NotebookSheet >     
       <Toast messages={toasts} onClose={handleToastClose} />
       
@@ -91,6 +112,8 @@ function Home() {
           :<></>
         }        
     </NotebookSheet>
+    */
+    
   );
 }
 
