@@ -10,22 +10,31 @@ import styles from './Home.module.css';
 import SearchNavBar from "../SearchNavBar/SearchNavBar";
 
 function Home() {
-  const { lists, addList, translations } = useContext(DataContext);    
+  const { lists, addList, translations, isDataLoaded } = useContext(DataContext);    
   const [toasts, setToasts] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const toastMessage = queryParams.get("toast");
   const [searchInputText, setSearchInputText] = useState('');
-  const [filteredLists, setfilteredLists] = useState(lists);
+  const [filteredLists, setfilteredLists] = useState([]);
   
   
   useEffect(() => {
     if (toastMessage) {
-      addToast(toastMessage)
-      
+      addToast(toastMessage);
+    }    
+  }, []);
+  useEffect(() => {
+    if (toastMessage) {
+      addToast(toastMessage);
     }
-  }, [])
+    if (isDataLoaded){
+      setfilteredLists(lists.filter(list=>list.name.toLowerCase().includes('')))
+      console.log(lists)
+    }
+  }, [isDataLoaded]);
+
 
   const addToast = (message) => {    
     setToasts((prevToasts) => [...prevToasts, message]);
@@ -71,6 +80,7 @@ function Home() {
     setfilteredLists(lists.filter(list=>list.name.toLowerCase().includes(inputValue)))   
   }
 
+  console.log(lists, filteredLists)
   
   
   return (    

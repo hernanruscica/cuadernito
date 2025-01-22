@@ -9,7 +9,7 @@
     align-items: center; 
     z-index: 70;
     background-color: var(--notebookBackColor);    
-    padding-bottom: 0.5em;
+    padding-bottom: 1em;
     
 }
 
@@ -21,14 +21,14 @@
     padding: 0.4em 1.2em ;
     width: 100%; 
     max-width: 360px;  
-    font-size: 1.2em;
+    font-size: 1.4em;
     
 }
 
 .SearchNavBarButtons{
-    width: 90%;
-    max-width: 360px;
+    width: 100%;    
     display: flex;
-    flex-direction: column;   
+    flex-direction: column;  
+    align-items: center; 
     row-gap: 10px;
 }

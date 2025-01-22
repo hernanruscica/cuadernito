@@ -4,7 +4,9 @@
     background-color: #ffc0cb; /* Fondo rosa */
     border-radius: 10px 50px  50px 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
-    padding: 2px 12px 2px 4px;          
+    padding: 8px 10px;   
+    width: 90%;
+    max-width: 400px;     
   }
   
   .input {
@@ -14,9 +16,9 @@
     background: transparent;
     font-family: var(--appFontFamily);
     font-size: var(--rowFontSizeButton);    
-    font-size: 1.1em;
+    font-size: 1.4em;
     color: var(--textNormalColor); 
-    padding: 5px 10px ;
+    padding: 0px 8px ;
   }
   
   .button {
@@ -42,6 +44,6 @@
   }
   
   .button:hover {
-    background-color: rgba(0, 0, 0, 0.1); /* Fondo al hacer hover */
+    background-color: rgba(0, 0, 0, 0.1); 
   }
   
