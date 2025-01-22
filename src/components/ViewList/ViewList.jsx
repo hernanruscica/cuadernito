@@ -176,13 +176,8 @@ function ViewList() {
           ref={inputEditListRef}/>
         <RowLabel text={currentList?.createdDate} info={`${currentList.items?.length} items`}>
           <DeleteButton onClick={handleDeleteList}/>
-        </RowLabel>     
-      
-    {
-      
-    } 
-      
-
+        </RowLabel>           
+  
       {
       currentList && currentList.items?.length > 0 ? (
         currentList.items.map((item) => (
@@ -199,11 +194,7 @@ function ViewList() {
       ) : currentList ? (
         <RowLabel text={translations.noItemMessage} />
       ) : null
-    }   
-
-      {/* <RowButton info={translations.rowButtonDeleteList} onClick={handleDeleteList}>
-        
-      </RowButton> */}
+    }     
 
       
     </NotebookSheet>

@@ -3,14 +3,14 @@
     bottom: 0px;
     left: 0px;
     width: 100%;
-    height: fit-content;
+    height: 100px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     column-gap: 1em;
     font-size: var(--rowFontSize);       
-    z-index: 90;
+    z-index: 78;
     background-color: var(--rowNormalColor);      
     box-shadow: var(--shadow);
     font-family: "Montserrat", serif;

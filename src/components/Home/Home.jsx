@@ -2,16 +2,12 @@ import React, {useState, useContext, useEffect} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { DataContext } from '../../context/DataContext';
-import NotebookSheet from "../NotebookSheet/NotebookSheet";
-import RowLabel from "../RowLabel/RowLabel";
-import RowButton from "../RowButton/RowButton";
 import { FiPlus  } from "react-icons/fi";
-import NotebookButton from "../Buttons/NotebookButton";
-import Header from "../Header/Header";
 import Toast from "../Toast/Toast";
 import { GetNewName } from "../../utils/GetNewName";
 import MiniList from "../MiniList/MiniList";
 import styles from './Home.module.css';
+import SearchNavBar from "../SearchNavBar/SearchNavBar";
 
 function Home() {
   const { lists, addList, translations } = useContext(DataContext);    
@@ -20,6 +16,7 @@ function Home() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const toastMessage = queryParams.get("toast");
+  
   
   useEffect(() => {
     if (toastMessage) {
@@ -64,11 +61,13 @@ function Home() {
       addToast(translations.toastNameRepeat);
     }
   };
-  console.log(lists)
+  //console.log(lists)
   
   return (    
     <div className={styles.MiniListContainer}>
-      <MiniList onClick={handleAddNewList}  itemQty={0}>
+      <Toast messages={toasts} onClose={handleToastClose} />
+      <SearchNavBar />
+      <MiniList onClick={handleAddNewList}  subtitle01='Clik to create and open a new item'  key='CreateList'>
         <div style={{display: "Flex", alignItems: "center", justifyContent: "space-around", gap: "5px"}}>
           <span>{translations.listName}</span>
           <FiPlus />
@@ -76,43 +75,18 @@ function Home() {
       </MiniList>
 
       {(lists.length > 0) ?  
-        lists.map((list) => (
-          <MiniList id={list.id} date={list.createdDate} itemQty={list.items.length}>    
+        lists.map((list, index) => (
+          <MiniList id={list.id} 
+            subtitle01={list.createdDate} 
+            subtitle02={`${list.items.length} items`} 
+            key={`list_${index}_${list.id}`}>    
             <span>{list.name}</span>         
           </MiniList>
         ))
         : <div>No lists</div>  
       }      
     </div>
-    /*
-    <NotebookSheet >     
-      <Toast messages={toasts} onClose={handleToastClose} />
-      
-        <Header title={translations.appName} subtitle={translations.subtitle} />        
-
-        <RowLabel text={translations.welcome}  />       
-
-        <RowButton
-          info={translations.placeholderNewList}
-          onClick={handleAddNewList}
-        >
-          <AddButton />
-        </RowButton>
-
-        {(lists.length > 0) ?
-          <RowLabel text={translations.listsMessage} />
-          :<RowLabel text={translations.noListsMessage} />
-        }
-        {(lists.length > 0) ?  
-          lists.map((list) => (
-            <RowButton info={list.name} details={`${list.createdDate} - ${list.items.length} items`} key={list.id} url={`/lists/${list.id}`}>
-              <NotebookButton/>
-            </RowButton>
-          )) 
-          :<></>
-        }        
-    </NotebookSheet>
-    */
+  
     
   );
 }
