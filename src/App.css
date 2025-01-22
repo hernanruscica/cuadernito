@@ -26,9 +26,9 @@
 }
 #root {
   width: 100%;
-  /* height: auto; */
-  margin: 0 auto 120px auto;
-  padding-top:  40px ;  
+  height: auto; 
+  margin: 0 auto;
+  padding:   0;  
   height: fit-content;
   overflow-y: auto;
 }

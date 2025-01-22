@@ -86,7 +86,7 @@ function Home() {
 
       <SearchNavBar  value={searchInputText} onChange={handleChangeInputText} listsQty={filteredLists?.length}/>
 
-      <MiniList onClick={handleAddNewList}  subtitle01='Clik to create and open a new item'  key='CreateList'>
+      <MiniList onClick={handleAddNewList}  subtitle01='Clik to create and open a new item'  key='CreateList' >
         <div style={{display: "Flex", alignItems: "center", justifyContent: "space-around", gap: "5px"}}>
           <span>{translations.listName}</span>
           <FiPlus />

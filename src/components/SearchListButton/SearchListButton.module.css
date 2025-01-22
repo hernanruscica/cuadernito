@@ -1,7 +1,7 @@
 .container {   
     display: flex;
     align-items: center;
-    background-color: #ffc0cb; /* Fondo rosa */
+    background-color: var(--notebookBackColor); /* Fondo rosa */
     border-radius: 10px 50px  50px 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
     padding: 8px 10px;   

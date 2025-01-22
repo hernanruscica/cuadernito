@@ -1,16 +1,17 @@
 .MainContainer{
     position: fixed;
-    bottom: 100px;
+    /* bottom: 100px; */
+    top: 0;
     left: 0px;
     width: 100%;    
-    height: fit-content;
+    height: 120px;
     display: flex;
     flex-direction: column;   
     align-items: center; 
     z-index: 70;
-    background-color: var(--notebookBackColor);    
+    background-color: var(--rowNormalColor);    
     padding-bottom: 1em;
-    
+    box-shadow: var(--shadow);
 }
 
 .SearchNavBarResults{

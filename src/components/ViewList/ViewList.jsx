@@ -16,6 +16,8 @@ import AddItemButton from "../AddItemButton/AddItemButton";
 import ModalViewItem from "../MyModals/ModalViewItem";
 import { ModalConfirm } from "../MyModals/ModalConfirm";
 
+
+
 function ViewList() {
   const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
   const { listId  } = useParams();
