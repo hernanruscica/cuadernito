@@ -26,9 +26,11 @@
 }
 #root {
   width: 100%;
-  height: auto;
-  margin: 0 auto 200px auto;
-  padding: 70px 0 0 0;  
+  /* height: auto; 
+  margin: 0 auto 200px auto;*/
+  padding: 70px 0 ;  
+  height: calc(100vh - env(safe-area-inset-bottom)); /* Compatibilidad con teclados y márgenes seguros */
+  overflow-y: auto;
 }
 .App{
   display: flex;

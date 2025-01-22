@@ -31,7 +31,7 @@ function Home() {
     }
     if (isDataLoaded){
       setfilteredLists(lists.filter(list=>list.name.toLowerCase().includes('')))
-      console.log(lists)
+      
     }
   }, [isDataLoaded]);
 
@@ -78,10 +78,7 @@ function Home() {
     const inputValue = e.target.value.toLowerCase();
     setSearchInputText(inputValue);    
     setfilteredLists(lists.filter(list=>list.name.toLowerCase().includes(inputValue)))   
-  }
-
-  console.log(lists, filteredLists)
-  
+  } 
   
   return (    
     <div className={styles.MiniListContainer}>
