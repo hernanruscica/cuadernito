@@ -16,11 +16,14 @@ function Home() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const toastMessage = queryParams.get("toast");
+  const [searchInputText, setSearchInputText] = useState('');
+  const [filteredLists, setfilteredLists] = useState(lists);
   
   
   useEffect(() => {
     if (toastMessage) {
       addToast(toastMessage)
+      
     }
   }, [])
 
@@ -61,12 +64,21 @@ function Home() {
       addToast(translations.toastNameRepeat);
     }
   };
-  //console.log(lists)
+
+  const handleChangeInputText = (e) => {    
+    const inputValue = e.target.value.toLowerCase();
+    setSearchInputText(inputValue);    
+    setfilteredLists(lists.filter(list=>list.name.toLowerCase().includes(inputValue)))   
+  }
+
+  
   
   return (    
     <div className={styles.MiniListContainer}>
       <Toast messages={toasts} onClose={handleToastClose} />
-      <SearchNavBar />
+
+      <SearchNavBar  value={searchInputText} onChange={handleChangeInputText} listsQty={filteredLists?.length}/>
+
       <MiniList onClick={handleAddNewList}  subtitle01='Clik to create and open a new item'  key='CreateList'>
         <div style={{display: "Flex", alignItems: "center", justifyContent: "space-around", gap: "5px"}}>
           <span>{translations.listName}</span>
@@ -74,8 +86,8 @@ function Home() {
         </div>
       </MiniList>
 
-      {(lists.length > 0) ?  
-        lists.map((list, index) => (
+      {(filteredLists.length > 0) ?  
+        filteredLists.map((list, index) => (
           <MiniList id={list.id} 
             subtitle01={list.createdDate} 
             subtitle02={`${list.items.length} items`} 

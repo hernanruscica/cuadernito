@@ -2,15 +2,16 @@ import React from 'react'
 import styles from './SearchNavBar.module.css';
 import SearchListButton from '../SearchListButton/SearchListButton';
 
-const SearchNavBar = () => {
+const SearchNavBar = ( {value, onChange, listsQty} ) => {
+    
   return (
     <div className={styles.MainContainer}>
         <div className={styles.SearchNavBarResults}>
-            <p>Mostrando 3 listas</p>
+            <p>{`Listas encontradas ${listsQty}`}</p>
         </div>
         <div className={styles.SearchNavBarButtons}>
-        <SearchListButton />
-        <SearchListButton />
+        <SearchListButton value={value} onChange={onChange}/>
+        
         </div>
     </div>
   )
