@@ -102,7 +102,7 @@ function Home() {
             <span>{list.name}</span>         
           </MiniList>
         ))
-        : <div>No lists</div>  
+        : '' 
       }      
     </div>
   

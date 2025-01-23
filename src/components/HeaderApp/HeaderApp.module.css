@@ -13,7 +13,7 @@
     z-index: 78;
     background-color: var(--rowNormalColor);      
     box-shadow: var(--shadow);
-    font-family: "Montserrat", serif;
+    font-family: var(--appInfoFontFamily);
     padding: 16px 0;
 }
 

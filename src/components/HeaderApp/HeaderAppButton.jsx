@@ -3,12 +3,9 @@ import styles from "./HeaderAppButton.module.css";
 
 const HeaderAppButton = ({ url = "/", text = "", children, onClickHandler=null }) => {
   return (
-    <Link to={url} className={styles.NavBarBtn} onClick={onClickHandler}>
-
-        
+    <Link to={url} className={styles.NavBarBtn} onClick={onClickHandler}>        
       {children}
-        {text}
-      
+        {text}      
     </Link>
   );
 };

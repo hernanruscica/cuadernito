@@ -47,6 +47,8 @@
     "toastListEdited": "List name edited. 😄",
     "toastListWithoutName" : "The list needs a name. 🙄",
     "toastNewList": "New list created! 🗒️",
+    "inputSearchList": "Search list by name",
+    "foundedList" : "Founded list ",
   
     "es": {
       "appName": "Cuadernito App",  
@@ -96,7 +98,9 @@
       "toastNewItem": "Nuevo item creado! ✏️",
       "toastListEdited": "Nombre de la lista editado. 😄",
       "toastListWithoutName" : "La lista necesita un nombre. 🙄",
-      "toastNewList": "Nueva lista creada! 🗒️"
+      "toastNewList": "Nueva lista creada! 🗒️",
+      "foundedList" : "Listas encontradas ",
+      "inputSearchList": "Busque la lista por su nombre"
     },
   
     "en": {
@@ -147,6 +151,8 @@
       "toastNewItem": "New item created! ✏️",
       "toastListEdited": "List name edited. 😄",
       "toastListWithoutName" : "The list needs a name. 🙄",
-      "toastNewList": "New list created! 🗒️"
+      "toastNewList": "New list created! 🗒️",
+      "foundedList" : "Founded list ",
+      "inputSearchList": "Search list by name"
     }
   }

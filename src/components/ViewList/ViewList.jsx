@@ -118,6 +118,12 @@ function ViewList() {
     setIsModalOpen(false);
   }
 
+  const handleConfirmNot = () => {
+    e.preventDefault();     
+    setShowModalDelete(false);
+  }
+
+
   useEffect(() => {
     if (isDataLoaded) {
       const foundList = lists.find((list) => list.id == listId);
@@ -161,10 +167,10 @@ function ViewList() {
       />
       <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>     
       
-      <ModalConfirm //{isOpen, onClose, title='confirm the action?', itemName='item name', onClickYes, onClickNot, yesText, notText}
+      <ModalConfirm 
          isOpen={showModalDelete} onClose={()=>{setShowModalDelete(false)}}
          itemName={`"${currentList.name}"`} title={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
-         onClickNot={() => setShowModalDelete(false)}
+         onClickNot={handleConfirmNot}
          onClickYes={deleteList}
        />
       

@@ -46,6 +46,7 @@ body{
 
 :root{  
   --appFontFamily: "Kalam", cursive;
+  --appInfoFontFamily:"Montserrat", serif;
   --rowFontSize: 18px;
   --rowFontSizeButton: 18px;
   --rowHeaderFontSize: 28px;

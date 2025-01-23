@@ -8,7 +8,7 @@ import PreviousButton from "../Buttons/PreviousButton";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
-import { ModalConfirm } from "../Modals/ModalConfirm/ModalConfirm";
+import { ModalConfirm } from "../MyModals/ModalConfirm";
 
 import Toast from "../Toast/Toast";
 

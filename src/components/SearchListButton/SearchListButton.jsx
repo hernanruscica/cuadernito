@@ -5,7 +5,7 @@ import styles from "./SearchListButton.module.css";
 import { FaArrowsUpDown } from "react-icons/fa6";
 import { FiSearch } from "react-icons/fi";
 
-const SearchListButton = ({ placeholder = "Input search list name", value, onChange }) => {
+const SearchListButton = ({ placeholder = "", value, onChange }) => {
   const inputRef = useRef(null);
 
   const handlerClickSearch = () => {
