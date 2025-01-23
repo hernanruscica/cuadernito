@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from './MiniList.module.css';
 import { FiPlus  } from "react-icons/fi";
 
-const MiniList = ({id, subtitle01='empty', subtitle02='', onClick, type='default', textNewList}) => {
+const MiniList = ({children, id, subtitle01='empty', subtitle02='', onClick, type='default', textNewList}) => {
   return (
     <Link to={`/lists/${id}`} onClick={onClick} 
       className={(type=='newlist') ? `${styles.mainScreenContainer} ${styles.newList}` : styles.mainScreenContainer }>                
@@ -14,8 +14,10 @@ const MiniList = ({id, subtitle01='empty', subtitle02='', onClick, type='default
               <FiPlus />
             </div>
           </div>
-          : ''
-        }
+          : <div className={styles.listHeader}>
+              {children}
+            </div>
+        }        
         <div className={styles.listSection}>{subtitle01}</div>
         {(subtitle02 !== '') ? <div className={styles.listSection}>{subtitle02}</div>
           : ''}
