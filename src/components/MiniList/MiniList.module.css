@@ -10,6 +10,11 @@
     color: black;
 }
 
+.newList{
+    border: 2px solid var(--textNormalColor);
+    background-color: var(--rowNormalColor);
+}
+
 .listHeader{
     border-bottom: 4px solid var(--rowAccentColor);
     padding: 0.5em 0 0.5em 0.5em;

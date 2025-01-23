@@ -2,7 +2,7 @@ import React, {useState, useContext, useEffect} from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import { DataContext } from '../../context/DataContext';
-import { FiPlus  } from "react-icons/fi";
+
 import Toast from "../Toast/Toast";
 import { GetNewName } from "../../utils/GetNewName";
 import MiniList from "../MiniList/MiniList";
@@ -86,11 +86,10 @@ function Home() {
 
       <SearchNavBar  value={searchInputText} onChange={handleChangeInputText} listsQty={filteredLists?.length}/>
 
-      <MiniList onClick={handleAddNewList}  subtitle01='Clik to create and open a new item'  key='CreateList' >
-        <div style={{display: "Flex", alignItems: "center", justifyContent: "space-around", gap: "5px"}}>
-          <span>{translations.listName}</span>
-          <FiPlus />
-        </div>
+      <MiniList type='newlist' textNewList={translations.listName} 
+        onClick={handleAddNewList}  
+        subtitle01={translations.placeholderNewList}  key='CreateList' >
+        
       </MiniList>
 
       {(filteredLists.length > 0) ?  

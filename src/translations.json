@@ -1,7 +1,7 @@
 {
     "appName": "Cuadernito App",  
     "subtitle": "Your daily friend !",
-    "placeholderNewList": "Create new list",
+    "placeholderNewList": "Click to create and open a new list",
     "placeholderEditList": "Edit list name",
     "placeholderNewItem": "Type a new item",
     "welcome": "Bienvenid@, ahora puedes",
@@ -53,7 +53,7 @@
     "es": {
       "appName": "Cuadernito App",  
       "subtitle": "Tu compañero diario !",
-      "placeholderNewList": "Crear nueva lista",
+      "placeholderNewList": "Click para crear y abrir una nueva lista",
       "placeholderEditList": "Editar nombre lista",
       "placeholderNewItem": "Ingrese un nuevo item",
       "welcome": "Bienvenid@, ahora puedes...",
@@ -106,7 +106,7 @@
     "en": {
       "appName": "Cuadernito App",  
       "subtitle": "Your daily friend !",
-      "placeholderNewList": "Create new list",
+      "placeholderNewList": "Click to create and open a new list",
       "placeholderNewItem": "Type a new item",
       "placeholderEditList": "Edit list name",
       "welcome": "Welcome, now you can ...",
