@@ -5,7 +5,7 @@ import PreviousButton from '../Buttons/PreviousButton';
 import HeaderAppButton from "./HeaderAppButton";
 import { useContext, useState, useEffect } from 'react';
 import { DataContext } from '../../context/DataContext';
-import { ModalSettings } from '../Modals/ModalConfirm/ModalSettings';
+import { ModalSettings } from '../MyModals/ModalSettings';
 import { useNavigate } from 'react-router-dom';
 
 const HeaderApp = () => {
@@ -65,9 +65,10 @@ const HeaderApp = () => {
     
     return(
         <header className={styles.container}>
-            {
-                (showSettingsModal)
-                ? <ModalSettings 
+            
+                 <ModalSettings 
+                    isOpen={showSettingsModal}
+                    onClose={handlerCancelSettings}
                     title={translations.modalSettingsTitle}
                     subtitle={translations.modalSettingsSubtitle}
                     yesText={translations.modalSettingsYesText}
@@ -76,8 +77,8 @@ const HeaderApp = () => {
                     onClickNot={handlerCancelSettings}
                     data={data}
                     />
-                : ''
-            }
+               
+            
             
             <img src={`${imageSiteUrl}/Cuadernitoapp50opacity.png`} alt="Cuadernito app" title="Cuadernito app"  className={styles.headerImage}/>
 

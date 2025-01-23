@@ -1,5 +1,5 @@
 
-import styles from  './Modal.module.css';
+
 import Modal from './Modal';
 
 

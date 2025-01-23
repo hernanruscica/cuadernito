@@ -1,17 +1,18 @@
 .container {
     position: fixed;
-    bottom: 120px;
+    /* bottom: 120px; */
+    top: 16px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    background-color: #ffc0cb; /* Fondo rosa */
+    background-color: var(--rowNormalColor); /* Fondo rosa */
     border-radius: 10px 50px  50px 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
     padding: 8px 10px;
     width: 90%;
     max-width: 400px;
-    z-index: 87;
+    z-index: 10;
   }
   
   .input {

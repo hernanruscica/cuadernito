@@ -6,12 +6,11 @@ const SearchNavBar = ( {value, onChange, listsQty} ) => {
     
   return (
     <div className={styles.MainContainer}>
+        <div className={styles.SearchNavBarButtons}>
+          <SearchListButton value={value} onChange={onChange}/>        
+        </div>
         <div className={styles.SearchNavBarResults}>
             <p>{`Listas encontradas ${listsQty}`}</p>
-        </div>
-        <div className={styles.SearchNavBarButtons}>
-        <SearchListButton value={value} onChange={onChange}/>
-        
         </div>
     </div>
   )

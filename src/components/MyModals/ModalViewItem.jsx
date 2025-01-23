@@ -1,6 +1,5 @@
 import "./Modal.css";
 import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import { FiXCircle } from "react-icons/fi";
@@ -8,16 +7,15 @@ import SaveButton from '../Buttons/SaveButton';
 import DeleteButton from "../Buttons/DeleteButton";
 import HeaderAppButton from "../HeaderApp/HeaderAppButton";
 import EditButton from "../Buttons/EditButton";
-import Modal from './Modal';
 import { ModalConfirm } from "./ModalConfirm";
 
 const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
-  const { lists, isDataLoaded, editItemFromList, deleteItemFromList, translations } = useContext(DataContext);
-  const [inputValueName, setInputValueName] = useState(item?.name);
+  const {editItemFromList, deleteItemFromList, translations } = useContext(DataContext);
+  const [inputValueName, setInputValueName] = useState('');
   const inputValueNameRef = useRef(null);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
 
-  const navigate = useNavigate();
+  
   // Focus and select text on modal open (adjusted to handle re-renders)
   useEffect(() => {
     if (isOpen && inputValueNameRef.current) {
@@ -26,21 +24,19 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
         inputValueNameRef.current.select();
       }, 0);
     }
+    setInputValueName(item?.name);
   }, [isOpen]);
 
   const handleDelete = (e) => {
-    e.preventDefault();
-    console.log('delete?')
+    e.preventDefault();    
     setIsDeleteConfirmationOpen(true);
   }
 
   const handleConfirmDelete = (e) => {
-    e.preventDefault();
-    //console.log('Deleting item:', item?.name);
-    // Here you would typically call the deleteItemFromList function
+    e.preventDefault();   
     deleteItem()
     setIsDeleteConfirmationOpen(false);
-    onClose(); // Close the main modal after deletion
+    onClose(); 
   }
 
   const handleCancelDelete = (e) => {
@@ -50,11 +46,9 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
 
   const handleSave = (e) => {
     e.preventDefault();
-    if (inputValueName && inputValueName.trim() !== "") {
-      console.log('Saving item with name:', inputValueName);
-      // Here you would typically call the editItemFromList function
+    if (inputValueName && inputValueName.trim() !== "") {      
+      updateData();
     } 
-    updateData();
       onClose(); 
   }
 
@@ -67,11 +61,14 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
   }
 
   const handleKeyUp = (e) => {
-    if (e.key === 'Enter'){
-      console.log(`se presiono enter`);     
+    if (e.key === 'Enter'){           
       updateData();
       onClose(); 
     }
+  }
+
+  const handleInputChange = (e) => {
+    setInputValueName(e.target.value);
   }
 
   const deleteItem = () => {
@@ -112,7 +109,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
                 type="text"
                 className="input"
                 value={inputValueName}
-                onChange={(e) => setInputValueName(e.target.value)}                
+                onChange={handleInputChange}                
                 onKeyUp={handleKeyUp}
                 ref={inputValueNameRef}
               />

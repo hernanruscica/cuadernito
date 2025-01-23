@@ -37,6 +37,8 @@
     translate: 100% 0;
     transition: translate 0.3s ;
   }
+
+ 
   
   .modal-content.slide-in {
     translate: 0% 0;
@@ -92,3 +94,5 @@
     display: flex;
     flex-direction: row;
   }
+
+  
