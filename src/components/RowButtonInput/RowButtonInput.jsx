@@ -5,13 +5,14 @@ const RowButtonInput = forwardRef(({ placeholder = "", children, button, textVal
   const handleInputChange = (e) => {
     const value = e.target.value;
     setTextValue(value);
+    // handleAction();
   };
 
-  const handlerKeyUp = (e) => {
-    if (e.key === "Enter") {
-      handleAction();
-    }
-  };
+  // const handlerKeyUp = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleAction();
+  //   }
+  // };
 
   return (
     <div className={styles.RowButtonInputContainer}>
@@ -23,8 +24,8 @@ const RowButtonInput = forwardRef(({ placeholder = "", children, button, textVal
           placeholder={placeholder}
           value={textValue}
           className={styles.RowButtonInputInput}
-          onChange={handleInputChange}
-          onKeyUp={handlerKeyUp}
+          onChange={handleAction}
+          // onKeyUp={handlerKeyUp}
           ref={ref} 
         />
         {button}

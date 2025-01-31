@@ -90,20 +90,22 @@ function ViewList() {
   const handleEditList = () => {   
     if (inputEditListRef.current){
       inputEditListRef.current.focus();
-      inputEditListRef.current.select();      
+      // inputEditListRef.current.select();      
     }
   }
 
-  const handlerConfirmEditListName = () => {   
+  const handlerConfirmEditListName = (e) => {   
+    //console.log('input change', e.target.value)
+    setInputValueListName(e.target.value);
     const updatedNameList = {
       ...currentList,
-      name: inputValueListName
+      name: e.target.value
     }  
-    if (inputValueListName !== null && inputValueListName !== ''){
+    if (e.target.value !== null && e.target.value !== ''){
       editList(currentList.id, updatedNameList);        
-      addToast(translations.toastListEdited);   
+      //addToast(translations.toastListEdited);   
     }else{
-      addToast(translations.toastListWithoutName); 
+      //addToast(translations.toastListWithoutName); 
     }
   }
 
@@ -158,15 +160,9 @@ function ViewList() {
 
   return (
     <NotebookSheet  >     
-        <Toast messages={toasts} onClose={handleToastClose} />
-        <AddItemButton
-        placeholder={translations.placeholderNewItem}
-        value={inputValue} // Estado controlado por el padre
-        onChange={handleInputChange} // Actualiza el estado en el padre
-        onAdd={handleAddItem} // Lógica para manejar el clic o el Enter
-      />
-      <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>     
-      
+
+      <Toast messages={toasts} onClose={handleToastClose} />        
+      <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>           
       <ModalConfirm 
          isOpen={showModalDelete} onClose={()=>{setShowModalDelete(false)}}
          itemName={`"${currentList.name}"`} title={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
@@ -184,7 +180,15 @@ function ViewList() {
           ref={inputEditListRef}/>
         <RowLabel text={currentList?.createdDate} info={`${currentList.items?.length} items`}>
           <DeleteButton onClick={handleDeleteList}/>
-        </RowLabel>           
+        </RowLabel>    
+        
+          <AddItemButton
+          placeholder={translations.placeholderNewItem}
+          value={inputValue} // Estado controlado por el padre
+          onChange={handleInputChange} // Actualiza el estado en el padre
+          onAdd={handleAddItem} // Lógica para manejar el clic o el Enter
+          />      
+         
   
       {
       currentList && currentList.items?.length > 0 ? (
