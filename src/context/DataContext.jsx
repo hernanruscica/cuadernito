@@ -15,7 +15,7 @@ const DataContext = createContext(initialState);
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
-  const localStorageDataName = 'cuadernito-data';
+  const localStorageDataName = 'cuadernito-data02';
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [translations, setTranslations] = useState(translationsSrc);
   const [locale, setLocale] = useState(initialState.userSettings.language);
