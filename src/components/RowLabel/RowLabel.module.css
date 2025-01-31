@@ -8,13 +8,14 @@
   justify-content: space-between;
   border-bottom: 4px var(--rowAccentColor) solid;
   color: var(--textNormalColor);  
+  font-family: var(--appInfoFontFamily);
 }
 
 .RowLabelText{
   padding: 2px 16px 2px 50px;
   font-size: var(--rowFontSize);
   margin: 0;
-  font-weight: 300;
+  font-weight: 400;
   user-select: none;
 }
 .RowLabelInfo{

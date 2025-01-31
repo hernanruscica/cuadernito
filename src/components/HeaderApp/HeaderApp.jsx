@@ -35,13 +35,15 @@ const HeaderApp = () => {
         });
     }
 
-    const handlerSaveSettings = () => {        
+    const handlerSaveSettings = (e) => {        
+        e.preventDefault();
         setShowSettingsModal(!showSettingsModal);
     }
 
-    const handlerCancelSettings = () => {        
+    const handlerCancelSettings = (e) => {    
+        e.preventDefault();
         editUserSetting(backupUserSettings);
-        setShowSettingsModal(false);
+        setShowSettingsModal(false);        
     }    
 
     const GoBack = (e) => {
@@ -64,22 +66,16 @@ const HeaderApp = () => {
     }
     
     return(
-        <header className={styles.container}>
-            
-                 <ModalSettings 
-                    isOpen={showSettingsModal}
-                    onClose={handlerCancelSettings}
-                    title={translations.modalSettingsTitle}
-                    subtitle={translations.modalSettingsSubtitle}
-                    yesText={translations.modalSettingsYesText}
-                    notText={translations.modalSettingsNotText}
-                    onClickYes={handlerSaveSettings}
-                    onClickNot={handlerCancelSettings}
-                    data={data}
-                    />
-               
-            
-            
+        <header className={styles.container}>            
+            <ModalSettings 
+            isOpen={showSettingsModal}
+            onClose={handlerCancelSettings}
+            title={translations.modalSettingsTitle}
+            subtitle={translations.modalSettingsSubtitle} 
+            onClickYes={handlerSaveSettings}                    
+            data={data}
+            />             
+    
             <img src={`${imageSiteUrl}/Cuadernitoapp50opacity.png`} alt="Cuadernito app" title="Cuadernito app"  className={styles.headerImage}/>
 
             <HeaderAppButton onClickHandler={GoBack} 

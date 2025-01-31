@@ -11,7 +11,7 @@ const Modal = ({ isOpen, onClose, children }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <button className="close-button" onClick={onClose}>
-            <FiXCircle />
+            <FiXCircle onClick={onClose}/>
         </button>
 
         {children}        

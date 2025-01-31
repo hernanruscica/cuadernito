@@ -1,12 +1,11 @@
-import "./Modal.css";
 import { useState, useRef, useEffect } from "react";
 import { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
-import { FiXCircle } from "react-icons/fi";
-import SaveButton from '../Buttons/SaveButton';
-import DeleteButton from "../Buttons/DeleteButton";
-import HeaderAppButton from "../HeaderApp/HeaderAppButton";
+import ModalButton from "../ModalButton/ModalButton";
 import EditButton from "../Buttons/EditButton";
+import { FiTrash2, FiSave   } from "react-icons/fi";
+import Modal from './Modal';
+import "./Modal.css";
 import { ModalConfirm } from "./ModalConfirm";
 
 const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
@@ -21,7 +20,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     if (isOpen && inputValueNameRef.current) {
       setTimeout(() => {
         inputValueNameRef.current.focus();
-        inputValueNameRef.current.select();
+        // inputValueNameRef.current.select();
       }, 0);
     }
     setInputValueName(item?.name);
@@ -44,8 +43,8 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     setIsDeleteConfirmationOpen(false);
   }
 
-  const handleSave = (e) => {
-    e.preventDefault();
+  const handleSave = () => {
+    // console.log('click en guardar')    
     if (inputValueName && inputValueName.trim() !== "") {      
       updateData();
     } 
@@ -56,7 +55,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     e.preventDefault();
     if (inputValueNameRef.current){
       inputValueNameRef.current.focus();
-      inputValueNameRef.current.select();
+      // inputValueNameRef.current.select();
     }
   }
 
@@ -93,15 +92,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
 
   return (
     <>
-      <div className={`modal-backdrop ${isOpen ? "show" : ""}`} onClick={onClose}>
-        <div
-          className={`modal-content ${isOpen ? "slide-in" : "slide-out"}`}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <button className="close-button" onClick={onClose}>
-              <FiXCircle />
-          </button>
-
+    <Modal isOpen={isOpen} onClose={onClose}>
           <div className="inputs-container">
             <div className="input-button">
               <EditButton onClick={handlerEditName}/>
@@ -117,30 +108,27 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
           </div>
 
           <div className="buttons-container">
-            <HeaderAppButton onClickHandler={handleDelete}
+            <ModalButton onClickHandler={handleDelete}
                 text={translations.rowButtonDelete} >
-                <DeleteButton />
-            </HeaderAppButton>
-            <HeaderAppButton onClickHandler={handleSave}
+                <FiTrash2 />
+            </ModalButton>
+            <ModalButton onClickHandler={handleSave}
                 text={translations.rowButtonSave} >
-                <SaveButton />
-            </HeaderAppButton>
-          </div>
+                <FiSave />
+            </ModalButton>
+          </div>            
+    </Modal>
 
-        </div>
-      </div>
-
-      {/* Delete Confirmation Modal */}        
-      <ModalConfirm 
-        title={translations.deleteItemConfirmMsg}
-        itemName={item?.name}
-        onClickNot={handleCancelDelete}
-        onClickYes={handleConfirmDelete}
-        notText={translations.deleteItemNotText}
-        yesText={translations.deleteItemYesText}
-        isOpen={isDeleteConfirmationOpen} onClose={handleCancelDelete}
-      />
-      
+    {/* Delete Confirmation Modal */}        
+    <ModalConfirm 
+      title={translations.deleteItemConfirmMsg}
+      itemName={item?.name}
+      onClickNot={handleCancelDelete}
+      onClickYes={handleConfirmDelete}
+      notText={translations.deleteItemNotText}
+      yesText={translations.deleteItemYesText}
+      isOpen={isDeleteConfirmationOpen} onClose={handleCancelDelete}
+    />
     </>
   );
 };

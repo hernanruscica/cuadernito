@@ -1,17 +1,17 @@
 .RowSelectContainer{
   width: 100%;
-  padding: 12px 0;
+  padding: 8px 0;
   text-align: left;
   display: flex;
   flex-direction: row;
   align-items: center;  
   justify-content: flex-start;
-  border-bottom: 2px var(--rowNormalColor) solid;
+  /* border-bottom: 2px var(--rowNormalColor) solid; */
   color: var(--textNormalColor);  
 }
 
 .RowSelectText{
-  padding: 2px 16px 2px 50px;
+  padding: 2px 16px 2px 0px;
   font-size: calc(var(--rowFontSize) * 1.2);  
   margin: 0;
   font-weight: 300;
@@ -22,8 +22,8 @@
 .select{
   font-size: var(--rowFontSize) ;
   border-radius: 5px;
-  padding: 6px 8px;
-  width: 40%;
+  padding: 8px;
+  width: 50%;
   background-color: var(--rowNormalColor);
   color: var(--textNormalColor);
 }

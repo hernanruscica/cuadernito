@@ -1,26 +1,28 @@
-
-
-import Modal from './Modal';
-import HeaderAppButton from '../HeaderApp/HeaderAppButton';
+import ModalButton from '../ModalButton/ModalButton';
 import DeleteButton from '../Buttons/DeleteButton';
 import { FiXCircle } from "react-icons/fi";
+import { FiTrash2   } from "react-icons/fi";
+import Modal from './Modal';
+import './Modal.css';
 
 
 export const ModalConfirm = ({isOpen, onClose, title='confirm the action?', itemName='item name', onClickYes, onClickNot, yesText, notText}) => {
     return(     
-        <Modal isOpen={isOpen} onClose={onClose} style={{fontSize: "2em"}}>            
-            <p style={{fontSize: "1.5em", textAlign: "center"}}>{title} <strong><em>{itemName}</em></strong></p>
+        <Modal isOpen={isOpen} onClose={onClose} >            
+            <p className='modal-content-paragraph'>
+              {title} <br/><strong><em>{itemName}</em></strong>
+            </p>
             <div className="buttons-container">              
 
-              <HeaderAppButton onClickHandler={onClickNot}
-                text={notText || 'Cancel'} >
-                <FiXCircle style={{width:"32px", height: "auto" }}/>
-              </HeaderAppButton>
+              <ModalButton onClickHandler={onClose}
+                text={notText || 'Cancel'} >                
+                <FiXCircle /> 
+              </ModalButton>
 
-              <HeaderAppButton onClickHandler={onClickYes}
+              <ModalButton onClickHandler={onClickYes}
                 text={yesText || 'Yes'} >
-                <DeleteButton />
-              </HeaderAppButton>
+                <FiTrash2  />
+              </ModalButton>
 
             </div>
         </Modal>

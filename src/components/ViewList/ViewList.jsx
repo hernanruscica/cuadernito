@@ -117,14 +117,14 @@ function ViewList() {
   }
 
   const handleCloseModal = () => {
+    
     setIsModalOpen(false);
   }
 
-  const handleConfirmNot = () => {
-    e.preventDefault();     
-    setShowModalDelete(false);
+  const handleCloseModalConfirm = (e) => {
+    e.preventDefault();
+    setShowModalDelete(false); 
   }
-
 
   useEffect(() => {
     if (isDataLoaded) {
@@ -164,9 +164,9 @@ function ViewList() {
       <Toast messages={toasts} onClose={handleToastClose} />        
       <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>           
       <ModalConfirm 
-         isOpen={showModalDelete} onClose={()=>{setShowModalDelete(false)}}
+         isOpen={showModalDelete} onClose={handleCloseModalConfirm}
          itemName={`"${currentList.name}"`} title={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
-         onClickNot={handleConfirmNot}
+         onClickNot={handleCloseModalConfirm}
          onClickYes={deleteList}
        />
       

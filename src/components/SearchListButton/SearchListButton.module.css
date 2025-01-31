@@ -14,9 +14,9 @@
     border: none;
     outline: none;
     background: transparent;
-    font-family: var(--appFontFamily);
+    font-family: var(--appInfoFontFamily);
     font-size: var(--rowFontSizeButton);    
-    font-size: 1.3em;
+    font-size: 1em;
     color: var(--textNormalColor); 
     padding: 0px 8px ;
   }

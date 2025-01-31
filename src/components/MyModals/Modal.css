@@ -23,7 +23,7 @@
   .modal-content {
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
+    row-gap: 0.5em;
     background: var(--bodyBackgroundColor);
     color: var(--textNormalColor);
     width: 360px;
@@ -34,15 +34,24 @@
     top: 100px;
     border-radius: 20px;
     border: solid 2px var(--textNormalColor);
-    padding: 60px 10px 20px 10px;
+    padding: 60px 16px 24px 16px;
     translate: 100% 0;
     transition: translate 0.3s ;
     font-family:  var(--appInfoFontFamily);
+    font-size: 16px;    
   }
 
   .modal-content-title {
     font-weight: 400;
-    font-size: 32px;    
+    text-align: center;
+  }
+
+  .modal-content-paragraph{
+    font-size: 1.3em;
+    padding: 1em 0;
+    line-height: 1.5em;
+    letter-spacing: 0.01em;
+    text-align: center;
   }
   
   .modal-content.slide-in {
@@ -57,8 +66,8 @@
   
   .close-button {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     background: none;
     border: none;    
     cursor: pointer;
@@ -73,10 +82,11 @@
   .buttons-container{
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    column-gap: 2em;
+    padding: 1em 0;
+    row-gap: 1em;
   }
   
   .inputs-container{
