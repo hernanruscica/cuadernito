@@ -67,8 +67,9 @@ function Home() {
         items: [],
         createdDate: formatDate(new Date()), // Fecha en el formato deseado
       };    
-      addList(newList);       
+      addList(newList);           
       navigate(`/lists/${newList.id}`);
+      
     }else{
       addToast(translations.toastNameRepeat);
     }

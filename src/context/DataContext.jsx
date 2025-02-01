@@ -39,10 +39,10 @@ const DataProvider = ({ children }) => {
 
   /* STARTS CRUD SECTION: For each action, each function update the context value and save it to the local storage  */
 
-  const addList = (newList) => {
+  const addList = (newList) => {   
     const updatedData = { ...data, lists: [...data.lists, newList] };
     setData(updatedData);
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage    
   };
 
   const editList = (listId, updatedListData) => {

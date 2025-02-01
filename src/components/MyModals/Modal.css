@@ -101,6 +101,7 @@
     font-family: var(--appFontFamily);
     font-size: var(--rowHeaderFontSize);
     background-color: var(--bodyBackgroundColor);
+    color: var(--textNormalColor);
     border: none;
     padding-left: 1rem;
   }

@@ -90,7 +90,7 @@ function ViewList() {
   const handleEditList = () => {   
     if (inputEditListRef.current){
       inputEditListRef.current.focus();
-      // inputEditListRef.current.select();      
+       inputEditListRef.current.select();      
     }
   }
 
@@ -109,9 +109,9 @@ function ViewList() {
     }
   }
 
-  const handleView = (e) => {
+  const handleView = (e, itemId) => {
     e.preventDefault();    
-    const currentItem = currentList.items.find(item=>item.id==parseInt(e.target.id))
+    const currentItem = currentList.items.find(item=>item.id==parseInt(itemId))
     setClickedItem(currentItem);
     setIsModalOpen(true);   
   }
@@ -136,8 +136,8 @@ function ViewList() {
         items: orderedItems
       }
       
-      setCurrentList(listWithOrdenedItems || null);   
-      setInputValueListName(foundList?.name || null);  
+      setCurrentList(listWithOrdenedItems || "");   
+      setInputValueListName(foundList?.name || "");  
       
       const isNewList =  (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;      
       if (isNewList) {
@@ -155,7 +155,7 @@ function ViewList() {
     }, [])
   
   if (!currentList) {    
-    return <div>List not found</div>;
+    return <div>Cargando...</div>;
   } 
 
   return (
@@ -165,7 +165,7 @@ function ViewList() {
       <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>           
       <ModalConfirm 
          isOpen={showModalDelete} onClose={handleCloseModalConfirm}
-         itemName={`"${currentList.name}"`} title={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
+         itemName={`"${currentList?.name}"`} title={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
          onClickNot={handleCloseModalConfirm}
          onClickYes={deleteList}
        />
@@ -178,7 +178,7 @@ function ViewList() {
           setTextValue={setInputValueListName} 
           handleAction={handlerConfirmEditListName}      
           ref={inputEditListRef}/>
-        <RowLabel text={currentList?.createdDate} info={`${currentList.items?.length} items`}>
+        <RowLabel text={currentList?.createdDate} info={`${currentList?.items?.length} items`}>
           <DeleteButton onClick={handleDeleteList}/>
         </RowLabel>    
         
@@ -196,7 +196,7 @@ function ViewList() {
           <ListItem
             text={item.name}
             url={`/lists/${currentList.id}/items/${item.id}`}
-            handleView={handleView}
+            handleView={(e) => handleView(e, item.id)}
             key={item.id}
             id={item.id}
             checked={item.checked}

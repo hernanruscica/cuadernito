@@ -55,7 +55,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     e.preventDefault();
     if (inputValueNameRef.current){
       inputValueNameRef.current.focus();
-      // inputValueNameRef.current.select();
+      inputValueNameRef.current.select();
     }
   }
 
@@ -99,7 +99,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
               <input
                 type="text"
                 className="input"
-                value={inputValueName}
+                value={inputValueName || ''}
                 onChange={handleInputChange}                
                 onKeyUp={handleKeyUp}
                 ref={inputValueNameRef}
