@@ -1,0 +1,65 @@
+::placeholder {
+  color: var(--textNormalColor);
+  opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder { /* Edge 12-18 */
+  color: var(--textNormalColor);
+}
+
+.container {
+    position: fixed;
+    bottom: 120px;
+    left: 50%;
+    transform: translate(12px);
+    display: flex;
+    column-gap: 10px;
+    align-items: center;
+    background-color: var(--rowNormalColor);
+    border-radius: 10px 50px  50px 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 4px 10px;
+    width: fit-content;
+    max-width: 375px;
+    z-index: 10;    
+    font-family: var(--appInfoFontFamily);
+    font-weight: 600;
+    text-transform: uppercase;
+    /* border: solid 2px var(--textNormalColor); */
+  }
+
+  .input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--appFontFamily);
+    font-size: var(--rowFontSizeButton);
+    color: var(--textNormalColor);
+    padding: 0 4px;
+  }
+
+  .button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--textNormalColor); /* Color del signo '+' */
+    font-size: var(--rowActionIconsSize);
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .button:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* Fondo al hacer hover */
+  }
+
+  .plus {
+    margin-top: -2px; /* Alinea el símbolo '+' */
+  }

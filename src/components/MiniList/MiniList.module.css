@@ -1,6 +1,6 @@
 .mainScreenContainer {
     width: 100%;
-    max-width: 160px;
+    max-width: 300px;
     padding-bottom: 16px;
     border-radius: 5px;
     background-color: var(--notebookBackColor);
@@ -17,9 +17,10 @@
 
 .listHeader{
     border-bottom: 4px solid var(--rowAccentColor);
-    padding: 0.5em 0 0.5em 0.5em;
-    font-size: var(--rowFontSize); 
-    
+    padding: 6px 0 6px 8px;
+    font-size: var(--rowHeaderFontSize); 
+    font-size: 1.3em;  
+    font-weight: 600;  
 }
 
 .listSection {

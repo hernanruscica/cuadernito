@@ -8,6 +8,7 @@ import { GetNewName } from "../../utils/GetNewName";
 import MiniList from "../MiniList/MiniList";
 import styles from './Home.module.css';
 import SearchNavBar from "../SearchNavBar/SearchNavBar";
+import AddListButton from '../AddListButton/AddListButton';
 
 function Home() {
   const { lists, addList, translations, isDataLoaded } = useContext(DataContext);    
@@ -86,13 +87,10 @@ function Home() {
       <Toast messages={toasts} onClose={handleToastClose} />
 
       <SearchNavBar  value={searchInputText} onChange={handleChangeInputText} listsQty={filteredLists?.length}/>
-
-      <MiniList type='newlist' textNewList={translations.listName} 
-        onClick={handleAddNewList}  
-        subtitle01={translations.placeholderNewList}  key='CreateList' >
+      <AddListButton 
+        textNewList={translations.listName}
+        onClick={handleAddNewList}  />
         
-      </MiniList>
-
       {(filteredLists.length > 0) ?  
         filteredLists.map((list, index) => (
           <MiniList id={list.id} 

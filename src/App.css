@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Bellota:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
 /*
 .kalam-light {
   font-family: "Kalam", cursive;
@@ -17,6 +20,45 @@
   font-weight: 700;
   font-style: normal;
 }
+
+---------------------------------------------------------------
+
+.bellota-light {
+  font-family: "Bellota", serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.bellota-regular {
+  font-family: "Bellota", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bellota-bold {
+  font-family: "Bellota", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.bellota-light-italic {
+  font-family: "Bellota", serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.bellota-regular-italic {
+  font-family: "Bellota", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.bellota-bold-italic {
+  font-family: "Bellota", serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
 */
 
 *,*::after,*::before{
@@ -45,7 +87,7 @@ body{
 }
 
 :root{  
-  --appFontFamily: "Kalam", cursive;
+  --appFontFamily: "Bellota", serif;
   --appInfoFontFamily:"Montserrat", serif;
   --rowFontSize: 18px;
   --rowFontSizeButton: 18px;

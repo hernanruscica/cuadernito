@@ -18,9 +18,10 @@ const MiniList = ({children, id, subtitle01='empty', subtitle02='', onClick, typ
               {children}
             </div>
         }        
-        <div className={styles.listSection}>{subtitle01}</div>
-        {(subtitle02 !== '') ? <div className={styles.listSection}>{subtitle02}</div>
-          : ''}
+        <div className={styles.listSection}>
+          {subtitle01} - <strong>{subtitle02}</strong>
+        </div>
+          
     </Link>    
   )
 }
