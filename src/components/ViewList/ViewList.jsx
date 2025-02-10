@@ -15,12 +15,13 @@ import AddItemButton from "../AddItemButton/AddItemButton";
 
 import ModalViewItem from "../MyModals/ModalViewItem";
 import { ModalConfirm } from "../MyModals/ModalConfirm";
+import CategoryTag from "../CategoryTag/CategoryTag";
 
 
 
 function ViewList() {
   const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
-  const { listId  } = useParams();
+  const { listId  } = useParams(); 
   
   const navigate = useNavigate();
   const [currentList, setCurrentList] = useState(null);  
@@ -125,6 +126,9 @@ function ViewList() {
     e.preventDefault();
     setShowModalDelete(false); 
   }
+  const handleChooseCategory = () => {
+    console.log('click on Change Category');
+  }
 
   useEffect(() => {
     if (isDataLoaded) {
@@ -182,14 +186,22 @@ function ViewList() {
           <DeleteButton onClick={handleDeleteList}/>
         </RowLabel>    
         
+
           <AddItemButton
           placeholder={translations.placeholderNewItem}
           value={inputValue} // Estado controlado por el padre
           onChange={handleInputChange} // Actualiza el estado en el padre
           onAdd={handleAddItem} // Lógica para manejar el clic o el Enter
           />      
+
+
+
          
-  
+      <CategoryTag 
+        text="Category name" 
+        color='#C1FFC5' />
+
+
       {
       currentList && currentList.items?.length > 0 ? (
         currentList.items.map((item) => (

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./AddItemButton.module.css";
 import { FiPlusCircle } from "react-icons/fi";
+import { RowNormal } from "../RowNormal/RowNormal";
 
 const AddItemButton = ({ placeholder = "Type a new item", value, onChange, onAdd }) => {
   const handleKeyDown = (e) => {
@@ -10,7 +11,8 @@ const AddItemButton = ({ placeholder = "Type a new item", value, onChange, onAdd
   };
 
   return (
-    <div className={styles.container}>
+    <RowNormal>
+      <div className={styles.container}>
       <input
         type="text"
         placeholder={placeholder}
@@ -22,7 +24,8 @@ const AddItemButton = ({ placeholder = "Type a new item", value, onChange, onAdd
       <button className={styles.button} onClick={onAdd}>
         <FiPlusCircle />
       </button>
-    </div>
+      </div>
+    </RowNormal>
   );
 };
 

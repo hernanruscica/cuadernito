@@ -1,0 +1,43 @@
+::placeholder {
+  color: var(--textNormalColor);
+  opacity: 1; /* Firefox */
+}
+
+::-ms-input-placeholder { /* Edge 12-18 */
+  color: var(--textNormalColor);
+}
+
+.container {   
+    display: flex;
+    align-items: center;       
+    width: 100%; 
+    padding: 14px 0 14px 50px;               
+    border-bottom: solid 2px var(--rowNormalColor);
+  }
+
+  .button {
+    display: flex;
+    flex-direction: row;   
+    align-items: center;   
+    justify-content: space-between;
+    /*column-gap: 10px;      
+     background-color: var(--rowNormalColor);  */
+    border-radius: 50px 10px  10px 50px;
+    border: none;    
+    padding: 10px 10px 10px 16px;    
+    width: 96%;
+    height: auto;    
+    color: var(--textNormalColor);     
+    font-size: var(--rowFontSizeButton);    
+    font-size: 1.1em;             
+  }
+  
+  .text {        
+    font-family: var(--appInfoFontFamily);
+    color: var(--textNormalColor);     
+  }  
+  
+ 
+  
+  
+  

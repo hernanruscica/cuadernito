@@ -5,11 +5,11 @@ import Modal from './Modal';
 import './Modal.css';
 
 
-export const ModalConfirm = ({isOpen, onClose, title='confirm the action?', itemName='item name', onClickYes, onClickNot, yesText, notText}) => {
+export const ModalChangeCategory = ({isOpen, onClose, title='confirm the action?', itemName='item name', onClickYes, onClickNot, yesText, notText}) => {
     return(     
         <Modal isOpen={isOpen} onClose={onClose} >            
             <p className='modal-content-paragraph'>
-              {title} <br/><strong><em>{itemName}</em></strong>
+              {title} 
             </p>
             <div className="buttons-container">              
 

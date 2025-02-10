@@ -1,0 +1,7 @@
+.container {   
+    display: flex;
+    align-items: center;       
+    width: 100%; 
+    padding: 10px 0 10px 50px;               
+    border-bottom: solid 2px var(--rowNormalColor);
+  }

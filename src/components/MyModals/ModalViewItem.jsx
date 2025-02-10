@@ -8,12 +8,15 @@ import Modal from './Modal';
 import "./Modal.css";
 import { ModalConfirm } from "./ModalConfirm";
 
+import ChangeCategoryButton from "../ChangeCategoryButton/ChangeCategoryButton";
+import { ModalChangeCategory } from "./ModalChangeCategory";
+
 const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
   const {editItemFromList, deleteItemFromList, translations } = useContext(DataContext);
   const [inputValueName, setInputValueName] = useState('');
   const inputValueNameRef = useRef(null);
-  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
-
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);  
+  const [isChangeCategoryOpen, setIsChangeCategoryOpen] = useState(false);
   
   // Focus and select text on modal open (adjusted to handle re-renders)
   useEffect(() => {
@@ -43,14 +46,24 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     setIsDeleteConfirmationOpen(false);
   }
 
+  const handleClickChangeCategory = (e) => {
+    console.log('click change category');
+    e.preventDefault();
+    setIsChangeCategoryOpen(true);
+  }
+  const handleCancelChangeCategory = (e) => {
+    e.preventDefault();
+    setIsChangeCategoryOpen(false);
+  }
+  
   const handleSave = () => {
     // console.log('click en guardar')    
     if (inputValueName && inputValueName.trim() !== "") {      
       updateData();
     } 
       onClose(); 
-  }
-
+    }
+    
   const handlerEditName = (e) => {
     e.preventDefault();
     if (inputValueNameRef.current){
@@ -84,6 +97,8 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     editItemFromList(listId, item.id, editedItem);
   }
 
+
+
   useEffect(() => {
     setInputValueName(item?.name);
   }, [item]);
@@ -105,6 +120,12 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
                 ref={inputValueNameRef}
               />
             </div>
+          </div>
+          <div className="inputs-container">
+            <ChangeCategoryButton 
+              text={'Change Category'}
+              onClick={handleClickChangeCategory}
+            />
           </div>
 
           <div className="buttons-container">
@@ -128,6 +149,12 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
       notText={translations.deleteItemNotText}
       yesText={translations.deleteItemYesText}
       isOpen={isDeleteConfirmationOpen} onClose={handleCancelDelete}
+    />
+    {/* Change category Modal */}        
+    <ModalChangeCategory 
+      title="Change Category modal"
+      isOpen={isChangeCategoryOpen}
+      onClose={handleCancelChangeCategory}
     />
     </>
   );
