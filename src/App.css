@@ -88,7 +88,7 @@ body{
 
 :root{  
   --appFontFamily: "Bellota", serif;
-  --appInfoFontFamily:"Montserrat", serif;
+  --appInfoFontFamily: "Montserrat", serif;
   --rowFontSize: 18px;
   --rowFontSizeButton: 18px;
   --rowHeaderFontSize: 28px;

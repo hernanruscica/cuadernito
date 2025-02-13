@@ -12,7 +12,7 @@ import ChangeCategoryButton from "../ChangeCategoryButton/ChangeCategoryButton";
 import { ModalChangeCategory } from "./ModalChangeCategory";
 
 const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
-  const {editItemFromList, deleteItemFromList, translations } = useContext(DataContext);
+  const {editItemFromList, deleteItemFromList, translations, categories } = useContext(DataContext);
   const [inputValueName, setInputValueName] = useState('');
   const inputValueNameRef = useRef(null);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);  
@@ -154,6 +154,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     <ModalChangeCategory 
       title="Change Category modal"
       isOpen={isChangeCategoryOpen}
+      categories={categories}
       onClose={handleCancelChangeCategory}
     />
     </>
