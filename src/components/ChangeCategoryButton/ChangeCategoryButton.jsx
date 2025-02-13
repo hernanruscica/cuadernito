@@ -5,7 +5,7 @@ import { FiTag } from "react-icons/fi";
 const ChangeCategoryButton = ({ text, onClick=null }) => {  
 
   return (
-    <div className={styles.container} onClick={onClick}>
+    <div className={styles.container} onClick={onClick} >
       
         {text}
       

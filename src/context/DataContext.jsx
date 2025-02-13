@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import defaultCategories from '../categories.json/';
+import categoriesColors from '../categoriesColors.json';
 import defaultThemes from '../themes.json';
 import translationsSrc from '../translations.json';
 
@@ -7,6 +8,7 @@ const initialState = {
   lists: [],
   items: [],
   categories: defaultCategories,
+  categoriesColors: categoriesColors,
   userSettings: {language: "es", themeId:0},
   themes: defaultThemes
 };
@@ -143,6 +145,7 @@ const DataProvider = ({ children }) => {
       lists: data.lists.sort((a,b)=> {return b.id - a.id}),
       items: data.items,
       categories: data.categories,
+      categoriesColors: data.categoriesColors,
       isDataLoaded: isDataLoaded,
       translations: currentTrans,
       userSettings: data.userSettings,

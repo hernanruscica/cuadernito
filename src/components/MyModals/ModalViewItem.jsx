@@ -8,15 +8,16 @@ import Modal from './Modal';
 import "./Modal.css";
 import { ModalConfirm } from "./ModalConfirm";
 
-import ChangeCategoryButton from "../ChangeCategoryButton/ChangeCategoryButton";
 import { ModalChangeCategory } from "./ModalChangeCategory";
+import CategoryTag from "../CategoryTag/CategoryTag";
 
 const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
-  const {editItemFromList, deleteItemFromList, translations, categories } = useContext(DataContext);
+  const {editItemFromList, deleteItemFromList, translations, categories, categoriesColors } = useContext(DataContext);
   const [inputValueName, setInputValueName] = useState('');
   const inputValueNameRef = useRef(null);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);  
   const [isChangeCategoryOpen, setIsChangeCategoryOpen] = useState(false);
+  const [itemCategory, setItemCategory] = useState({});
   
   // Focus and select text on modal open (adjusted to handle re-renders)
   useEffect(() => {
@@ -28,6 +29,11 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     }
     setInputValueName(item?.name);
   }, [isOpen]);
+
+  useEffect(() => {
+    setInputValueName(item?.name);
+    setItemCategory(categories.find(cat => cat.id === item?.categoryId) || {});
+  }, [item, categories]);
 
   const handleDelete = (e) => {
     e.preventDefault();    
@@ -47,12 +53,12 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
   }
 
   const handleClickChangeCategory = (e) => {
-    console.log('click change category');
+    
     e.preventDefault();
     setIsChangeCategoryOpen(true);
   }
-  const handleCancelChangeCategory = (e) => {
-    e.preventDefault();
+  const handleCancelChangeCategory = () => {
+    
     setIsChangeCategoryOpen(false);
   }
   
@@ -77,6 +83,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
       updateData();
       onClose(); 
     }
+    
   }
 
   const handleInputChange = (e) => {
@@ -93,15 +100,11 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     const editedItem = {
       ...item,
       name: inputValueName,      
+      categoryId: itemCategory.id
     }
     editItemFromList(listId, item.id, editedItem);
-  }
-
-
-
-  useEffect(() => {
-    setInputValueName(item?.name);
-  }, [item]);
+   
+  }  
 
   
 
@@ -121,11 +124,15 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
               />
             </div>
           </div>
-          <div className="inputs-container">
-            <ChangeCategoryButton 
-              text={'Change Category'}
+          <div className="inputs-container">                        
+            <label htmlFor="change_category_tag" ></label>
+            <CategoryTag 
+              text={`Cambiar  [${itemCategory.name || 'sin categoría'}]`}
+              color={categoriesColors[itemCategory.colorId] || '#fff'}
               onClick={handleClickChangeCategory}
+              name="change_category_tag"
             />
+
           </div>
 
           <div className="buttons-container">
@@ -153,8 +160,11 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     {/* Change category Modal */}        
     <ModalChangeCategory 
       title="Change Category modal"
-      isOpen={isChangeCategoryOpen}
-      categories={categories}
+      isOpen={isChangeCategoryOpen}      
+      listId={listId}
+      item={item}
+      itemCategory={itemCategory}
+      setItemCategory={setItemCategory}
       onClose={handleCancelChangeCategory}
     />
     </>

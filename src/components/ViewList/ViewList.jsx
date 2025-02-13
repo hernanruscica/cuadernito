@@ -16,18 +16,17 @@ import AddItemButton from "../AddItemButton/AddItemButton";
 import ModalViewItem from "../MyModals/ModalViewItem";
 import { ModalConfirm } from "../MyModals/ModalConfirm";
 import CategoryTag from "../CategoryTag/CategoryTag";
-
-
+import { RowNormal } from "../RowNormal/RowNormal";
 
 function ViewList() {
-  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations  } = useContext(DataContext);
-  const { listId  } = useParams(); 
+  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, translations, categories, categoriesColors } = useContext(DataContext);
+  const { listId } = useParams();
   
   const navigate = useNavigate();
-  const [currentList, setCurrentList] = useState(null);  
-  const [inputValueListName, setInputValueListName] = useState('');  
+  const [currentList, setCurrentList] = useState(null);
+  const [inputValueListName, setInputValueListName] = useState('');
   const inputEditListRef = useRef(null);
-  const [showModalDelete, setShowModalDelete] = useState(false);  
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [toasts, setToasts] = useState([]);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -37,32 +36,30 @@ function ViewList() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
   
-
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
 
   const handleAddItem = () => {
     if (inputValue.trim() === "") {
-      
-      addToast(translations.emptyItemConfirmMsg); 
+      addToast(translations.emptyItemConfirmMsg);
       return;
     }
-    const listId = currentList.id;  
+    const listId = currentList.id;
     const newItem = {
       id: Date.now(),
-      name: inputValue,    
+      name: inputValue,
       categoryId: 1,
-      note: translations.placeholderNote , 
+      note: translations.placeholderNote,
       checked: false,
       photo: '',
     };
-    addItemToList(listId,  newItem );
+    addItemToList(listId, newItem);
     setInputValue(""); // Limpia el input después de añadir
-    addToast(translations.toastNewItem); 
+    addToast(translations.toastNewItem);
   };
 
-  const addToast = (message) => {    
+  const addToast = (message) => {
     setToasts((prevToasts) => [...prevToasts, message]);
   };
 
@@ -72,155 +69,157 @@ function ViewList() {
 
   const handlerToggleChecked = (e) => {
     const parentDiv = e.currentTarget;
-    const itemId = parentDiv.id;    
+    const itemId = parentDiv.id;
     editItemFromList(listId, itemId, {
       checked: !currentList.items.find(item => item.id == itemId).checked
-    });    
+    });
   };
 
-  const handleDeleteList = (e) => {  
-    e.preventDefault();      
-    setShowModalDelete(!showModalDelete);    
-  }
+  const handleDeleteList = (e) => {
+    e.preventDefault();
+    setShowModalDelete(!showModalDelete);
+  };
 
   const deleteList = () => {
-    deleteListFromContext(listId);    
-    navigate(`/?toast=${translations.toastListDeleted}`);    
-  }
+    deleteListFromContext(listId);
+    navigate(`/?toast=${translations.toastListDeleted}`);
+  };
 
-  const handleEditList = () => {   
-    if (inputEditListRef.current){
+  const handleEditList = () => {
+    if (inputEditListRef.current) {
       inputEditListRef.current.focus();
-       inputEditListRef.current.select();      
+      inputEditListRef.current.select();
     }
-  }
+  };
 
-  const handlerConfirmEditListName = (e) => {   
-    //console.log('input change', e.target.value)
+  const handlerConfirmEditListName = (e) => {
     setInputValueListName(e.target.value);
     const updatedNameList = {
       ...currentList,
       name: e.target.value
-    }  
-    if (e.target.value !== null && e.target.value !== ''){
-      editList(currentList.id, updatedNameList);        
-      //addToast(translations.toastListEdited);   
-    }else{
-      //addToast(translations.toastListWithoutName); 
+    };
+    if (e.target.value !== null && e.target.value !== '') {
+      editList(currentList.id, updatedNameList);
+      //addToast(translations.toastListEdited);
+    } else {
+      //addToast(translations.toastListWithoutName);
     }
-  }
+  };
 
   const handleView = (e, itemId) => {
-    e.preventDefault();    
-    const currentItem = currentList.items.find(item=>item.id==parseInt(itemId))
+    e.preventDefault();
+    const currentItem = currentList.items.find(item => item.id == parseInt(itemId));
     setClickedItem(currentItem);
-    setIsModalOpen(true);   
-  }
+    setIsModalOpen(true);
+  };
 
   const handleCloseModal = () => {
-    
     setIsModalOpen(false);
-  }
+  };
 
   const handleCloseModalConfirm = (e) => {
     e.preventDefault();
-    setShowModalDelete(false); 
-  }
+    setShowModalDelete(false);
+  };
+
   const handleChooseCategory = () => {
     console.log('click on Change Category');
-  }
+  };
 
   useEffect(() => {
     if (isDataLoaded) {
       const foundList = lists.find((list) => list.id == listId);
-      const orderedItems = (foundList) ? foundList.items.sort((a,b) => { return b.id  - a.id}) : null;
-
+      const orderedItems = foundList ? foundList.items.sort((a, b) => b.id - a.id) : null;
       const listWithOrdenedItems = {
         ...foundList,
         items: orderedItems
-      }
+      };
+      setCurrentList(listWithOrdenedItems || "");
+      setInputValueListName(foundList?.name || "");
       
-      setCurrentList(listWithOrdenedItems || "");   
-      setInputValueListName(foundList?.name || "");  
-      
-      const isNewList =  (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;      
+      const isNewList = (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;
       if (isNewList) {
-          addToast(translations.toastNewList); 
-        }     
-
-    }       
-    
+        addToast(translations.toastNewList);
+      }
+    }
   }, [isDataLoaded, lists, listId]);
 
-    useEffect(() => {
-      if (toastMessage) {
-        addToast(toastMessage)
-      }
-    }, [])
-  
-  if (!currentList) {    
+  useEffect(() => {
+    if (toastMessage) {
+      addToast(toastMessage);
+    }
+  }, []);
+
+  if (!currentList) {
     return <div>Cargando...</div>;
-  } 
+  }
 
   return (
-    <NotebookSheet  >     
+    <NotebookSheet>
+      <Toast messages={toasts} onClose={handleToastClose} />
+      <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast} />
+      <ModalConfirm
+        isOpen={showModalDelete}
+        onClose={handleCloseModalConfirm}
+        itemName={`"${currentList?.name}"`}
+        title={translations.deleteListConfirmMsg}
+        yesText={translations.deleteListYesText}
+        notText={translations.deleteListNotText}
+        onClickNot={handleCloseModalConfirm}
+        onClickYes={deleteList}
+      />
 
-      <Toast messages={toasts} onClose={handleToastClose} />        
-      <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast}/>           
-      <ModalConfirm 
-         isOpen={showModalDelete} onClose={handleCloseModalConfirm}
-         itemName={`"${currentList?.name}"`} title={translations.deleteListConfirmMsg}  yesText={translations.deleteListYesText} notText={translations.deleteListNotText}
-         onClickNot={handleCloseModalConfirm}
-         onClickYes={deleteList}
-       />
-      
-        <RowButtonInput 
-          placeholder={translations.placeholderEditList}
-          button={<EditButton 
-          onClick={handleEditList}/>} 
-          textValue={inputValueListName || ''} 
-          setTextValue={setInputValueListName} 
-          handleAction={handlerConfirmEditListName}      
-          ref={inputEditListRef}/>
-        <RowLabel text={currentList?.createdDate} info={`${currentList?.items?.length} items`}>
-          <DeleteButton onClick={handleDeleteList}/>
-        </RowLabel>    
-        
+      <RowButtonInput
+        placeholder={translations.placeholderEditList}
+        button={<EditButton onClick={handleEditList} />}
+        textValue={inputValueListName || ''}
+        setTextValue={setInputValueListName}
+        handleAction={handlerConfirmEditListName}
+        ref={inputEditListRef}
+      />
+      <RowLabel text={currentList?.createdDate} info={`${currentList?.items?.length} items`}>
+        <DeleteButton onClick={handleDeleteList} />
+      </RowLabel>
 
-          <AddItemButton
-          placeholder={translations.placeholderNewItem}
-          value={inputValue} // Estado controlado por el padre
-          onChange={handleInputChange} // Actualiza el estado en el padre
-          onAdd={handleAddItem} // Lógica para manejar el clic o el Enter
-          />      
+      <AddItemButton
+        placeholder={translations.placeholderNewItem}
+        value={inputValue}
+        onChange={handleInputChange}
+        onAdd={handleAddItem}
+      />
 
-
-
-         
-      <CategoryTag 
-        text="Category name" 
-        color='#C1FFC5' />
-
-
+      {/* Agrupar items por categoría */}
       {
-      currentList && currentList.items?.length > 0 ? (
-        currentList.items.map((item) => (
-          <ListItem
-            text={item.name}
-            url={`/lists/${currentList.id}/items/${item.id}`}
-            handleView={(e) => handleView(e, item.id)}
-            key={item.id}
-            id={item.id}
-            checked={item.checked}
-            toggleChecked={handlerToggleChecked}
-          />
-        ))
-      ) : currentList ? (
-        <RowLabel text={translations.noItemMessage} />
-      ) : null
-    }     
-
-      
+        currentList && currentList.items?.length > 0 ? (
+          categories.map(category => {
+            const itemsInCategory = currentList.items.filter(item => item.categoryId === category.id);
+            if (itemsInCategory.length === 0) return null;
+            return (
+              <div key={category.id}>
+                <RowNormal>
+                  <CategoryTag 
+                    text={category.name} 
+                    color={categoriesColors[category.colorId] || '#fff'} 
+                  />
+                </RowNormal>
+                {itemsInCategory.map(item => (
+                  <ListItem
+                    text={item.name}
+                    url={`/lists/${currentList.id}/items/${item.id}`}
+                    handleView={(e) => handleView(e, item.id)}
+                    key={item.id}
+                    id={item.id}
+                    checked={item.checked}
+                    toggleChecked={handlerToggleChecked}
+                  />
+                ))}
+              </div>
+            );
+          })
+        ) : currentList ? (
+          <RowLabel text={translations.noItemMessage} />
+        ) : null
+      }
     </NotebookSheet>
   );
 }

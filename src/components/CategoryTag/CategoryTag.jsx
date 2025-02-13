@@ -6,18 +6,17 @@ import { RowNormal } from "../RowNormal/RowNormal";
 
 const CategoryTag = ({ text="text", color="#DDD", onClick=null }) => {   
   
-  return (
-    <RowNormal >
+  return (    
       <button 
           className={styles.button}   
           style={{ backgroundColor: color }}        
           onClick={onClick}>
         <FiTag />  
         <span className={styles.text}>
-        {text}
+          {text}
         </span>
       </button>
-    </RowNormal>
+    
   );
 };
 
