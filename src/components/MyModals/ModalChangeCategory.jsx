@@ -107,7 +107,7 @@ const finalCategories = current_Category
   }
 
   const handleSave = () => {
-    console.log('Update categoryId from item:', selectedCategory.id);
+    //console.log('Update categoryId from item:', selectedCategory.id);
     updateData();
     onClose();
   };

@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import defaultCategories from '../categories.json/';
+import defaultCategoriesEng from '../categoriesEng.json/'; //no implemented yet, due the need to changed it in other components
 import categoriesColors from '../categoriesColors.json';
 import defaultThemes from '../themes.json';
 import translationsSrc from '../translations.json';
@@ -17,7 +18,7 @@ const DataContext = createContext(initialState);
 
 const DataProvider = ({ children }) => {
   const [data, setData] = useState(initialState); // Use a single state for all data
-  const localStorageDataName = 'cuadernito-data03';
+  const localStorageDataName = 'cuadernito-data04';
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [translations, setTranslations] = useState(translationsSrc);
   const [locale, setLocale] = useState(initialState.userSettings.language);

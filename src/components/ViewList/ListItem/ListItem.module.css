@@ -37,7 +37,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;      
-    font-size: var(--rowFontSize);    
+    font-size: var(--rowFontSize); 
+    font-size: 0.95em;   
     color: var(--textNormalColor);
     background-color: var(--bodyBackgroundColor);
     font-weight: 400;    
@@ -45,13 +46,19 @@
     transition:  var(--rowIconTransition);
     border: solid 2px var(--textNormalColor);
     border-radius: 50px;
-    padding: 0 12px;
-    
-    column-gap: 8px;
+    height: 40px;
   }
   .text:hover{
     transform: scale(1.08) translate(5px, 0px);
     transition:  var(--rowIconTransition)
+  }
+  .text>p{    
+    padding: 0 12px 0px 16px;     
+  }
+
+  .text>button{    
+    width: 1px;
+    height: auto;            
   }
   
   .checkedText {
@@ -69,6 +76,6 @@
     height: var(--rowActionIconsSize);
     color: var(--notebookAccentColor);
     cursor: pointer;
-    margin-left: 10px;
+    
   }
  

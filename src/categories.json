@@ -1,16 +1,22 @@
 [
-    { "id": 0, "name": "Sin categoria", "colorId": "0" },
-    { "id": 1, "name": "Frutas", "colorId": "1" },
-    { "id": 2, "name": "Verduras", "colorId": "2" },
-    { "id": 3, "name": "Almacén", "colorId": "3" },
-    { "id": 4, "name": "Lácteos", "colorId": "4" },
-    { "id": 5, "name": "Limpieza", "colorId": "5" },
+    { "id": 0, "name": "Sin categoría", "colorId": "0" },
+    { "id": 1, "name": "Productos frescos", "colorId": "1" },
+    { "id": 2, "name": "Despensa", "colorId": "2" },
+    { "id": 3, "name": "Bebidas y bodega", "colorId": "3" },
+    { "id": 4, "name": "Cuidado personal", "colorId": "4" },
+    { "id": 5, "name": "Cuidado del hogar", "colorId": "5" },
     { "id": 6, "name": "Mascotas", "colorId": "6" },
-    { "id": 7, "name": "Dietética", "colorId": "7" },
-    { "id": 8, "name": "Congelados", "colorId": "8" },
-    { "id": 9, "name": "Herramientas", "colorId": "9" }   
-
-]
+    { "id": 7, "name": "Bebé", "colorId": "7" },
+    { "id": 8, "name": "Verdulería", "colorId": "8" },
+    { "id": 9, "name": "Carnicería", "colorId": "9" },
+    { "id": 10, "name": "Pescadería", "colorId": "0" },
+    { "id": 11, "name": "Panadería", "colorId": "1" },
+    { "id": 12, "name": "Congelados", "colorId": "2" },
+    { "id": 13, "name": "Lácteos y huevos", "colorId": "3" },
+    { "id": 14, "name": "Fiambres y quesos", "colorId": "4" },
+    { "id": 15, "name": "Snacks y golosinas", "colorId": "5" }
+  ]
+  
 
 
   

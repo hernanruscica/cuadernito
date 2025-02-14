@@ -17,7 +17,7 @@ function ListItem({ text, url, id,  checked, toggleChecked, handleView=null }) {
         className={`${styles.text} ${checked ? styles.checkedText : ""}`}        
       >
         <MoreButton />
-        {text}
+        <p>{text}</p>
       </Link>
       <div className={styles.checkbox} onClick={toggleChecked} id={id}>
         {(checked) ?      
