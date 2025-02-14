@@ -1,14 +1,14 @@
 [
-    { "id": 0, "name": "Frutas", "colorId": "0" },
-    { "id": 1, "name": "Verduras", "colorId": "1" },
-    { "id": 2, "name": "Almacén", "colorId": "2" },
-    { "id": 3, "name": "Lácteos", "colorId": "3" },
-    { "id": 4, "name": "Limpieza", "colorId": "4" },
-    { "id": 5, "name": "Mascotas", "colorId": "5" },
-    { "id": 6, "name": "Dietética", "colorId": "6" },
-    { "id": 7, "name": "Congelados", "colorId": "7" },
-    { "id": 8, "name": "Herramientas", "colorId": "8" },
-    { "id": 9, "name": "Ropa", "colorId": "9" }
+    { "id": 0, "name": "Sin categoria", "colorId": "0" },
+    { "id": 1, "name": "Frutas", "colorId": "1" },
+    { "id": 2, "name": "Verduras", "colorId": "2" },
+    { "id": 3, "name": "Almacén", "colorId": "3" },
+    { "id": 4, "name": "Lácteos", "colorId": "4" },
+    { "id": 5, "name": "Limpieza", "colorId": "5" },
+    { "id": 6, "name": "Mascotas", "colorId": "6" },
+    { "id": 7, "name": "Dietética", "colorId": "7" },
+    { "id": 8, "name": "Congelados", "colorId": "8" },
+    { "id": 9, "name": "Herramientas", "colorId": "9" }   
 
 ]
 

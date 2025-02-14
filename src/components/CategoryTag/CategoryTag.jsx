@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./CategoryTag.module.css";
 import { FiTag } from "react-icons/fi";
-import { RowNormal } from "../RowNormal/RowNormal";
 
 
 const CategoryTag = ({ text="text", color="#DDD", onClick=null }) => {   

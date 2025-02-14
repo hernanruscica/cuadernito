@@ -49,6 +49,12 @@
     "toastNewList": "New list created! 🗒️",
     "inputSearchList": "Search list by name",
     "foundedList" : "Founded list ",
+    "changeCategoryTitle": "Change category",
+    "createNewCategoryAnswer": "Do you want to create a new category?",
+    "createNewCategoryButton": " Create new category",
+    "searchCategoryPlaceholder": "Search category",
+    "inputNewCategoryNamePlaceholder": "New category name...",
+    "ViewItemTitle": "Edit item",
   
     "es": {
       "appName": "Cuadernito App",  
@@ -100,7 +106,13 @@
       "toastListWithoutName" : "La lista necesita un nombre. 🙄",
       "toastNewList": "Nueva lista creada! 🗒️",
       "foundedList" : "Listas encontradas ",
-      "inputSearchList": "Busque la lista por su nombre"
+      "inputSearchList": "Busque la lista por su nombre",
+      "changeCategoryTitle": "Cambiar categoria",
+      "createNewCategoryAnswer": "Quiere crear una nueva categoria?",
+      "createNewCategoryButton": " Crear nueva categoria",
+      "searchCategoryPlaceholder": "Buscar categoria",
+      "inputNewCategoryNamePlaceholder": "Nuevo nombre de categoria...",
+      "ViewItemTitle": "Editar item"
     },
   
     "en": {
@@ -153,6 +165,12 @@
       "toastListWithoutName" : "The list needs a name. 🙄",
       "toastNewList": "New list created! 🗒️",
       "foundedList" : "Founded list ",
-      "inputSearchList": "Search list by name"
+      "inputSearchList": "Search list by name",
+      "changeCategoryTitle": "Change category",
+      "createNewCategoryAnswer": "Do you want to create a new category?",
+      "createNewCategoryButton": " Create new category",
+      "searchCategoryPlaceholder": "Search category",
+      "inputNewCategoryNamePlaceholder": "New category name...",
+      "ViewItemTitle": "Edit item"
     }
   }

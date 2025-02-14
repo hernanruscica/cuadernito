@@ -11,7 +11,7 @@ import { ModalConfirm } from "./ModalConfirm";
 import { ModalChangeCategory } from "./ModalChangeCategory";
 import CategoryTag from "../CategoryTag/CategoryTag";
 
-const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
+const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null, setLastCategoryId }) => {
   const {editItemFromList, deleteItemFromList, translations, categories, categoriesColors } = useContext(DataContext);
   const [inputValueName, setInputValueName] = useState('');
   const inputValueNameRef = useRef(null);
@@ -111,6 +111,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
   return (
     <>
     <Modal isOpen={isOpen} onClose={onClose}>
+      <p className="modal-content-paragraph">{translations.ViewItemTitle}</p>
           <div className="inputs-container">
             <div className="input-button">
               <EditButton onClick={handlerEditName}/>
@@ -165,6 +166,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
       item={item}
       itemCategory={itemCategory}
       setItemCategory={setItemCategory}
+      setLastCategoryId={setLastCategoryId}
       onClose={handleCancelChangeCategory}
     />
     </>

@@ -12,7 +12,8 @@ export const ModalChangeCategory = ({
   item,
   listId,  
   itemCategory = null,
-  setItemCategory
+  setItemCategory,
+  setLastCategoryId
 }) => {
   const { translations, addCategory, editItemFromList, categories, categoriesColors } = useContext(DataContext);
 
@@ -34,17 +35,30 @@ export const ModalChangeCategory = ({
   }, [itemCategory]);
 
   // Reordena las categorías: las que coinciden con la búsqueda aparecen primero, pero el resto permanece visible.
-  const sortedCategories = searchTerm
-    ? [
-        ...categories.filter((cat) =>
-          cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-        ),
-        ...categories.filter(
-          (cat) =>
-            !cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-        ),
-      ]
-    : categories;
+  // Ordena las categorías según búsqueda y alfabéticamente
+const sortedCategories = searchTerm
+? [
+    ...categories
+      .filter((cat) =>
+        cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => a.name.localeCompare(b.name)),
+    ...categories
+      .filter(
+        (cat) =>
+          !cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  ]
+: [...categories].sort((a, b) => a.name.localeCompare(b.name));
+
+// Si existe una categoría actual (ya sea seleccionada o asignada), la ponemos al inicio
+const current_Category = selectedCategory || itemCategory;
+const finalCategories = current_Category
+? [current_Category, ...sortedCategories.filter(cat => cat.id !== current_Category.id)]
+: sortedCategories;
+
+
 
     const handleClickNewCatColor = ({key, data}) => {    
         setSelectedColorId(key);    
@@ -64,7 +78,7 @@ export const ModalChangeCategory = ({
     setSearchTerm(newCat.name);
     setShowNewCategory(false);
     setNewCategoryName('');
-    setSelectedColor('#ffffff');
+    setSelectedColor('#ffffff');    
     // Hacer scroll al tope de la lista
     if (listRef.current) {
       listRef.current.scrollTop = 0;
@@ -75,6 +89,7 @@ export const ModalChangeCategory = ({
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
     setSearchTerm(category.name);
+    setShowNewCategory(false);
     if (listRef.current) {
       listRef.current.scrollTop = 0;
     }
@@ -87,7 +102,8 @@ export const ModalChangeCategory = ({
     }
     editItemFromList(listId, item.id, editedItem);    
     setItemCategory(selectedCategory);
-    console.log(listId, item.id, editedItem);
+    setLastCategoryId(selectedCategory.id)
+    //console.log(listId, item.id, editedItem);
   }
 
   const handleSave = () => {
@@ -109,26 +125,26 @@ const handleChangeSearchTerm = (e) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <p className="modal-content-paragraph">Change category</p>
+      <p className="modal-content-paragraph">{translations.changeCategoryTitle}</p>
 
       {/* Input de búsqueda que inicia en blanco */}
       <input
         className={styles.modalChangeCatInput}
         type="text"
-        placeholder="Buscar categoría"
+        placeholder={translations.searchCategoryPlaceholder}
         value={searchTerm}
         onChange={handleChangeSearchTerm}
       />
 
       {/* Lista de categorías reordenada: las que coinciden aparecen primero */}
       <ul className={styles.modalChangeCatCategoriesDropdown} ref={listRef}>
-        {sortedCategories.map((category, index) => (
+        {finalCategories.map((category, index) => (
           <li
             key={index}
             style={{
               backgroundColor: categoriesColors[category.colorId],
               border:
-                currentCategory && category.name === currentCategory.name
+                currentCategory && category.id === currentCategory.id
                   ? '3px solid black'
                   : 'none',
             }}
@@ -139,8 +155,9 @@ const handleChangeSearchTerm = (e) => {
         ))}
       </ul>
 
+
       <label className={styles.modalChangeCatLabel} htmlFor='showNewCategory'>
-        Do you want to create a new category?
+        {translations.createNewCategoryAnswer}
         <input
           id='showNewCategory'
           type="checkbox"
@@ -155,7 +172,7 @@ const handleChangeSearchTerm = (e) => {
           <input
             className={styles.modalChangeCatNewInput}
             type="text"
-            placeholder="Input a new category name"
+            placeholder={translations.inputNewCategoryNamePlaceholder}
             value={newCategoryName}
             onChange={(e) => setNewCategoryName(e.target.value)}
             style={{backgroundColor: selectedColor}}
@@ -181,7 +198,7 @@ const handleChangeSearchTerm = (e) => {
             className={styles.modalChangeCatCreateBtn}
             onClick={handleCreateCategory}
           >
-            Create new category
+           {translations.createNewCategoryButton}
           </button>
         </div>
       )}

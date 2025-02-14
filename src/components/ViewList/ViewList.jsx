@@ -35,6 +35,7 @@ function ViewList() {
   const [inputValue, setInputValue] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
+  const [lastCategoryId, setLastCategoryId] = useState(0)
   
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -49,7 +50,7 @@ function ViewList() {
     const newItem = {
       id: Date.now(),
       name: inputValue,
-      categoryId: 1,
+      categoryId: lastCategoryId,
       note: translations.placeholderNote,
       checked: false,
       photo: '',
@@ -157,7 +158,9 @@ function ViewList() {
   return (
     <NotebookSheet>
       <Toast messages={toasts} onClose={handleToastClose} />
-      <ModalViewItem isOpen={isModalOpen} onClose={handleCloseModal} item={clickedItem} listId={listId} addToast={addToast} />
+      <ModalViewItem 
+        isOpen={isModalOpen} onClose={handleCloseModal} setLastCategoryId={setLastCategoryId}
+        item={clickedItem} listId={listId} addToast={addToast} />
       <ModalConfirm
         isOpen={showModalDelete}
         onClose={handleCloseModalConfirm}

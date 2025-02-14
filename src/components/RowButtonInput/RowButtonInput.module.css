@@ -20,9 +20,9 @@
   background-color: var(--notebookBackColor);
   font-family: var(--appFontFamily);
   font-size: var(--rowFontSize);
-  font-size: 1.5em;
+  font-size: 1.6em;
   color: var(--textNormalColor);
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: .05em;
   outline: none; /* Quitar el borde azul predeterminado */
   transition: border 0.3s ease; /* Agregar animación opcional */

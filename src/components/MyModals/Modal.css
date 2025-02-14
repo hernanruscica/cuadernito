@@ -23,7 +23,7 @@
   .modal-content {
     display: flex;
     flex-direction: column;
-    row-gap: 0.5em;
+    row-gap: 16px;
     background: var(--bodyBackgroundColor);
     color: var(--textNormalColor);
     width: 360px;
@@ -31,10 +31,10 @@
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
     position: relative;
     right: calc((100% - 360px)/2);
-    top: 100px;
+    top: 50px;
     border-radius: 20px;
     border: solid 2px var(--textNormalColor);
-    padding: 60px 16px 24px 16px;
+    padding: 30px 16px 24px 16px;
     translate: 100% 0;
     transition: translate 0.3s ;
     font-family:  var(--appInfoFontFamily);
@@ -48,10 +48,10 @@
 
   .modal-content-paragraph{
     font-size: 1.3em;
-    padding: 1em 0;
+    padding: 4px 10px;
     line-height: 1.5em;
     letter-spacing: 0.01em;
-    text-align: center;
+    text-align: left;
   }
   
   .modal-content.slide-in {

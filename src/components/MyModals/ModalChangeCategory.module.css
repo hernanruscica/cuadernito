@@ -1,12 +1,12 @@
 .modalChangeCatInput {
-    padding: 8px 10px;
+    padding: 14px;
     font-family: var(--appInfoFontFamily);
     font-size: var(--rowFontSizeButton);
     color: var(--textNormalColor);
     border: 1px solid #ccc;
     border-radius: 8px;
     width: 100%;
-    margin-bottom: 12px;
+    
     outline: none;
     transition: border 0.2s;
   }
@@ -19,7 +19,7 @@
     list-style: none;
     padding: 0;
     margin: 0 0 12px 0;
-    max-height: 150px; /* Ajusta para que se vean ~4 categorías */
+    max-height: 210px; /* Ajusta para que se vean ~4 categorías */
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -30,7 +30,7 @@
     display: flex;
     align-items: center;
     column-gap: 8px;
-    padding: 8px 12px;
+    padding: 14px;
     cursor: pointer;
     font-size: var(--rowFontSizeButton);
     border-bottom: 1px solid #eee;
@@ -77,35 +77,36 @@
   /* Input de nueva categoría */
   .modalChangeCatNewInput {
     width: 100%;
-    padding: 6px 8px 6px 30px;
+    padding: 14px 8px 14px 32px;
     margin-bottom: 8px;
     border: 1px solid #ccc;
     border-radius: 6px;
     outline: none;
     font-family: inherit;
-    font-size: var(--rowFontSizeButton);
-    font-size: 0.95em;
+    font-size: var(--rowFontSizeButton);    
   }
 
   .modalChangeCatNewInputIcon{
     position: absolute;
-    top: 18px;
-    left: 20px;
-    
-  }
+    top: 28px;
+    left: 20px;    
+  }  
   
   /* Contenedor de los botones de color */
   .modalChangeCatColors {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
-    gap: 6px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
     margin-bottom: 8px;
   }
   
   /* Botones de color */
   .modalChangeCatColorBtn {
-    width: 24px;
-    height: 24px;
+    width: 48px;
+    height: 32px;
     border-radius: 4px;
     cursor: pointer;
     outline: none;
@@ -115,9 +116,8 @@
   
   /* Botón de crear nueva categoría */
   .modalChangeCatCreateBtn {
-    padding: 8px 12px;
-    font-size: var(--rowFontSizeButton);
-    font-size: 0.9em;
+    padding: 14px;
+    font-size: var(--rowFontSizeButton);    
     border: solid 1px var(--notebookAccentColor);
     border-radius: 6px;
     background-color: var(--notebookAccentColor);
