@@ -26,6 +26,7 @@
     font-family: var(--appInfoFontFamily);
     color: var(--textNormalColor); 
     text-transform: uppercase;
+    font-weight: 600;
   }  
   
  

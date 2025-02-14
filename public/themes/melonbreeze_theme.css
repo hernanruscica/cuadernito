@@ -1,0 +1,14 @@
+:root {
+  /* Fondos en tonos suaves y refrescantes */
+  --notebookBackColor: #FFF3E0;       /* Un tono durazno claro, como la pulpa del melón */
+  --bodyBackgroundColor: #FFFAF0;      /* Un fondo aún más suave, con un toque cremoso */
+
+  /* Colores de acento inspirados en el melón y su frescura */
+  --notebookAccentColor: #FFA07A;      /* Un anaranjado melón vibrante */
+  --rowNormalColor: #FFCC80;           /* Amarillo suave, como el interior del melón cantalupo */
+  --rowAccentColor: #FFD180;           /* Un tono ligeramente más claro para resaltar filas */
+  --rowSecondaryColor: #B2DFDB;        /* Verde agua pastel, un toque refrescante como la cáscara del melón */
+
+  /* Texto con buen contraste y calidez */
+  --textNormalColor: #4E342E;          /* Marrón oscuro, cálido pero con buena legibilidad */
+}

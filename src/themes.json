@@ -1,5 +1,7 @@
 [
     {"id": 0, "name": "default"}, 
-    {"id": 1, "name": "strawberry"},     
-    {"id": 2, "name": "chocolate"}
+    {"id": 1, "name": "strawberry"},       
+    {"id": 2, "name": "menta"}, 
+    {"id": 3, "name": "chocolatelatte"},
+    {"id": 4, "name": "melonbreeze"}
 ]

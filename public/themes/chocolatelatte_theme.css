@@ -1,0 +1,14 @@
+:root {
+  /* Fondos en tonos suaves y cálidos */
+  --notebookBackColor: #FAE3D9;       /* Crema suave con un toque de cacao */
+  --bodyBackgroundColor: #FFF7ED;      /* Un fondo más claro, parecido a la leche vaporizada */
+
+  /* Colores de acento con tonos chocolate y caramelo */
+  --notebookAccentColor: #DDA15E;      /* Caramelo tostado, cálido y atractivo */
+  --rowNormalColor: #E6CCB2;           /* Beige claro, recuerda la espuma de un café con leche */
+  --rowAccentColor: #B08968;           /* Un marrón medio, con un toque dulce */
+  --rowSecondaryColor: #A68A64;        /* Marrón más apagado, para detalles secundarios */
+
+  /* Texto con buen contraste pero tonos cálidos */
+  --textNormalColor: #5D4037;          /* Un marrón chocolate oscuro, suave pero legible */
+}

@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: space-between;
     column-gap: 20px;
-    padding: 12px 12px 12px 50px;
+    padding: 4px 12px 4px 50px;
     border-bottom: 2px solid var(--rowNormalColor); /* Línea inferior */
   }
   

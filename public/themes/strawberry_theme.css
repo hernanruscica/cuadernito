@@ -1,9 +1,11 @@
-:root{
-    --notebookBackColor: #F3F3F3;
-    --bodyBackgroundColor: #fadfe5;
-    --notebookAccentColor: #E32E34;   
-    --rowNormalColor: #8CB360;
-    --rowAccentColor: #EC4653;
-    --rowSecondaryColor: #CCC;
-    --textNormalColor: #324625;
-}
+/* Strawberry Theme */
+:root {
+    --notebookBackColor: #FFF0F0;      /* Un rosa muy claro para el fondo del cuaderno */
+    --bodyBackgroundColor: #FFF5F5;      /* Un rosa pastel para el fondo del body */
+    --notebookAccentColor: #FF6B6B;      /* Un rojo/rosa vibrante que evoca la frutilla madura */
+    --rowNormalColor: #FFD2D2;           /* Un rosa suave para las filas normales */
+    --rowAccentColor: #FF8A8A;           /* Un rosa un poco más intenso para acentos en filas */
+    --rowSecondaryColor: #CCC;           /* Gris neutro para detalles secundarios */
+    --textNormalColor: #3B0000;          /* Un rojo muy oscuro, casi burdeos, para asegurar legibilidad */
+  }
+  

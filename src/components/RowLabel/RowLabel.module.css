@@ -1,6 +1,6 @@
 .RowLabelContainer{
   width: 100%;
-  padding: 12px 0;
+  padding: 2px 10px 2px 44px;
   text-align: left;
   display: flex;
   flex-direction: row;
@@ -12,8 +12,9 @@
 }
 
 .RowLabelText{
-  padding: 2px 16px 2px 50px;
+  padding: 2px ;
   font-size: var(--rowFontSize);
+  font-size: 0.9em;
   margin: 0;
   font-weight: 400;
   user-select: none;

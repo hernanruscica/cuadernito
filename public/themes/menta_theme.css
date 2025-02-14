@@ -1,0 +1,14 @@
+:root {
+  /* Fondos en tonos muy suaves de verde/mint */
+  --notebookBackColor: #E8F5E9;       /* Un verde muy pálido, casi blanco */
+  --bodyBackgroundColor: #F1F8E9;       /* Fondo general aún más claro */
+
+  /* Colores de acento con toque mint */
+  --notebookAccentColor: #A8E6CF;       /* Un mint pastel, para detalles destacados */
+  --rowNormalColor: #C8E6C9;            /* Verde suave para filas normales */
+  --rowAccentColor: #FFAB91;            /* Un acento cálido en tono melocotón, que contrasta bien */
+  --rowSecondaryColor: #BDBDBD;         /* Gris neutro para elementos secundarios */
+
+  /* Texto con alto contraste, en un tono oscuro con matiz teal */
+  --textNormalColor: #004D40;           /* Un tono oscuro, cercano al teal, para asegurar legibilidad */
+}
