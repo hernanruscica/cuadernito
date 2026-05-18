@@ -15,11 +15,11 @@ import { ModalConfirm } from "../MyModals/ModalConfirm";
 import {
   DndContext,
   DragOverlay,
-  PointerSensor,
+  MouseSensor,
   TouchSensor,
   useSensor,
   useSensors,
-  closestCorners,
+  pointerWithin,
 } from "@dnd-kit/core";
 import HomeDropZone from "../HomeDropZone/HomeDropZone";
 
@@ -38,7 +38,7 @@ function Home() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: { distance: 5 },
     }),
     useSensor(TouchSensor, {
@@ -144,7 +144,7 @@ function Home() {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={pointerWithin}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}

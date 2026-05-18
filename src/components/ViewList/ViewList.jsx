@@ -21,11 +21,11 @@ import { RowNormal } from "../RowNormal/RowNormal";
 import {
   DndContext,
   DragOverlay,
-  PointerSensor,
+  MouseSensor,
   TouchSensor,
   useSensor,
   useSensors,
-  closestCorners,
+  pointerWithin,
 } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import TrashDropZone from "../TrashDropZone/TrashDropZone";
@@ -55,7 +55,7 @@ function ViewList() {
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, {
+    useSensor(MouseSensor, {
       activationConstraint: { distance: 5 },
     }),
     useSensor(TouchSensor, {
@@ -243,7 +243,7 @@ function ViewList() {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCorners}
+      collisionDetection={pointerWithin}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
