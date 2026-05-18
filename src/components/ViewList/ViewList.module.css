@@ -1,0 +1,17 @@
+.dragOverlayItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  background: var(--bodyBackgroundColor);
+  border: 2px solid var(--notebookAccentColor);
+  border-radius: 50px;
+  font-size: var(--rowFontSize);
+  color: var(--textNormalColor);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  transform: rotate(-3deg);
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}

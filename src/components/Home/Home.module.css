@@ -10,3 +10,19 @@
     padding: 140px 10px  140px  10px;
     
 }
+
+.dragOverlayList {
+  display: flex;
+  align-items: center;
+  padding: 12px 24px;
+  background: var(--notebookBackColor);
+  border: 2px solid var(--notebookAccentColor);
+  border-radius: 5px;
+  font-size: 1.3em;
+  font-weight: 600;
+  color: var(--textNormalColor);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  transform: rotate(-3deg);
+  max-width: 300px;
+  user-select: none;
+}

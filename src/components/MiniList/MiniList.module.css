@@ -1,51 +1,56 @@
+.wrapper {
+  width: 100%;
+  max-width: 300px;
+  touch-action: pan-y;
+}
+
 .mainScreenContainer {
-    width: 100%;
-    max-width: 300px;
-    padding-bottom: 16px;
-    border-radius: 5px;
-    background-color: var(--notebookBackColor);
-    box-shadow: var(--shadow);
-    position: relative;
-    overflow: hidden; 
-    color: black;
+  width: 100%;
+  display: block;
+  padding-bottom: 16px;
+  border-radius: 5px;
+  background-color: var(--notebookBackColor);
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+  color: black;
 }
 
-.newList{
-    border: 2px solid var(--textNormalColor);
-    background-color: var(--rowNormalColor);
+.newList {
+  border: 2px solid var(--textNormalColor);
+  background-color: var(--rowNormalColor);
 }
 
-.listHeader{
-    border-bottom: 4px solid var(--rowAccentColor);
-    padding: 6px 0 6px 8px;
-    font-size: var(--rowHeaderFontSize); 
-    font-size: 1.3em;  
-    font-weight: 600;  
+.listHeader {
+  border-bottom: 4px solid var(--rowAccentColor);
+  padding: 10px 6px 6px 8px;
+  font-size: 1.3em;
+  font-weight: 600;
 }
 
 .listSection {
-    padding: 0.5em 0 0.5em 0.5em;
-    border-bottom: 2px solid var(--rowNormalColor);
+  padding: 0.5em 0 0.5em 0.5em;
+  border-bottom: 2px solid var(--rowNormalColor);
 }
 
 .newlist {
-    display: flex;
+  display: flex;
 }
 
 .newlist input {
-    flex-grow: 1;
-    margin-right: 5px;
+  flex-grow: 1;
+  margin-right: 5px;
 }
 
 .listContainer {
-    display: flex;
-    margin-bottom: 5px;
-    border-bottom: solid;
-    border-color: grey;
-    border-width: 1px;
-    padding: 5px;
+  display: flex;
+  margin-bottom: 5px;
+  border-bottom: solid;
+  border-color: grey;
+  border-width: 1px;
+  padding: 5px;
 }
 
 .listInfo {
-    flex-grow: 1;
+  flex-grow: 1;
 }
