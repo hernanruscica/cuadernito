@@ -1,6 +1,6 @@
 .container {
   position: fixed;
-  bottom: 160px;
+  bottom: 110px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -10,18 +10,18 @@
 }
 
 .action {
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
   border: 3px dashed rgba(255, 255, 255, 0.4);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
+  justify-content: space-between;
   transition: all 0.25s ease;
   backdrop-filter: blur(4px);
+  padding: 14px 0;
 }
 
 .action:nth-child(1) {
@@ -47,7 +47,7 @@
 }
 
 .icon {
-  font-size: 32px;
+  font-size: 22px;
   transition: transform 0.25s ease;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;

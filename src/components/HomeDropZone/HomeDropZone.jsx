@@ -24,12 +24,12 @@ function HomeDropZone({ show, activeId }) {
       <DroppableAction
         id="home-action-open"
         icon={FiExternalLink}
-        label="Open"
+        label="Abrir"
       />
       <DroppableAction
         id="home-action-delete"
         icon={FiTrash2}
-        label="Delete"
+        label="Eliminar"
       />
     </div>
   );

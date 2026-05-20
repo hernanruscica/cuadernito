@@ -25,6 +25,22 @@ export const ModalChangeCategory = ({
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const listRef = useRef(null);
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+    if (showNewCategory && bottomRef.current) {
+      setTimeout(() => {
+        bottomRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 50);
+    }
+  }, [showNewCategory]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShowNewCategory(false);
+      setNewCategoryName('');
+    }
+  }, [isOpen]);
 
   // Al montar, si existe una categoría asignada, se la toma como categoría actual y el input inicia en blanco.
   useEffect(() => {
@@ -37,19 +53,11 @@ export const ModalChangeCategory = ({
   // Reordena las categorías: las que coinciden con la búsqueda aparecen primero, pero el resto permanece visible.
   // Ordena las categorías según búsqueda y alfabéticamente
 const sortedCategories = searchTerm
-? [
-    ...categories
-      .filter((cat) =>
-        cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .sort((a, b) => a.name.localeCompare(b.name)),
-    ...categories
-      .filter(
-        (cat) =>
-          !cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-      .sort((a, b) => a.name.localeCompare(b.name)),
-  ]
+? categories
+    .filter((cat) =>
+      cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => a.name.localeCompare(b.name))
 : [...categories].sort((a, b) => a.name.localeCompare(b.name));
 
 // Si existe una categoría actual (ya sea seleccionada o asignada), la ponemos al inicio
@@ -129,6 +137,7 @@ const handleChangeSearchTerm = (e) => {
       <p className="modal-content-paragraph">{translations.changeCategoryTitle}</p>
 
       {/* Input de búsqueda que inicia en blanco */}
+      <label className={styles.modalChangeCatLabelSearch}>{translations.searchCategoryPlaceholder}</label>
       <input
         className={styles.modalChangeCatInput}
         type="text"
@@ -170,16 +179,18 @@ const handleChangeSearchTerm = (e) => {
 
       {showNewCategory && (
         <div className={styles.modalChangeCatNewWrapper}>
-          <input
-            className={styles.modalChangeCatNewInput}
-            type="text"
-            placeholder={translations.inputNewCategoryNamePlaceholder}
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-            style={{backgroundColor: selectedColor}}
-          />
-
-          <FiTag className={styles.modalChangeCatNewInputIcon}/>
+          <label className={styles.modalChangeCatLabelSearch}>{translations.inputNewCategoryNamePlaceholder}</label>
+          <div style={{ position: 'relative' }}>
+            <input
+              className={styles.modalChangeCatNewInput}
+              type="text"
+              placeholder={translations.inputNewCategoryNamePlaceholder}
+              value={newCategoryName}
+              onChange={(e) => setNewCategoryName(e.target.value)}
+              style={{backgroundColor: selectedColor}}
+            />
+            <FiTag className={styles.modalChangeCatNewInputIcon}/>
+          </div>
 
           <div className={styles.modalChangeCatColors}>
           {/* Object.entries(courseTypes).map(([key, data])  */}
@@ -212,6 +223,7 @@ const handleChangeSearchTerm = (e) => {
           <FiSave />
         </ModalButton>
       </div>
+      <div ref={bottomRef} />
     </Modal>
   );
 };

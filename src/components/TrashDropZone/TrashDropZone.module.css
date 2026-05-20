@@ -1,31 +1,25 @@
 .trashZone {
-  position: fixed;
-  bottom: 160px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   background: rgba(255, 70, 70, 0.15);
   border: 3px dashed rgba(255, 70, 70, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  z-index: 99;
+  justify-content: space-between;
   transition: all 0.25s ease;
-  backdrop-filter: blur(4px);
+  padding: 14px 0;
 }
 
 .over {
   background: rgba(255, 50, 50, 0.35);
   border: 3px solid #ff4444;
-  transform: translateX(-50%) scale(1.15);
+  transform: scale(1.15);
 }
 
 .icon {
-  font-size: 36px;
+  font-size: 26px;
   color: #ff4444;
   transition: transform 0.25s ease;
 }
@@ -35,7 +29,7 @@
 }
 
 .label {
-  font-size: 12px;
+  font-size: 11px;
   color: #ff4444;
   font-weight: 700;
   text-transform: uppercase;

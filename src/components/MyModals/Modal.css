@@ -27,7 +27,9 @@
     background: var(--bodyBackgroundColor);
     color: var(--textNormalColor);
     width: 360px;
-    height: fit-content;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     box-shadow: -4px 0 10px rgba(0, 0, 0, 0.2);
     position: relative;
     right: calc((100% - 360px)/2);

@@ -4,7 +4,6 @@ import ListItem from "./ListItem/ListItem";
 import RowButtonInput from "../RowButtonInput/RowButtonInput";
 import RowLabel from "../RowLabel/RowLabel";
 
-import EditButton from "../Buttons/EditButton";
 import DeleteButton from "../Buttons/DeleteButton";
 
 import { useParams, useNavigate, useLocation } from "react-router-dom";
@@ -117,13 +116,6 @@ function ViewList() {
     navigate(`/?toast=${translations.toastListDeleted}`);
   };
 
-  const handleEditList = () => {
-    if (inputEditListRef.current) {
-      inputEditListRef.current.focus();
-      inputEditListRef.current.select();
-    }
-  };
-
   const handlerConfirmEditListName = (e) => {
     setInputValueListName(e.target.value);
     const updatedNameList = {
@@ -137,6 +129,12 @@ function ViewList() {
 
   const handleSaveItemName = (itemId, newName) => {
     editItemFromList(listId, itemId, { name: newName });
+  };
+
+  const handleFocusListName = (e) => e.target.select();
+
+  const handleKeyDownListName = (e) => {
+    if (e.key === 'Enter') e.target.blur();
   };
 
   const handleDeleteItem = (itemId) => {
@@ -306,11 +304,12 @@ function ViewList() {
 
         <RowButtonInput
           placeholder={translations.placeholderEditList}
-          button={<EditButton onClick={handleEditList} />}
           textValue={inputValueListName || ''}
           setTextValue={setInputValueListName}
           handleAction={handlerConfirmEditListName}
           ref={inputEditListRef}
+          onFocus={handleFocusListName}
+          onKeyDown={handleKeyDownListName}
         />
         <RowLabel text={currentList?.createdDate} info={`${currentList?.items?.length} items`}>
           <DeleteButton onClick={handleDeleteList} />
@@ -362,8 +361,12 @@ function ViewList() {
         ) : null}
       </NotebookSheet>
 
-      <CategoryDropZone show={!!activeId} />
-      <TrashDropZone show={!!activeId} />
+      {!!activeId && (
+        <div className={styles.dropZones}>
+          <TrashDropZone show />
+          <CategoryDropZone show />
+        </div>
+      )}
       <DragOverlay dropAnimation={null}>
         {activeItem ? (
           <div className={styles.dragOverlayItem}>

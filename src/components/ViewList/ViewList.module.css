@@ -1,3 +1,14 @@
+.dropZones {
+  position: fixed;
+  bottom: 110px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  z-index: 99;
+}
+
 .dragOverlayItem {
   display: flex;
   align-items: center;

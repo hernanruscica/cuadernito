@@ -1,31 +1,25 @@
 .zone {
-  position: fixed;
-  bottom: 160px;
-  left: 50%;
-  transform: translateX(calc(-50% + 130px));
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
   background: rgba(70, 130, 255, 0.15);
   border: 3px dashed rgba(70, 130, 255, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 4px;
-  z-index: 99;
+  justify-content: space-between;
   transition: all 0.25s ease;
-  backdrop-filter: blur(4px);
+  padding: 14px 0;
 }
 
 .over {
   background: rgba(70, 130, 255, 0.35);
   border: 3px solid #4682ff;
-  transform: translateX(calc(-50% + 130px)) scale(1.15);
+  transform: scale(1.15);
 }
 
 .icon {
-  font-size: 36px;
+  font-size: 26px;
   color: #4682ff;
   transition: transform 0.25s ease;
 }
@@ -35,7 +29,7 @@
 }
 
 .label {
-  font-size: 12px;
+  font-size: 11px;
   color: #4682ff;
   font-weight: 700;
   text-transform: uppercase;

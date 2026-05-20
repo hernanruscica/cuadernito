@@ -1,4 +1,10 @@
-.modalChangeCatInput {
+  .modalChangeCatLabelSearch {
+    font-size: 0.85em;
+    opacity: 0.7;
+    font-weight: 500;
+  }
+
+  .modalChangeCatInput {
     padding: 14px;
     font-family: var(--appInfoFontFamily);
     font-size: var(--rowFontSizeButton);
@@ -19,7 +25,8 @@
     list-style: none;
     padding: 0;
     margin: 0 0 12px 0;
-    max-height: 210px; /* Ajusta para que se vean ~4 categorías */
+    max-height: 40vh;
+    flex-shrink: 0;
     overflow-y: auto;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -88,8 +95,9 @@
 
   .modalChangeCatNewInputIcon{
     position: absolute;
-    top: 28px;
-    left: 20px;    
+    top: 50%;
+    transform: translateY(-50%);
+    left: 12px;    
   }  
   
   /* Contenedor de los botones de color */
