@@ -13,7 +13,7 @@ import { DataContext } from "../../context/DataContext";
 import Toast from "../Toast/Toast";
 import AddItemButton from "../AddItemButton/AddItemButton";
 
-import ModalViewItem from "../MyModals/ModalViewItem";
+import { ModalChangeCategory } from "../MyModals/ModalChangeCategory";
 import { ModalConfirm } from "../MyModals/ModalConfirm";
 import CategoryTag from "../CategoryTag/CategoryTag";
 import { RowNormal } from "../RowNormal/RowNormal";
@@ -32,7 +32,7 @@ import TrashDropZone from "../TrashDropZone/TrashDropZone";
 import styles from "./ViewList.module.css";
 
 function ViewList() {
-  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, deleteItemFromList, translations, categories, categoriesColors, reorderItems, moveItemToCategory } = useContext(DataContext);
+  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, deleteItemFromList, translations, categories, categoriesColors, reorderItems, moveItemToCategory, moveItemsFromCategory } = useContext(DataContext);
   const { listId } = useParams();
 
   const navigate = useNavigate();
@@ -46,9 +46,7 @@ function ViewList() {
   const toastMessage = queryParams.get("toast");
 
   const [inputValue, setInputValue] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [clickedItem, setClickedItem] = useState(null);
-  const [lastCategoryId, setLastCategoryId] = useState(0)
+  const [groupCategoryModal, setGroupCategoryModal] = useState(null);
 
   const [activeId, setActiveId] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
@@ -73,14 +71,14 @@ function ViewList() {
       return;
     }
     const listId = currentList.id;
-    const categoryItems = currentList.items.filter(i => i.categoryId == lastCategoryId);
-    const maxPosition = categoryItems.length > 0
-      ? Math.max(...categoryItems.map(i => i.position ?? 0))
+    const uncategorizedItems = currentList.items.filter(i => i.categoryId == 0);
+    const maxPosition = uncategorizedItems.length > 0
+      ? Math.max(...uncategorizedItems.map(i => i.position ?? 0))
       : -1;
     const newItem = {
       id: Date.now(),
       name: inputValue,
-      categoryId: lastCategoryId,
+      categoryId: 0,
       position: maxPosition + 1,
       note: translations.placeholderNote,
       checked: false,
@@ -135,15 +133,22 @@ function ViewList() {
     }
   };
 
-  const handleView = (e, itemId) => {
-    e.preventDefault();
-    const currentItem = currentList.items.find(item => item.id == parseInt(itemId));
-    setClickedItem(currentItem);
-    setIsModalOpen(true);
+  const handleSaveItemName = (itemId, newName) => {
+    editItemFromList(listId, itemId, { name: newName });
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleDeleteItem = (itemId) => {
+    setDeleteCandidateId(itemId);
+  };
+
+  const handleGroupCategoryClick = (category) => {
+    setGroupCategoryModal(category);
+  };
+
+  const handleGroupCategorySave = (selectedCategory) => {
+    if (!groupCategoryModal) return;
+    moveItemsFromCategory(listId, groupCategoryModal.id, selectedCategory.id);
+    setGroupCategoryModal(null);
   };
 
   const handleCloseModalConfirm = (e) => {
@@ -250,9 +255,6 @@ function ViewList() {
     >
       <NotebookSheet>
         <Toast messages={toasts} onClose={handleToastClose} />
-        <ModalViewItem
-          isOpen={isModalOpen} onClose={handleCloseModal} setLastCategoryId={setLastCategoryId}
-          item={clickedItem} listId={listId} addToast={addToast} />
         <ModalConfirm
           isOpen={showModalDelete}
           onClose={handleCloseModalConfirm}
@@ -272,6 +274,16 @@ function ViewList() {
           notText={translations.deleteItemNotText}
           onClickNot={handleCancelDeleteFromTrash}
           onClickYes={handleConfirmDeleteFromTrash}
+        />
+
+        <ModalChangeCategory
+          isOpen={!!groupCategoryModal}
+          onClose={() => setGroupCategoryModal(null)}
+          item={null}
+          listId={listId}
+          itemCategory={groupCategoryModal}
+          setItemCategory={() => {}}
+          onSave={handleGroupCategorySave}
         />
 
         <RowButtonInput
@@ -305,23 +317,24 @@ function ViewList() {
                   <CategoryTag
                     text={category.name}
                     color={categoriesColors[category.colorId] || '#fff'}
+                    onClick={() => handleGroupCategoryClick(category)}
                   />
                 </RowNormal>
                 <SortableContext
                   items={itemsInCategory.map(i => i.id.toString())}
                   strategy={verticalListSortingStrategy}
                 >
-                  {itemsInCategory.map(item => (
-                    <ListItem
-                      text={item.name}
-                      url={`/lists/${currentList.id}/items/${item.id}`}
-                      handleView={(e) => handleView(e, item.id)}
-                      key={item.id}
-                      id={item.id}
-                      checked={item.checked}
-                      toggleChecked={handlerToggleChecked}
-                    />
-                  ))}
+                    {itemsInCategory.map(item => (
+                      <ListItem
+                        text={item.name}
+                        key={item.id}
+                        id={item.id}
+                        checked={item.checked}
+                        toggleChecked={handlerToggleChecked}
+                        onSaveItemName={handleSaveItemName}
+                        onDeleteItem={handleDeleteItem}
+                      />
+                    ))}
                 </SortableContext>
               </div>
             );

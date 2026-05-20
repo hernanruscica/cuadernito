@@ -248,6 +248,35 @@ const DataProvider = ({ children }) => {
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
+  const moveItemsFromCategory = (listId, fromCategoryId, toCategoryId) => {
+    if (fromCategoryId === toCategoryId) return;
+
+    const updatedLists = data.lists.map((list) => {
+      if (list.id == listId) {
+        return {
+          ...list,
+          items: list.items.map((item) => {
+            if (item.categoryId == fromCategoryId) {
+              return { ...item, categoryId: toCategoryId };
+            }
+            return item;
+          }),
+        };
+      }
+      return list;
+    });
+
+    const list = updatedLists.find(l => l.id == listId);
+    if (list) {
+      reassignPositions(list.items, fromCategoryId);
+      reassignPositions(list.items, toCategoryId);
+    }
+
+    const updatedData = { ...data, lists: updatedLists };
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+
   /* ENDS CRUD SECTION: For each action, each function update the context value and save it to the local storage  */
 
   return (
@@ -271,6 +300,7 @@ const DataProvider = ({ children }) => {
       editUserSetting,
       reorderItems,
       moveItemToCategory,
+      moveItemsFromCategory,
     }}>
       {children}
     </DataContext.Provider>

@@ -13,7 +13,7 @@ export const ModalChangeCategory = ({
   listId,  
   itemCategory = null,
   setItemCategory,
-  setLastCategoryId
+  onSave
 }) => {
   const { translations, addCategory, editItemFromList, categories, categoriesColors } = useContext(DataContext);
 
@@ -102,13 +102,14 @@ const finalCategories = current_Category
     }
     editItemFromList(listId, item.id, editedItem);    
     setItemCategory(selectedCategory);
-    setLastCategoryId(selectedCategory.id)
-    //console.log(listId, item.id, editedItem);
   }
 
   const handleSave = () => {
-    //console.log('Update categoryId from item:', selectedCategory.id);
-    updateData();
+    if (onSave) {
+      onSave(selectedCategory);
+    } else {
+      updateData();
+    }
     onClose();
   };
 

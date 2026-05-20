@@ -1,14 +1,18 @@
+import { useState, useRef, useEffect } from "react";
 import styles from "./ListItem.module.css";
 import CheckButton from "../../Buttons/CheckButton";
 import NoCheckButton from "../../Buttons/NoCheckButton";
-import MoreButton from "../../Buttons/MoreButton";
-import { FiMenu } from "react-icons/fi";
+import { FiMenu, FiTrash2 } from "react-icons/fi";
 
-import { Link } from "react-router-dom";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-function ListItem({ text, url, id, checked, toggleChecked, handleView = null }) {
+function ListItem({ text, id, checked, toggleChecked, onSaveItemName, onDeleteItem }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(text);
+  const inputRef = useRef(null);
+  const skipBlurRef = useRef(false);
+
   const {
     attributes,
     listeners,
@@ -24,6 +28,57 @@ function ListItem({ text, url, id, checked, toggleChecked, handleView = null }) 
     opacity: isDragging ? 0.3 : 1,
   };
 
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [isEditing]);
+
+  const handleStartEdit = (e) => {
+    e.preventDefault();
+    setEditValue(text);
+    setIsEditing(true);
+  };
+
+  const handleFinishEdit = () => {
+    if (skipBlurRef.current) {
+      skipBlurRef.current = false;
+      return;
+    }
+    if (editValue.trim() !== "" && editValue !== text) {
+      onSaveItemName(id, editValue.trim());
+    }
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setEditValue(text);
+    setIsEditing(false);
+  };
+
+  const handleDeletePointerDown = (e) => {
+    e.stopPropagation();
+    skipBlurRef.current = true;
+  };
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    skipBlurRef.current = false;
+    setIsEditing(false);
+    onDeleteItem(id);
+  };
+
+  const handleKeyDown = (e) => {
+    e.stopPropagation();
+    if (e.key === "Enter") {
+      handleFinishEdit();
+    } else if (e.key === "Escape") {
+      handleCancelEdit();
+    }
+  };
+
   return (
     <div
       ref={setNodeRef}
@@ -36,15 +91,34 @@ function ListItem({ text, url, id, checked, toggleChecked, handleView = null }) 
         <FiMenu />
       </span>
 
-      <Link
-        id={id}
-        to={url}
-        onClick={handleView}
-        className={`${styles.text} ${checked ? styles.checkedText : ""}`}
-      >
-        <MoreButton />
-        <p>{text}</p>
-      </Link>
+      {isEditing ? (
+        <div className={`${styles.text} ${checked ? styles.checkedText : ""}`}>
+          <button
+            className={styles.deleteBtn}
+            onClick={handleDelete}
+            onPointerDown={handleDeletePointerDown}
+          >
+            <FiTrash2 />
+          </button>
+          <input
+            ref={inputRef}
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            onBlur={handleFinishEdit}
+            onKeyDown={handleKeyDown}
+            onPointerDown={(e) => e.stopPropagation()}
+            className={styles.editInput}
+          />
+        </div>
+      ) : (
+        <div
+          className={`${styles.text} ${checked ? styles.checkedText : ""}`}
+          onClick={handleStartEdit}
+        >
+          <p>{text}</p>
+        </div>
+      )}
+
       <div className={styles.checkbox} onClick={toggleChecked} id={id}>
         {checked ? <CheckButton /> : <NoCheckButton />}
       </div>

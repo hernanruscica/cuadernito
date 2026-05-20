@@ -11,7 +11,7 @@ import { ModalConfirm } from "./ModalConfirm";
 import { ModalChangeCategory } from "./ModalChangeCategory";
 import CategoryTag from "../CategoryTag/CategoryTag";
 
-const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null, setLastCategoryId }) => {
+const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
   const {editItemFromList, deleteItemFromList, translations, categories, categoriesColors } = useContext(DataContext);
   const [inputValueName, setInputValueName] = useState('');
   const inputValueNameRef = useRef(null);
@@ -159,16 +159,15 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null, setLastCa
       isOpen={isDeleteConfirmationOpen} onClose={handleCancelDelete}
     />
     {/* Change category Modal */}        
-    <ModalChangeCategory 
-      title="Change Category modal"
-      isOpen={isChangeCategoryOpen}      
-      listId={listId}
-      item={item}
-      itemCategory={itemCategory}
-      setItemCategory={setItemCategory}
-      setLastCategoryId={setLastCategoryId}
-      onClose={handleCancelChangeCategory}
-    />
+        <ModalChangeCategory 
+          title="Change Category modal"
+          isOpen={isChangeCategoryOpen}      
+          listId={listId}
+          item={item}
+          itemCategory={itemCategory}
+          setItemCategory={setItemCategory}
+          onClose={handleCancelChangeCategory}
+        />
     </>
   );
 };

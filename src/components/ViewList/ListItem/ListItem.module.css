@@ -49,7 +49,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;      
+    justify-content: flex-start;      
     font-size: var(--rowFontSize); 
     font-size: 0.95em;   
     color: var(--textNormalColor);
@@ -60,6 +60,7 @@
     border: solid 2px var(--textNormalColor);
     border-radius: 50px;
     height: 40px;
+    width: 100%;
   }
   .text:hover{
     transform: scale(1.08) translate(5px, 0px);
@@ -69,10 +70,6 @@
     padding: 0 12px 0px 16px;     
   }
 
-  .text>button{    
-    width: 1px;
-    height: auto;            
-  }
   
   .checkedText {
     text-decoration: line-through;
@@ -90,5 +87,41 @@
     color: var(--notebookAccentColor);
     cursor: pointer;
     
+  }
+
+  .deleteBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    color: var(--textNormalColor);
+    cursor: pointer;
+    padding: 0 4px 0 10px;
+    font-size: 1.1em;
+    opacity: 0.6;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .deleteBtn:hover {
+    opacity: 1;
+    color: #e74c3c;
+  }
+
+  .editInput {
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    font-weight: inherit;
+    outline: none;
+    padding: 0 12px 0px 4px;
+    min-width: 0;
+  }
+  .editInput:focus {
+    border: 2px solid var(--primaryColor);
+    border-radius: 50px;
+    padding: 0 10px 0px 2px;
   }
  
