@@ -29,6 +29,7 @@ import {
 } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import TrashDropZone from "../TrashDropZone/TrashDropZone";
+import CategoryDropZone from "../CategoryDropZone/CategoryDropZone";
 import styles from "./ViewList.module.css";
 
 function ViewList() {
@@ -51,6 +52,7 @@ function ViewList() {
   const [activeId, setActiveId] = useState(null);
   const [activeItem, setActiveItem] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
+  const [categoryDropItem, setCategoryDropItem] = useState(null);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -173,6 +175,13 @@ function ViewList() {
       return;
     }
 
+    if (over && over.id === 'category-dropzone') {
+      setCategoryDropItem(activeItem);
+      setActiveId(null);
+      setActiveItem(null);
+      return;
+    }
+
     if (over && active.id !== over.id) {
       const activeItemData = currentList.items.find(i => i.id.toString() === active.id);
       const overItemData = currentList.items.find(i => i.id.toString() === over.id);
@@ -286,6 +295,15 @@ function ViewList() {
           onSave={handleGroupCategorySave}
         />
 
+        <ModalChangeCategory
+          isOpen={!!categoryDropItem}
+          onClose={() => setCategoryDropItem(null)}
+          item={categoryDropItem}
+          listId={listId}
+          itemCategory={categoryDropItem ? categories.find(cat => cat.id === categoryDropItem.categoryId) : null}
+          setItemCategory={() => {}}
+        />
+
         <RowButtonInput
           placeholder={translations.placeholderEditList}
           button={<EditButton onClick={handleEditList} />}
@@ -344,6 +362,7 @@ function ViewList() {
         ) : null}
       </NotebookSheet>
 
+      <CategoryDropZone show={!!activeId} />
       <TrashDropZone show={!!activeId} />
       <DragOverlay dropAnimation={null}>
         {activeItem ? (
