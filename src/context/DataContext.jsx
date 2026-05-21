@@ -196,9 +196,11 @@ const DataProvider = ({ children }) => {
   };
 
   const addUserTemplate = (template) => {
-    const updatedData = { ...data, userTemplates: [...(data.userTemplates || []), template] };
-    setData(updatedData);
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+    setData(prev => {
+      const updatedData = { ...prev, userTemplates: [...(prev.userTemplates || []), template] };
+      localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+      return updatedData;
+    });
   };
 
   const updateUserTemplate = (templateId, updatedFields) => {

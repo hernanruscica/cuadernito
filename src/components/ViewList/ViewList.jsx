@@ -151,6 +151,13 @@ function ViewList() {
     setShowSaveTemplateModal(true);
   };
 
+  const handleSaveAsNewTemplate = (newTemplateId) => {
+    editList(currentList.id, {
+      templateId: newTemplateId,
+      _originalCategories: JSON.parse(JSON.stringify(currentList.categories))
+    });
+  };
+
   const handleUpdateTemplate = () => {
     const template = userTemplates.find(t => t.id === currentList.templateId);
     if (!template) return;
@@ -340,6 +347,7 @@ function ViewList() {
           onClose={() => setShowSaveTemplateModal(false)}
           listCategories={currentList?.categories || []}
           currentTemplateId={null}
+          onSaveAsNew={handleSaveAsNewTemplate}
         />
 
         <AddItemButton

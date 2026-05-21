@@ -19,7 +19,7 @@ const iconOptions = [
   { key: 'health', icon: FiHeart },
 ];
 
-const SaveTemplateModal = ({ isOpen, onClose, listCategories, currentTemplateId }) => {
+const SaveTemplateModal = ({ isOpen, onClose, listCategories, currentTemplateId, onSaveAsNew }) => {
   const { translations, userSettings, userTemplates, addUserTemplate, updateUserTemplate, addToast } = useContext(DataContext);
   const lang = userSettings.language || 'es';
 
@@ -53,8 +53,10 @@ const SaveTemplateModal = ({ isOpen, onClose, listCategories, currentTemplateId 
 
   const handleSaveAsNew = () => {
     if (name.trim() === '') return;
-    addUserTemplate(buildTemplate());
+    const tpl = buildTemplate();
+    addUserTemplate(tpl);
     addToast(translations.toastTemplateSaved);
+    onSaveAsNew?.(tpl.id);
     reset();
   };
 

@@ -30,20 +30,23 @@
 .saveRow {
   display: flex;
   justify-content: center;
-  padding: 6px 0;
+  padding: 6px 16px 6px 60px;
 }
 
 .saveButton {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 20px;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 24px;
   border-radius: 50px;
   border: 2px solid var(--notebookAccentColor);
   background: transparent;
   color: var(--notebookAccentColor);
   font-family: var(--appFontFamily);
-  font-size: 0.9em;
+  font-size: 1em;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -56,14 +59,17 @@
 .updateButton {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 20px;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 24px;
   border-radius: 50px;
   border: 2px solid var(--successColor, #2ecc71);
   background: transparent;
   color: var(--successColor, #2ecc71);
   font-family: var(--appFontFamily);
-  font-size: 0.9em;
+  font-size: 1em;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -71,4 +77,10 @@
 .updateButton:hover {
   background: var(--successColor, #2ecc71);
   color: var(--bodyBackgroundColor);
+}
+
+.saveButton svg,
+.updateButton svg {
+  width: 30px;
+  height: 30px;
 }
