@@ -1,0 +1,13 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Documentos importantes", "nameEn": "Important documents", "colorId": "0" },
+  { "id": 2, "name": "Cocina", "nameEn": "Kitchen", "colorId": "1" },
+  { "id": 3, "name": "Dormitorio(s)", "nameEn": "Bedroom(s)", "colorId": "2" },
+  { "id": 4, "name": "Baño", "nameEn": "Bathroom", "colorId": "3" },
+  { "id": 5, "name": "Living / comedor", "nameEn": "Living / dining room", "colorId": "4" },
+  { "id": 6, "name": "Oficina / escritorio", "nameEn": "Office / desk", "colorId": "5" },
+  { "id": 7, "name": "Ropa fuera de temporada", "nameEn": "Off-season clothing", "colorId": "6" },
+  { "id": 8, "name": "Trastero / depósito", "nameEn": "Storage / deposit", "colorId": "7" },
+  { "id": 9, "name": "Frágil / delicado", "nameEn": "Fragile / delicate", "colorId": "8" },
+  { "id": 10, "name": "Donar / vender / descartar", "nameEn": "Donate / sell / discard", "colorId": "9" }
+]

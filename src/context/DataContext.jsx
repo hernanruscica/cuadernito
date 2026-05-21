@@ -1,6 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import defaultCategories from '../categories.json/';
-import defaultCategoriesEng from '../categoriesEng.json/'; //no implemented yet, due the need to changed it in other components
 import categoriesColors from '../categoriesColors.json';
 import defaultThemes from '../themes.json';
 import translationsSrc from '../translations.json';
@@ -8,10 +6,10 @@ import translationsSrc from '../translations.json';
 const initialState = {
   lists: [],
   items: [],
-  categories: defaultCategories,
   categoriesColors: categoriesColors,
   userSettings: {language: "es", themeId:0},
-  themes: defaultThemes
+  themes: defaultThemes,
+  userTemplates: []
 };
 
 const DataContext = createContext(initialState);
@@ -25,7 +23,7 @@ const DataProvider = ({ children }) => {
   const [currentTrans, setCurrentTrans] = useState({});
   const [toasts, setToasts] = useState([]);
   const addToast = (message) => setToasts((prev) => [...prev, message]);
-  const removeToast = (closedToast) => setToasts((prev) => prev.filter((t) => t !== closedToast)); 
+  const removeToast = (closedToast) => setToasts((prev) => prev.filter((t) => t !== closedToast));
 
   const migratePositions = (lists) => {
     let migrated = false;
@@ -50,6 +48,21 @@ const DataProvider = ({ children }) => {
     return migrated;
   };
 
+  const migrateListCategories = (lists) => {
+    return lists.map(list => {
+      if (!list.categories || !list.templateId) {
+        return {
+          ...list,
+          templateId: list.templateId ?? null,
+          categories: list.categories || [
+            { id: 0, name: 'Sin categoría', nameEn: 'No category', colorId: '0' }
+          ]
+        };
+      }
+      return list;
+    });
+  };
+
   const reassignPositions = (items, categoryId) => {
     const categoryItems = items
       .filter(i => i.categoryId == categoryId)
@@ -65,61 +78,62 @@ const DataProvider = ({ children }) => {
       try {
         const parsedData = JSON.parse(storedData);
         const needsMigration = migratePositions(parsedData.lists);
+        parsedData.lists = migrateListCategories(parsedData.lists);
         if (needsMigration) {
           localStorage.setItem(localStorageDataName, JSON.stringify(parsedData));
         }
-        setData(parsedData);        
+        setData(parsedData);
       } catch (error) {
         console.error('Error parsing localStorage data:', error);
       }
-    }    
-    setCurrentTrans(translations[locale] || translations);        
+    }
+    setCurrentTrans(translations[locale] || translations);
     setIsDataLoaded(true);
   }, [locale]);
 
   /* STARTS CRUD SECTION: For each action, each function update the context value and save it to the local storage  */
 
-  const addList = (newList) => {   
+  const addList = (newList) => {
     const updatedData = { ...data, lists: [...data.lists, newList] };
     setData(updatedData);
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage    
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
   const editList = (listId, updatedListData) => {
-    const updatedLists = data.lists.map((list) =>
-      list.id == listId
-        ? { ...list, ...updatedListData } // Update the list with the found id
-        : list
-    );  
-    const updatedData = { ...data, lists: updatedLists };
-    setData(updatedData);
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage
-  };  
+    setData(prev => {
+      const updatedLists = prev.lists.map((list) =>
+        list.id == listId
+          ? { ...list, ...updatedListData }
+          : list
+      );
+      const updatedData = { ...prev, lists: updatedLists };
+      localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+      return updatedData;
+    });
+  };
 
   const deleteListFromContext = (listId) => {
     const updatedData = {
       ...data,
-      lists: data.lists.filter(list => list.id != listId), 
+      lists: data.lists.filter(list => list.id != listId),
     };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
-  };  
+  };
 
   const addItem = (newItem) => {
     const updatedData = { ...data, items: [...data.items, newItem] };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
-  
+
   const addItemToList = (listId, newItem) => {
-    //console.log('additem', listId,newItem)
     const updatedLists = data.lists.map((list) =>
       list.id === listId
     ? { ...list, items: [...list.items, newItem] }
     : list
   );
-  const updatedData = { ...data, lists: updatedLists };    
-  //console.log(updatedData)
+  const updatedData = { ...data, lists: updatedLists };
   setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
@@ -155,67 +169,96 @@ const DataProvider = ({ children }) => {
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
-  const deleteItemFromList = (listId, itemId) => {        
+  const deleteItemFromList = (listId, itemId) => {
     const updatedLists = data.lists.map((list) => {
       if (list.id == listId) {
-        const filteredItems = list.items.filter((item) => item.id != itemId); // Delete item        
+        const filteredItems = list.items.filter((item) => item.id != itemId);
         return { ...list, items: filteredItems };
       }
-      return list; // Other lists remains the same
-    });  
-    const updatedData = { ...data, lists: updatedLists };  
-    setData(updatedData); // Update data state
-    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData)); // Save changes on local storage
+      return list;
+    });
+    const updatedData = { ...data, lists: updatedLists };
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
-  
+
   const editUserSetting = (updatedSettings) => {
     const updatedData = {
       ...data,
       userSettings: {
-        ...data.userSettings, // Keep the current data 
-        ...updatedSettings,   // Override the incomming changes
+        ...data.userSettings,
+        ...updatedSettings,
       },
-    };  
+    };
     setLocale(updatedSettings.language);
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
-  };  
-  
-  const addCategory = (newCategory) => {
-    const updatedData = { ...data, categories: [...data.categories, newCategory] };
+  };
+
+  const addUserTemplate = (template) => {
+    const updatedData = { ...data, userTemplates: [...(data.userTemplates || []), template] };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
-  const editCategory = (categoryId, updatedFields) => {
-    const updatedData = {
-      ...data,
-      categories: data.categories.map(cat =>
-        cat.id === categoryId ? { ...cat, ...updatedFields } : cat
-      ),
-    };
+  const updateUserTemplate = (templateId, updatedFields) => {
+    setData(prev => {
+      const updatedData = {
+        ...prev,
+        userTemplates: (prev.userTemplates || []).map(tpl =>
+          tpl.id === templateId ? { ...tpl, ...updatedFields } : tpl
+        ),
+      };
+      localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+      return updatedData;
+    });
+  };
+
+  const addListCategory = (listId, newCategory) => {
+    const updatedLists = data.lists.map(list => {
+      if (list.id != listId) return list;
+      return {
+        ...list,
+        categories: [...(list.categories || []), newCategory]
+      };
+    });
+    const updatedData = { ...data, lists: updatedLists };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
-  const deleteCategory = (categoryId) => {
-    const updatedLists = data.lists.map(list => ({
-      ...list,
-      items: list.items.map(item =>
+  const editListCategory = (listId, categoryId, updatedFields) => {
+    const updatedLists = data.lists.map(list => {
+      if (list.id != listId) return list;
+      return {
+        ...list,
+        categories: (list.categories || []).map(cat =>
+          cat.id === categoryId ? { ...cat, ...updatedFields } : cat
+        )
+      };
+    });
+    const updatedData = { ...data, lists: updatedLists };
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+
+  const deleteListCategory = (listId, categoryId) => {
+    const updatedLists = data.lists.map(list => {
+      if (list.id != listId) return list;
+      const updatedItems = (list.items || []).map(item =>
         item.categoryId == categoryId
           ? { ...item, categoryId: 0 }
           : item
-      ),
-    }));
-    updatedLists.forEach(list => {
-      reassignPositions(list.items, 0);
-      reassignPositions(list.items, categoryId);
+      );
+      reassignPositions(updatedItems, 0);
+      reassignPositions(updatedItems, categoryId);
+      return {
+        ...list,
+        items: updatedItems,
+        categories: (list.categories || []).filter(cat => cat.id !== categoryId)
+      };
     });
-    const updatedData = {
-      ...data,
-      lists: updatedLists,
-      categories: data.categories.filter(cat => cat.id !== categoryId),
-    };
+    const updatedData = { ...data, lists: updatedLists };
     setData(updatedData);
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
@@ -313,13 +356,12 @@ const DataProvider = ({ children }) => {
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
-  /* ENDS CRUD SECTION: For each action, each function update the context value and save it to the local storage  */
+  /* ENDS CRUD SECTION */
 
   return (
     <DataContext.Provider value={{
       lists: data.lists.sort((a,b)=> {return b.id - a.id}),
       items: data.items,
-      categories: data.categories,
       categoriesColors: data.categoriesColors,
       isDataLoaded: isDataLoaded,
       translations: currentTrans,
@@ -331,10 +373,7 @@ const DataProvider = ({ children }) => {
       addList,
       editList,
       addItem,
-      addCategory,
-      editCategory,
-      deleteCategory,
-      addItemToList, 
+      addItemToList,
       editItemFromList,
       deleteItemFromList,
       deleteListFromContext,
@@ -342,6 +381,12 @@ const DataProvider = ({ children }) => {
       reorderItems,
       moveItemToCategory,
       moveItemsFromCategory,
+      addListCategory,
+      editListCategory,
+      deleteListCategory,
+      userTemplates: data.userTemplates || [],
+      addUserTemplate,
+      updateUserTemplate,
     }}>
       {children}
     </DataContext.Provider>

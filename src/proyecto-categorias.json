@@ -1,0 +1,13 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Backlog / ideas", "nameEn": "Backlog / ideas", "colorId": "0" },
+  { "id": 2, "name": "Análisis / definición", "nameEn": "Analysis / definition", "colorId": "1" },
+  { "id": 3, "name": "Diseño (UI/UX, arquitectura)", "nameEn": "Design (UI/UX, architecture)", "colorId": "2" },
+  { "id": 4, "name": "Desarrollo frontend", "nameEn": "Frontend development", "colorId": "3" },
+  { "id": 5, "name": "Desarrollo backend", "nameEn": "Backend development", "colorId": "4" },
+  { "id": 6, "name": "Infra / DevOps", "nameEn": "Infra / DevOps", "colorId": "5" },
+  { "id": 7, "name": "Testing / QA", "nameEn": "Testing / QA", "colorId": "6" },
+  { "id": 8, "name": "Documentación", "nameEn": "Documentation", "colorId": "7" },
+  { "id": 9, "name": "Deploy / lanzamiento", "nameEn": "Deploy / launch", "colorId": "8" },
+  { "id": 10, "name": "Mantenimiento / bugs", "nameEn": "Maintenance / bugs", "colorId": "9" }
+]

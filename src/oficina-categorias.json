@@ -1,0 +1,11 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Papelería", "nameEn": "Stationery", "colorId": "0" },
+  { "id": 2, "name": "Escritura", "nameEn": "Writing", "colorId": "1" },
+  { "id": 3, "name": "Organización", "nameEn": "Organization", "colorId": "2" },
+  { "id": 4, "name": "Impresión", "nameEn": "Printing", "colorId": "3" },
+  { "id": 5, "name": "Tecnología", "nameEn": "Technology", "colorId": "4" },
+  { "id": 6, "name": "Limpieza oficina", "nameEn": "Office cleaning", "colorId": "5" },
+  { "id": 7, "name": "Cafetería / snacks", "nameEn": "Coffee / snacks", "colorId": "6" },
+  { "id": 8, "name": "Varios", "nameEn": "Miscellaneous", "colorId": "7" }
+]

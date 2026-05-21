@@ -1,0 +1,11 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Materias / cursos", "nameEn": "Subjects / courses", "colorId": "0" },
+  { "id": 2, "name": "Lecturas obligatorias", "nameEn": "Required readings", "colorId": "1" },
+  { "id": 3, "name": "Lecturas recomendadas", "nameEn": "Recommended readings", "colorId": "2" },
+  { "id": 4, "name": "Trabajos prácticos", "nameEn": "Assignments / practical work", "colorId": "3" },
+  { "id": 5, "name": "Exámenes y parciales", "nameEn": "Exams and midterms", "colorId": "4" },
+  { "id": 6, "name": "Proyectos largos", "nameEn": "Long-term projects", "colorId": "5" },
+  { "id": 7, "name": "Investigación / notas", "nameEn": "Research / notes", "colorId": "6" },
+  { "id": 8, "name": "Revisión y repaso", "nameEn": "Review and revision", "colorId": "7" }
+]

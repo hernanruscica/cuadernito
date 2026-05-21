@@ -1,0 +1,123 @@
+[
+  {
+    "id": 0,
+    "name": "Genérica (en blanco)",
+    "nameEn": "Generic (blank)",
+    "defaultName": "Lista genérica",
+    "defaultNameEn": "Generic list",
+    "filename": null,
+    "description": "Plantilla vacía para crear listas sin categorías iniciales. El usuario puede agregar y organizar categorías luego.",
+    "descriptionEn": "Empty template for creating lists without initial categories. You can add and organize categories later.",
+    "icon": "list"
+  },
+  {
+    "id": 1,
+    "name": "Lista de compras (supermercado)",
+    "nameEn": "Shopping list (supermarket)",
+    "defaultName": "Lista de compras",
+    "defaultNameEn": "Shopping list",
+    "filename": "supermercado-categorias.json",
+    "description": "Plantilla de supermercado organizada por secciones típicas de una tienda para optimizar el recorrido.",
+    "descriptionEn": "Supermarket template organized by typical store sections to optimize your shopping route.",
+    "icon": "shopping-cart"
+  },
+  {
+    "id": 2,
+    "name": "Lista de viaje / valija",
+    "nameEn": "Travel list / suitcase",
+    "defaultName": "Lista de viaje",
+    "defaultNameEn": "Travel list",
+    "filename": "viaje-categorias.json",
+    "description": "Checklist para preparar un viaje con categorías de ropa, documentos, electrónica y más.",
+    "descriptionEn": "Checklist for preparing a trip with categories for clothing, documents, electronics and more.",
+    "icon": "suitcase"
+  },
+  {
+    "id": 3,
+    "name": "Tareas diarias",
+    "nameEn": "Daily tasks",
+    "defaultName": "Tareas diarias",
+    "defaultNameEn": "Daily tasks",
+    "filename": "tareas-diarias-categorias.json",
+    "description": "To-do list general separada por contexto: trabajo, casa, finanzas, salud, etc.",
+    "descriptionEn": "General to-do list separated by context: work, home, finances, health, etc.",
+    "icon": "checklist"
+  },
+  {
+    "id": 4,
+    "name": "Proyecto (software o general)",
+    "nameEn": "Project (software or general)",
+    "defaultName": "Proyecto",
+    "defaultNameEn": "Project",
+    "filename": "proyecto-categorias.json",
+    "description": "Plantilla para proyectos con categorías tipo backlog, análisis, diseño, desarrollo, testing y deploy.",
+    "descriptionEn": "Template for projects with categories like backlog, analysis, design, development, testing and deploy.",
+    "icon": "code"
+  },
+  {
+    "id": 5,
+    "name": "Limpieza del hogar",
+    "nameEn": "Home cleaning",
+    "defaultName": "Limpieza del hogar",
+    "defaultNameEn": "Home cleaning",
+    "filename": "limpieza-hogar-categorias.json",
+    "description": "Lista de tareas de limpieza organizada por ambientes y tareas periódicas.",
+    "descriptionEn": "Home cleaning task list organized by rooms and periodic tasks.",
+    "icon": "home"
+  },
+  {
+    "id": 6,
+    "name": "Estudio / universidad",
+    "nameEn": "Study / university",
+    "defaultName": "Estudio",
+    "defaultNameEn": "Study",
+    "filename": "estudio-categorias.json",
+    "description": "Plantilla para estudiantes con categorías de materias, lecturas, trabajos prácticos y exámenes.",
+    "descriptionEn": "Template for students with categories for subjects, readings, assignments and exams.",
+    "icon": "book"
+  },
+  {
+    "id": 7,
+    "name": "Organización de evento",
+    "nameEn": "Event planning",
+    "defaultName": "Evento",
+    "defaultNameEn": "Event",
+    "filename": "evento-categorias.json",
+    "description": "Checklist para organizar eventos (cumple, boda, fiesta) con invitados, proveedores y cronograma.",
+    "descriptionEn": "Checklist for organizing events (birthday, wedding, party) with guests, suppliers and schedule.",
+    "icon": "party"
+  },
+  {
+    "id": 8,
+    "name": "Mudanza",
+    "nameEn": "Moving",
+    "defaultName": "Mudanza",
+    "defaultNameEn": "Moving",
+    "filename": "mudanza-categorias.json",
+    "description": "Plantilla para planificar y empaquetar una mudanza por ambientes y tipo de carga.",
+    "descriptionEn": "Template for planning and packing a move by rooms and load type.",
+    "icon": "truck"
+  },
+  {
+    "id": 9,
+    "name": "Oficina / librería",
+    "nameEn": "Office / stationery",
+    "defaultName": "Oficina",
+    "defaultNameEn": "Office",
+    "filename": "oficina-categorias.json",
+    "description": "Lista de compras de suministros de oficina y librería.",
+    "descriptionEn": "Office supply and stationery shopping list.",
+    "icon": "office"
+  },
+  {
+    "id": 10,
+    "name": "Hábitos y salud",
+    "nameEn": "Habits and health",
+    "defaultName": "Hábitos y salud",
+    "defaultNameEn": "Habits and health",
+    "filename": "habitos-salud-categorias.json",
+    "description": "Plantilla para seguimiento de hábitos de ejercicio, alimentación, sueño y bienestar.",
+    "descriptionEn": "Template for tracking exercise, nutrition, sleep and wellness habits.",
+    "icon": "health"
+  }
+]

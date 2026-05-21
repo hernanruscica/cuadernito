@@ -1,0 +1,11 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Cocina", "nameEn": "Kitchen", "colorId": "0" },
+  { "id": 2, "name": "Baño", "nameEn": "Bathroom", "colorId": "1" },
+  { "id": 3, "name": "Dormitorio(s)", "nameEn": "Bedroom(s)", "colorId": "2" },
+  { "id": 4, "name": "Living / comedor", "nameEn": "Living / dining room", "colorId": "3" },
+  { "id": 5, "name": "Lavado y planchado", "nameEn": "Laundry and ironing", "colorId": "4" },
+  { "id": 6, "name": "Exterior / balcón / patio", "nameEn": "Outdoor / balcony / patio", "colorId": "5" },
+  { "id": 7, "name": "Mascotas", "nameEn": "Pets", "colorId": "6" },
+  { "id": 8, "name": "Tareas mensuales", "nameEn": "Monthly tasks", "colorId": "7" }
+]

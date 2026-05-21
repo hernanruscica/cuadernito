@@ -8,6 +8,32 @@ import MiniList from "../MiniList/MiniList";
 import styles from './Home.module.css';
 import SearchNavBar from "../SearchNavBar/SearchNavBar";
 import AddListButton from '../AddListButton/AddListButton';
+import ModalSelectTemplate from '../ModalSelectTemplate/ModalSelectTemplate';
+
+import plantillas from '../../plantillas.json';
+import supermercadoCat from '../../supermercado-categorias.json';
+import viajeCat from '../../viaje-categorias.json';
+import tareasDiariasCat from '../../tareas-diarias-categorias.json';
+import proyectoCat from '../../proyecto-categorias.json';
+import limpiezaHogarCat from '../../limpieza-hogar-categorias.json';
+import estudioCat from '../../estudio-categorias.json';
+import eventoCat from '../../evento-categorias.json';
+import mudanzaCat from '../../mudanza-categorias.json';
+import oficinaCat from '../../oficina-categorias.json';
+import habitosSaludCat from '../../habitos-salud-categorias.json';
+
+const categoryFiles = {
+  'supermercado-categorias.json': supermercadoCat,
+  'viaje-categorias.json': viajeCat,
+  'tareas-diarias-categorias.json': tareasDiariasCat,
+  'proyecto-categorias.json': proyectoCat,
+  'limpieza-hogar-categorias.json': limpiezaHogarCat,
+  'estudio-categorias.json': estudioCat,
+  'evento-categorias.json': eventoCat,
+  'mudanza-categorias.json': mudanzaCat,
+  'oficina-categorias.json': oficinaCat,
+  'habitos-salud-categorias.json': habitosSaludCat,
+};
 
 import { ModalConfirm } from "../MyModals/ModalConfirm";
 
@@ -23,7 +49,7 @@ import {
 import HomeDropZone from "../HomeDropZone/HomeDropZone";
 
 function Home() {
-  const { lists, addList, deleteListFromContext, translations, addToast } = useContext(DataContext);
+  const { lists, addList, deleteListFromContext, translations, addToast, userSettings } = useContext(DataContext);
   const navigate = useNavigate();
   const [searchInputText, setSearchInputText] = useState('');
 
@@ -31,6 +57,7 @@ function Home() {
   const [activeList, setActiveList] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -45,35 +72,81 @@ function Home() {
     list.name.toLowerCase().includes(searchInputText)
   );
 
+  const formatDate = (date) => {
+    const options = {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    };
+    return new Intl.DateTimeFormat("es-ES", options).format(date);
+  };
+
   const handleAddNewList = (e) => {
     e.preventDefault();
+    setShowTemplateModal(true);
+  };
 
-    const formatDate = (date) => {
-      const options = {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      };
-      return new Intl.DateTimeFormat("es-ES", options).format(date);
-    };
-
-    const newName = GetNewName(translations.listName, lists.map(list => list.name), 99);
-
-    if (newName !== -1) {
-      const newList = {
-        id: Date.now(),
-        name: newName,
-        items: [],
-        createdDate: formatDate(new Date()),
-      };
-      addList(newList);
-      navigate(`/lists/${newList.id}`);
-    } else {
+  const handleStartFromScratch = () => {
+    const lang = userSettings.language || 'es';
+    const genericTpl = plantillas[0];
+    const baseName = lang === 'en' ? genericTpl.defaultNameEn : genericTpl.defaultName;
+    const newName = GetNewName(baseName, lists.map(list => list.name), 99);
+    if (newName === -1) {
       addToast(translations.toastNameRepeat);
+      return;
     }
+    const newList = {
+      id: Date.now(),
+      name: newName,
+      items: [],
+      createdDate: formatDate(new Date()),
+      templateId: null,
+      categories: [
+        { id: 0, name: 'Sin categoría', nameEn: 'No category', colorId: '0' }
+      ],
+      _originalCategories: [
+        { id: 0, name: 'Sin categoría', nameEn: 'No category', colorId: '0' }
+      ],
+    };
+    addList(newList);
+    navigate(`/lists/${newList.id}`);
+  };
+
+  const handleSelectTemplate = (tpl) => {
+    const lang = userSettings.language || 'es';
+    const baseName = lang === 'en' ? (tpl.defaultNameEn || tpl.nameEn) : (tpl.defaultName || tpl.name);
+    const newName = GetNewName(baseName, lists.map(list => list.name), 99);
+    if (newName === -1) {
+      addToast(translations.toastNameRepeat);
+      return;
+    }
+    let categories = [];
+
+    if (tpl.categories) {
+      categories = tpl.categories.map(cat => ({ ...cat }));
+    } else if (tpl.filename) {
+      const rawCategories = categoryFiles[tpl.filename] || [];
+      categories = rawCategories.map(cat => ({ ...cat }));
+    } else {
+      categories = [
+        { id: 0, name: 'Sin categoría', nameEn: 'No category', colorId: '0' }
+      ];
+    }
+
+    const newList = {
+      id: Date.now(),
+      name: newName,
+      items: [],
+      createdDate: formatDate(new Date()),
+      templateId: tpl.id,
+      categories: categories,
+      _originalCategories: JSON.parse(JSON.stringify(categories)),
+    };
+    addList(newList);
+    navigate(`/lists/${newList.id}`);
   };
 
   const handleChangeInputText = (e) => {
@@ -143,6 +216,12 @@ function Home() {
           onClickYes={handleConfirmDelete}
         />
 
+        <ModalSelectTemplate
+          isOpen={showTemplateModal}
+          onClose={() => setShowTemplateModal(false)}
+          onStartFromScratch={handleStartFromScratch}
+          onSelectTemplate={handleSelectTemplate}
+        />
         <SearchNavBar value={searchInputText} onChange={handleChangeInputText} listsQty={filteredLists?.length} />
         <AddListButton
           textNewList={translations.listName}

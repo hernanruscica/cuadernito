@@ -1,0 +1,17 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Frutas y verduras", "nameEn": "Fruits and vegetables", "colorId": "0" },
+  { "id": 2, "name": "Carnes y pescados", "nameEn": "Meat and fish", "colorId": "1" },
+  { "id": 3, "name": "Fiambres y embutidos", "nameEn": "Cold cuts and sausages", "colorId": "2" },
+  { "id": 4, "name": "Lácteos y quesos", "nameEn": "Dairy and cheese", "colorId": "3" },
+  { "id": 5, "name": "Panadería y repostería", "nameEn": "Bakery and pastry", "colorId": "4" },
+  { "id": 6, "name": "Despensa seca", "nameEn": "Dry pantry", "colorId": "5" },
+  { "id": 7, "name": "Congelados", "nameEn": "Frozen foods", "colorId": "6" },
+  { "id": 8, "name": "Bebidas", "nameEn": "Beverages", "colorId": "7" },
+  { "id": 9, "name": "Snacks y golosinas", "nameEn": "Snacks and candies", "colorId": "8" },
+  { "id": 10, "name": "Limpieza del hogar", "nameEn": "Home cleaning", "colorId": "9" },
+  { "id": 11, "name": "Higiene y cuidado personal", "nameEn": "Personal hygiene and care", "colorId": "0" },
+  { "id": 12, "name": "Mascotas", "nameEn": "Pets", "colorId": "1" },
+  { "id": 13, "name": "Bebé", "nameEn": "Baby", "colorId": "2" },
+  { "id": 14, "name": "Varios", "nameEn": "Miscellaneous", "colorId": "3" }
+]

@@ -10,6 +10,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 
 import AddItemButton from "../AddItemButton/AddItemButton";
+import { FiSave, FiRefreshCw } from 'react-icons/fi';
+import SaveTemplateModal from "../SaveTemplateModal/SaveTemplateModal";
 
 import { ModalChangeCategory } from "../MyModals/ModalChangeCategory";
 import { ModalConfirm } from "../MyModals/ModalConfirm";
@@ -31,7 +33,7 @@ import CategoryDropZone from "../CategoryDropZone/CategoryDropZone";
 import styles from "./ViewList.module.css";
 
 function ViewList() {
-  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, deleteItemFromList, translations, categories, categoriesColors, reorderItems, moveItemToCategory, moveItemsFromCategory, addToast } = useContext(DataContext);
+  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, deleteItemFromList, translations, categoriesColors, reorderItems, moveItemToCategory, moveItemsFromCategory, addToast, userSettings, userTemplates, updateUserTemplate } = useContext(DataContext);
   const { listId } = useParams();
 
   const navigate = useNavigate();
@@ -47,6 +49,7 @@ function ViewList() {
   const [activeItem, setActiveItem] = useState(null);
   const [deleteCandidateId, setDeleteCandidateId] = useState(null);
   const [categoryDropItem, setCategoryDropItem] = useState(null);
+  const [showSaveTemplateModal, setShowSaveTemplateModal] = useState(false);
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -59,6 +62,11 @@ function ViewList() {
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
+  };
+
+  const catName = (cat) => {
+    const lang = userSettings.language || 'es';
+    return lang === 'en' ? (cat.nameEn || cat.name) : cat.name;
   };
 
   const handleAddItem = () => {
@@ -139,9 +147,26 @@ function ViewList() {
     setGroupCategoryModal(category);
   };
 
+  const handleOpenSaveAsNew = () => {
+    setShowSaveTemplateModal(true);
+  };
+
+  const handleUpdateTemplate = () => {
+    const template = userTemplates.find(t => t.id === currentList.templateId);
+    if (!template) return;
+    updateUserTemplate(currentList.templateId, {
+      categories: currentList.categories.map(c => ({ ...c }))
+    });
+    editList(currentList.id, {
+      _originalCategories: JSON.parse(JSON.stringify(currentList.categories))
+    });
+    addToast(translations.toastTemplateUpdated);
+  };
+
   const handleGroupCategorySave = (selectedCategory) => {
-    if (!groupCategoryModal) return;
-    const sourceId = categories.some(c => c.id === groupCategoryModal.id)
+    if (!groupCategoryModal || !currentList) return;
+    const listCategories = currentList.categories || [];
+    const sourceId = listCategories.some(c => c.id === groupCategoryModal.id)
       ? groupCategoryModal.id
       : 0;
     moveItemsFromCategory(listId, sourceId, selectedCategory.id);
@@ -217,15 +242,14 @@ function ViewList() {
   useEffect(() => {
     if (isDataLoaded) {
       const foundList = lists.find((list) => list.id == listId);
-      const orderedItems = foundList
-        ? [...foundList.items].sort((a, b) => (a.position ?? a.id) - (b.position ?? b.id))
-        : null;
-      const listWithOrdenedItems = {
-        ...foundList,
-        items: orderedItems
-      };
-      setCurrentList(listWithOrdenedItems || "");
-      setInputValueListName(foundList?.name || "");
+      if (!foundList) {
+        setCurrentList(null);
+        return;
+      }
+      const orderedItems = [...foundList.items].sort((a, b) => (a.position ?? a.id) - (b.position ?? b.id));
+      const listWithOrdenedItems = { ...foundList, items: orderedItems };
+      setCurrentList(listWithOrdenedItems);
+      setInputValueListName(foundList.name || "");
       listNameRef.current = foundList?.name || '';
 
       const isNewList = (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;
@@ -236,11 +260,11 @@ function ViewList() {
   }, [isDataLoaded, lists, listId]);
 
   const groupedCategories = useMemo(() => {
-    if (!currentList?.items) return [];
-    return categories.filter(cat =>
+    if (!currentList?.items || !currentList?.categories) return [];
+    return currentList.categories.filter(cat =>
       currentList.items.some(item => item.categoryId === cat.id)
     );
-  }, [currentList, categories]);
+  }, [currentList]);
 
   if (!currentList) {
     return <div>Cargando...</div>;
@@ -284,6 +308,7 @@ function ViewList() {
           itemCategory={groupCategoryModal}
           setItemCategory={() => {}}
           onSave={handleGroupCategorySave}
+          listCategories={currentList?.categories || []}
         />
 
         <ModalChangeCategory
@@ -291,8 +316,9 @@ function ViewList() {
           onClose={() => setCategoryDropItem(null)}
           item={categoryDropItem}
           listId={listId}
-          itemCategory={categoryDropItem ? categories.find(cat => cat.id === categoryDropItem.categoryId) : null}
+          itemCategory={categoryDropItem ? (currentList?.categories || []).find(cat => cat.id === categoryDropItem.categoryId) : null}
           setItemCategory={() => {}}
+          listCategories={currentList?.categories || []}
         />
 
         <RowButtonInput
@@ -308,6 +334,13 @@ function ViewList() {
         <RowLabel text={currentList?.createdDate} info={`${currentList?.items?.length} items`}>
           <DeleteButton onClick={handleDeleteList} />
         </RowLabel>
+
+        <SaveTemplateModal
+          isOpen={showSaveTemplateModal}
+          onClose={() => setShowSaveTemplateModal(false)}
+          listCategories={currentList?.categories || []}
+          currentTemplateId={null}
+        />
 
         <AddItemButton
           placeholder={translations.placeholderNewItem}
@@ -326,7 +359,7 @@ function ViewList() {
               <div key={category.id}>
                 <RowNormal>
                   <CategoryTag
-                    text={category.name}
+                    text={catName(category)}
                     color={categoriesColors[category.colorId] || '#fff'}
                     onClick={() => handleGroupCategoryClick(category)}
                   />
@@ -353,6 +386,42 @@ function ViewList() {
         ) : currentList ? (
           <RowLabel text={translations.noItemMessage} />
         ) : null}
+
+        {(() => {
+          const hasChanges = JSON.stringify(currentList?.categories) !==
+                             JSON.stringify(currentList?._originalCategories);
+          if (!hasChanges) return null;
+          const existingTemplate = currentList?.templateId
+            ? userTemplates.find(t => t.id === currentList.templateId)
+            : null;
+          if (!existingTemplate) {
+            return (
+              <div className={styles.saveRow}>
+                <button className={styles.saveButton} onClick={handleOpenSaveAsNew}>
+                  <FiSave /> {translations.saveAsNewTemplate}
+                </button>
+              </div>
+            );
+          }
+          const lang = userSettings.language || 'es';
+          const templateName = lang === 'en'
+            ? (existingTemplate.nameEn || existingTemplate.name)
+            : existingTemplate.name;
+          return (
+            <>
+              <div className={styles.saveRow}>
+                <button className={styles.updateButton} onClick={handleUpdateTemplate}>
+                  <FiRefreshCw /> {translations.updateTemplate}: {templateName}
+                </button>
+              </div>
+              <div className={styles.saveRow}>
+                <button className={styles.saveButton} onClick={handleOpenSaveAsNew}>
+                  <FiSave /> {translations.saveAsNewTemplate}
+                </button>
+              </div>
+            </>
+          );
+        })()}
       </NotebookSheet>
 
       {!!activeId && (

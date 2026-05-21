@@ -1,0 +1,15 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Documentación y dinero", "nameEn": "Documents and money", "colorId": "0" },
+  { "id": 2, "name": "Ropa diaria", "nameEn": "Daily clothes", "colorId": "1" },
+  { "id": 3, "name": "Ropa interior y pijamas", "nameEn": "Underwear and pajamas", "colorId": "2" },
+  { "id": 4, "name": "Calzado", "nameEn": "Footwear", "colorId": "3" },
+  { "id": 5, "name": "Abrigo y lluvia", "nameEn": "Jackets and rainwear", "colorId": "4" },
+  { "id": 6, "name": "Aseo personal y cosmética", "nameEn": "Personal care and cosmetics", "colorId": "5" },
+  { "id": 7, "name": "Medicación y botiquín", "nameEn": "Medication and first aid", "colorId": "6" },
+  { "id": 8, "name": "Electrónica y cargadores", "nameEn": "Electronics and chargers", "colorId": "7" },
+  { "id": 9, "name": "Trabajo / estudio", "nameEn": "Work / study", "colorId": "8" },
+  { "id": 10, "name": "Playa / pileta", "nameEn": "Beach / pool", "colorId": "9" },
+  { "id": 11, "name": "Snacks y comida", "nameEn": "Snacks and food", "colorId": "0" },
+  { "id": 12, "name": "Varios", "nameEn": "Miscellaneous", "colorId": "1" }
+]

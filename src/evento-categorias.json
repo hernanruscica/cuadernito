@@ -1,0 +1,14 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Idea general y objetivos", "nameEn": "Overall idea and goals", "colorId": "0" },
+  { "id": 2, "name": "Invitados", "nameEn": "Guests", "colorId": "1" },
+  { "id": 3, "name": "Lugar / salón", "nameEn": "Venue / hall", "colorId": "2" },
+  { "id": 4, "name": "Catering / comida y bebida", "nameEn": "Catering / food and drinks", "colorId": "3" },
+  { "id": 5, "name": "Decoración", "nameEn": "Decoration", "colorId": "4" },
+  { "id": 6, "name": "Música / DJ / sonido", "nameEn": "Music / DJ / sound", "colorId": "5" },
+  { "id": 7, "name": "Foto y video", "nameEn": "Photo and video", "colorId": "6" },
+  { "id": 8, "name": "Proveedores varios", "nameEn": "Various suppliers", "colorId": "7" },
+  { "id": 9, "name": "Presupuesto y pagos", "nameEn": "Budget and payments", "colorId": "8" },
+  { "id": 10, "name": "Cronograma del evento", "nameEn": "Event schedule", "colorId": "9" },
+  { "id": 11, "name": "Tareas del día del evento", "nameEn": "Day-of-event tasks", "colorId": "0" }
+]

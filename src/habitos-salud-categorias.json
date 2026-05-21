@@ -1,0 +1,10 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Ejercicio y deporte", "nameEn": "Exercise and sports", "colorId": "0" },
+  { "id": 2, "name": "Alimentación", "nameEn": "Nutrition", "colorId": "1" },
+  { "id": 3, "name": "Sueño y descanso", "nameEn": "Sleep and rest", "colorId": "2" },
+  { "id": 4, "name": "Medicación y controles", "nameEn": "Medication and checkups", "colorId": "3" },
+  { "id": 5, "name": "Bienestar / hobbies", "nameEn": "Wellness / hobbies", "colorId": "4" },
+  { "id": 6, "name": "Objetivos mensuales", "nameEn": "Monthly goals", "colorId": "5" },
+  { "id": 7, "name": "Turnos y seguimientos", "nameEn": "Appointments and follow-ups", "colorId": "6" }
+]

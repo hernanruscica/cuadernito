@@ -8,14 +8,20 @@ import { DataContext } from "../../context/DataContext";
 
 export const ModalChangeCategory = ({
   isOpen,
-  onClose,  
+  onClose,
   item,
-  listId,  
+  listId,
   itemCategory = null,
   setItemCategory,
-  onSave
+  onSave,
+  listCategories = []
 }) => {
-  const { translations, addCategory, editCategory, deleteCategory, editItemFromList, categories, categoriesColors, addToast } = useContext(DataContext);
+  const { translations, addListCategory, editListCategory, deleteListCategory, editItemFromList, categoriesColors, addToast, userSettings } = useContext(DataContext);
+
+  const catName = (cat) => {
+    const lang = userSettings.language || 'es';
+    return lang === 'en' ? (cat.nameEn || cat.name) : cat.name;
+  };
 
   const [searchTerm, setSearchTerm] = useState('');
   const [showNewCategory, setShowNewCategory] = useState(false);
@@ -47,7 +53,6 @@ export const ModalChangeCategory = ({
     }
   }, [isOpen]);
 
-  // Al montar, si existe una categoría asignada, se la toma como categoría actual y el input inicia en blanco.
   useEffect(() => {
     if (itemCategory) {
       setSelectedCategory(itemCategory);
@@ -55,56 +60,48 @@ export const ModalChangeCategory = ({
     }
   }, [itemCategory]);
 
-  // Reordena las categorías: las que coinciden con la búsqueda aparecen primero, pero el resto permanece visible.
-  // Ordena las categorías según búsqueda y alfabéticamente
-const sortedCategories = searchTerm
-? categories
-    .filter((cat) =>
-      cat.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .sort((a, b) => a.name.localeCompare(b.name))
-: [...categories].sort((a, b) => a.name.localeCompare(b.name));
+  const sortedCategories = searchTerm
+  ? listCategories
+      .filter((cat) =>
+        cat.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (cat.nameEn && cat.nameEn.toLowerCase().includes(searchTerm.toLowerCase()))
+      )
+      .sort((a, b) => catName(a).localeCompare(catName(b)))
+  : [...listCategories].sort((a, b) => catName(a).localeCompare(catName(b)));
 
-// Si existe una categoría actual (ya sea seleccionada o asignada), la ponemos al inicio
-// Validamos que la categoría siga existiendo (por si fue eliminada)
-const currentValid = (selectedCategory && categories.some(c => c.id === selectedCategory.id) ? selectedCategory : null)
-  || (itemCategory && categories.some(c => c.id === itemCategory.id) ? itemCategory : null);
+const currentValid = (selectedCategory && listCategories.some(c => c.id === selectedCategory.id) ? selectedCategory : null)
+  || (itemCategory && listCategories.some(c => c.id === itemCategory.id) ? itemCategory : null);
 const finalCategories = currentValid
-? [currentValid, ...sortedCategories.filter(cat => cat.id !== currentValid.id)]
-: sortedCategories;
+  ? [currentValid, ...sortedCategories.filter(cat => cat.id !== currentValid.id)]
+  : sortedCategories;
 
-
-
-    const handleClickNewCatColor = ({key, data}) => {    
-        setSelectedColorId(key);    
-        setSelectedColor(data);       
+    const handleClickNewCatColor = ({key, data}) => {
+        setSelectedColorId(key);
+        setSelectedColor(data);
     }
 
-  // Crear nueva categoría
   const handleCreateCategory = () => {
     if (newCategoryName.trim() === '') return;
     const newCat = {
-      id: Date.now(),  
+      id: Date.now(),
       name: newCategoryName,
       colorId: selectedColorId
     };
-    addCategory(newCat);
+    addListCategory(listId, newCat);
     addToast(translations.toastCategoryCreated);
     setSelectedCategory(newCat);
-    setSearchTerm(newCat.name);
+    setSearchTerm(catName(newCat));
     setShowNewCategory(false);
     setNewCategoryName('');
-    setSelectedColor('#ffffff');    
-    // Hacer scroll al tope de la lista
+    setSelectedColor('#ffffff');
     if (listRef.current) {
       listRef.current.scrollTop = 0;
     }
   };
 
-  // Al hacer click en una categoría existente, se selecciona y se hace scroll hacia arriba
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
-    setSearchTerm(category.name);
+    setSearchTerm(catName(category));
     setShowNewCategory(false);
     if (listRef.current) {
       listRef.current.scrollTop = 0;
@@ -113,7 +110,7 @@ const finalCategories = currentValid
 
   const handleStartEdit = (category) => {
     setEditingCategory(category);
-    setEditCategoryName(category.name);
+    setEditCategoryName(catName(category));
     setEditCategoryColorId(category.colorId);
     setShowNewCategory(false);
     setShowEditModal(true);
@@ -128,17 +125,24 @@ const finalCategories = currentValid
 
   const handleSaveEditCategory = () => {
     if (editCategoryName.trim() === '') return;
-    editCategory(editingCategory.id, { name: editCategoryName.trim(), colorId: editCategoryColorId });
+    const lang = userSettings.language || 'es';
+    const updates = { colorId: editCategoryColorId };
+    if (lang === 'en') {
+      updates.nameEn = editCategoryName.trim();
+    } else {
+      updates.name = editCategoryName.trim();
+    }
+    editListCategory(listId, editingCategory.id, updates);
     addToast(translations.toastCategoryEdited);
-    setSelectedCategory({ ...editingCategory, name: editCategoryName.trim(), colorId: editCategoryColorId });
+    setSelectedCategory({ ...editingCategory, ...updates });
     setSearchTerm(editCategoryName.trim());
     handleCancelEdit();
   };
 
   const handleDeleteCategory = () => {
-    deleteCategory(editingCategory.id);
+    deleteListCategory(listId, editingCategory.id);
     addToast(translations.toastCategoryDeleted);
-    const sinCategoria = categories.find(c => c.id === 0) || { id: 0, name: 'Sin categoría', colorId: '0' };
+    const sinCategoria = listCategories.find(c => c.id === 0) || { id: 0, name: 'Sin categoría', colorId: '0' };
     if (selectedCategory && selectedCategory.id === editingCategory.id) {
       setSelectedCategory(sinCategoria);
       setSearchTerm('');
@@ -149,9 +153,9 @@ const finalCategories = currentValid
     handleCancelEdit();
   };
 
-  const updateData = () => {    
+  const updateData = () => {
     const editedItem = {
-      categoryId: selectedCategory.id,      
+      categoryId: selectedCategory.id,
     }
     editItemFromList(listId, item.id, editedItem);
     addToast(translations.toastCategoryChanged);
@@ -168,12 +172,11 @@ const finalCategories = currentValid
   };
 
 const handleChangeSearchTerm = (e) => {
-    setSearchTerm(e.target.value)    
+    setSearchTerm(e.target.value)
     if (listRef.current) {
         listRef.current.scrollTop = 0;
       }
-} 
-
+}
 
   const currentCategory = currentValid;
 
@@ -181,7 +184,6 @@ const handleChangeSearchTerm = (e) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <p className="modal-content-paragraph">{translations.changeCategoryTitle}</p>
 
-      {/* Input de búsqueda que inicia en blanco */}
       <label className={styles.modalChangeCatLabelSearch}>{translations.searchCategoryPlaceholder}</label>
       <input
         className={styles.modalChangeCatInput}
@@ -191,7 +193,6 @@ const handleChangeSearchTerm = (e) => {
         onChange={handleChangeSearchTerm}
       />
 
-      {/* Lista de categorías reordenada: las que coinciden aparecen primero */}
       <ul className={styles.modalChangeCatCategoriesDropdown} ref={listRef}>
         {finalCategories.map((category, index) => (
           <li
@@ -205,7 +206,7 @@ const handleChangeSearchTerm = (e) => {
             }}
             onClick={() => handleSelectCategory(category)}
           >
-            <FiTag /> <span style={{ flex: 1 }}>{category.name}</span>
+            <FiTag /> <span style={{ flex: 1 }}>{catName(category)}</span>
             {category.id !== 0 && (
               <button
                 className={styles.editCatBtn}
@@ -220,7 +221,6 @@ const handleChangeSearchTerm = (e) => {
           </li>
         ))}
       </ul>
-
 
       {showEditModal && editingCategory && (
         <Modal isOpen={showEditModal} onClose={handleCancelEdit}>
@@ -294,7 +294,6 @@ const handleChangeSearchTerm = (e) => {
           </div>
 
           <div className={styles.modalChangeCatColors}>
-          {/* Object.entries(courseTypes).map(([key, data])  */}
             {Object.entries(categoriesColors).map(([key, data]) => (
               <button
                 key={key}

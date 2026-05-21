@@ -26,3 +26,49 @@
   text-overflow: ellipsis;
   user-select: none;
 }
+
+.saveRow {
+  display: flex;
+  justify-content: center;
+  padding: 6px 0;
+}
+
+.saveButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 2px solid var(--notebookAccentColor);
+  background: transparent;
+  color: var(--notebookAccentColor);
+  font-family: var(--appFontFamily);
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.saveButton:hover {
+  background: var(--notebookAccentColor);
+  color: var(--bodyBackgroundColor);
+}
+
+.updateButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  border: 2px solid var(--successColor, #2ecc71);
+  background: transparent;
+  color: var(--successColor, #2ecc71);
+  font-family: var(--appFontFamily);
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.updateButton:hover {
+  background: var(--successColor, #2ecc71);
+  color: var(--bodyBackgroundColor);
+}

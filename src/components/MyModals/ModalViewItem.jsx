@@ -12,19 +12,17 @@ import { ModalChangeCategory } from "./ModalChangeCategory";
 import CategoryTag from "../CategoryTag/CategoryTag";
 
 const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
-  const {editItemFromList, deleteItemFromList, translations, categories, categoriesColors } = useContext(DataContext);
+  const {editItemFromList, deleteItemFromList, translations, categoriesColors } = useContext(DataContext);
   const [inputValueName, setInputValueName] = useState('');
   const inputValueNameRef = useRef(null);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);  
   const [isChangeCategoryOpen, setIsChangeCategoryOpen] = useState(false);
   const [itemCategory, setItemCategory] = useState({});
   
-  // Focus and select text on modal open (adjusted to handle re-renders)
   useEffect(() => {
     if (isOpen && inputValueNameRef.current) {
       setTimeout(() => {
         inputValueNameRef.current.focus();
-        // inputValueNameRef.current.select();
       }, 0);
     }
     setInputValueName(item?.name);
@@ -32,8 +30,10 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
 
   useEffect(() => {
     setInputValueName(item?.name);
-    setItemCategory(categories.find(cat => cat.id === item?.categoryId) || {});
-  }, [item, categories]);
+    if (item && listId) {
+      setItemCategory({ id: item.categoryId, name: '', colorId: '0' });
+    }
+  }, [item, listId]);
 
   const handleDelete = (e) => {
     e.preventDefault();    
@@ -62,8 +62,7 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
     setIsChangeCategoryOpen(false);
   }
   
-  const handleSave = () => {
-    // console.log('click en guardar')    
+  const handleSave = () => {   
     if (inputValueName && inputValueName.trim() !== "") {      
       updateData();
     } 
@@ -106,8 +105,6 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
    
   }  
 
-  
-
   return (
     <>
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -148,7 +145,6 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
           </div>            
     </Modal>
 
-    {/* Delete Confirmation Modal */}        
     <ModalConfirm 
       title={translations.deleteItemConfirmMsg}
       itemName={item?.name}
@@ -158,16 +154,15 @@ const ModalViewItem = ({ isOpen, onClose, item, listId, addToast=null }) => {
       yesText={translations.deleteItemYesText}
       isOpen={isDeleteConfirmationOpen} onClose={handleCancelDelete}
     />
-    {/* Change category Modal */}        
-        <ModalChangeCategory 
-          title="Change Category modal"
-          isOpen={isChangeCategoryOpen}      
-          listId={listId}
-          item={item}
-          itemCategory={itemCategory}
-          setItemCategory={setItemCategory}
-          onClose={handleCancelChangeCategory}
-        />
+    <ModalChangeCategory 
+      title="Change Category modal"
+      isOpen={isChangeCategoryOpen}      
+      listId={listId}
+      item={item}
+      itemCategory={itemCategory}
+      setItemCategory={setItemCategory}
+      onClose={handleCancelChangeCategory}
+    />
     </>
   );
 };

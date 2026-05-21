@@ -1,0 +1,12 @@
+[
+  { "id": 0, "name": "Sin categoría", "nameEn": "No category", "colorId": "0" },
+  { "id": 1, "name": "Trabajo / profesional", "nameEn": "Work / professional", "colorId": "0" },
+  { "id": 2, "name": "Casa / hogar", "nameEn": "Home / household", "colorId": "1" },
+  { "id": 3, "name": "Finanzas / trámites", "nameEn": "Finance / paperwork", "colorId": "2" },
+  { "id": 4, "name": "Estudio / aprendizaje", "nameEn": "Study / learning", "colorId": "3" },
+  { "id": 5, "name": "Salud y deporte", "nameEn": "Health and sports", "colorId": "4" },
+  { "id": 6, "name": "Familia y amigos", "nameEn": "Family and friends", "colorId": "5" },
+  { "id": 7, "name": "Compras / recados", "nameEn": "Shopping / errands", "colorId": "6" },
+  { "id": 8, "name": "Online (mails, mensajes)", "nameEn": "Online (emails, messages)", "colorId": "7" },
+  { "id": 9, "name": "Algún día / ideas", "nameEn": "Someday / ideas", "colorId": "8" }
+]
