@@ -6,10 +6,9 @@ import RowLabel from "../RowLabel/RowLabel";
 
 import DeleteButton from "../Buttons/DeleteButton";
 
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 
-import Toast from "../Toast/Toast";
 import AddItemButton from "../AddItemButton/AddItemButton";
 
 import { ModalChangeCategory } from "../MyModals/ModalChangeCategory";
@@ -32,7 +31,7 @@ import CategoryDropZone from "../CategoryDropZone/CategoryDropZone";
 import styles from "./ViewList.module.css";
 
 function ViewList() {
-  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, deleteItemFromList, translations, categories, categoriesColors, reorderItems, moveItemToCategory, moveItemsFromCategory } = useContext(DataContext);
+  const { lists, isDataLoaded, editList, addItemToList, editItemFromList, deleteListFromContext, deleteItemFromList, translations, categories, categoriesColors, reorderItems, moveItemToCategory, moveItemsFromCategory, addToast } = useContext(DataContext);
   const { listId } = useParams();
 
   const navigate = useNavigate();
@@ -40,10 +39,6 @@ function ViewList() {
   const [inputValueListName, setInputValueListName] = useState('');
   const inputEditListRef = useRef(null);
   const [showModalDelete, setShowModalDelete] = useState(false);
-  const [toasts, setToasts] = useState([]);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const toastMessage = queryParams.get("toast");
 
   const [inputValue, setInputValue] = useState("");
   const [groupCategoryModal, setGroupCategoryModal] = useState(null);
@@ -90,20 +85,12 @@ function ViewList() {
     addToast(translations.toastNewItem);
   };
 
-  const addToast = (message) => {
-    setToasts((prevToasts) => [...prevToasts, message]);
-  };
-
-  const handleToastClose = (closedToast) => {
-    setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
-  };
-
   const handlerToggleChecked = (e) => {
     const parentDiv = e.currentTarget;
     const itemId = parentDiv.id;
-    editItemFromList(listId, itemId, {
-      checked: !currentList.items.find(item => item.id == itemId).checked
-    });
+    const wasChecked = currentList.items.find(item => item.id == itemId).checked;
+    editItemFromList(listId, itemId, { checked: !wasChecked });
+    addToast(wasChecked ? translations.toastItemUnchecked : translations.toastItemChecked);
   };
 
   const handleDeleteList = (e) => {
@@ -113,28 +100,35 @@ function ViewList() {
 
   const deleteList = () => {
     deleteListFromContext(listId);
-    navigate(`/?toast=${translations.toastListDeleted}`);
+    addToast(translations.toastListDeleted);
+    navigate('/', { replace: true });
   };
 
-  const handlerConfirmEditListName = (e) => {
+  const listNameRef = useRef('');
+  const handleChangeListName = (e) => {
     setInputValueListName(e.target.value);
-    const updatedNameList = {
-      ...currentList,
-      name: e.target.value
-    };
-    if (e.target.value !== null && e.target.value !== '') {
+  };
+
+  const handleConfirmListName = () => {
+    if (inputValueListName !== '' && inputValueListName !== listNameRef.current) {
+      const updatedNameList = { ...currentList, name: inputValueListName };
       editList(currentList.id, updatedNameList);
+      addToast(translations.toastListEdited);
+      listNameRef.current = inputValueListName;
     }
   };
 
   const handleSaveItemName = (itemId, newName) => {
     editItemFromList(listId, itemId, { name: newName });
+    addToast(translations.toastItemNameEdited);
   };
 
   const handleFocusListName = (e) => e.target.select();
 
   const handleKeyDownListName = (e) => {
-    if (e.key === 'Enter') e.target.blur();
+    if (e.key === 'Enter') {
+      e.target.blur();
+    }
   };
 
   const handleDeleteItem = (itemId) => {
@@ -147,7 +141,11 @@ function ViewList() {
 
   const handleGroupCategorySave = (selectedCategory) => {
     if (!groupCategoryModal) return;
-    moveItemsFromCategory(listId, groupCategoryModal.id, selectedCategory.id);
+    const sourceId = categories.some(c => c.id === groupCategoryModal.id)
+      ? groupCategoryModal.id
+      : 0;
+    moveItemsFromCategory(listId, sourceId, selectedCategory.id);
+    addToast(translations.toastCategoryChanged);
     setGroupCategoryModal(null);
   };
 
@@ -189,6 +187,7 @@ function ViewList() {
           reorderItems(listId, active.id, over.id);
         } else {
           moveItemToCategory(listId, active.id, overItemData.categoryId, over.id);
+          addToast(translations.toastCategoryChanged);
         }
       }
     }
@@ -227,6 +226,7 @@ function ViewList() {
       };
       setCurrentList(listWithOrdenedItems || "");
       setInputValueListName(foundList?.name || "");
+      listNameRef.current = foundList?.name || '';
 
       const isNewList = (foundList && isDataLoaded) ? (Date.now() - foundList.id) < 250 : false;
       if (isNewList) {
@@ -234,12 +234,6 @@ function ViewList() {
       }
     }
   }, [isDataLoaded, lists, listId]);
-
-  useEffect(() => {
-    if (toastMessage) {
-      addToast(toastMessage);
-    }
-  }, []);
 
   const groupedCategories = useMemo(() => {
     if (!currentList?.items) return [];
@@ -261,7 +255,6 @@ function ViewList() {
       onDragCancel={handleDragCancel}
     >
       <NotebookSheet>
-        <Toast messages={toasts} onClose={handleToastClose} />
         <ModalConfirm
           isOpen={showModalDelete}
           onClose={handleCloseModalConfirm}
@@ -306,10 +299,11 @@ function ViewList() {
           placeholder={translations.placeholderEditList}
           textValue={inputValueListName || ''}
           setTextValue={setInputValueListName}
-          handleAction={handlerConfirmEditListName}
+          handleAction={handleChangeListName}
           ref={inputEditListRef}
           onFocus={handleFocusListName}
           onKeyDown={handleKeyDownListName}
+          onBlur={handleConfirmListName}
         />
         <RowLabel text={currentList?.createdDate} info={`${currentList?.items?.length} items`}>
           <DeleteButton onClick={handleDeleteList} />

@@ -10,10 +10,8 @@ import { useParams } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import { ModalConfirm } from "../MyModals/ModalConfirm";
 
-import Toast from "../Toast/Toast";
-
 function ModalViewItem() {
-  const {lists, isDataLoaded, editItemFromList, deleteItemFromList, translations } = useContext(DataContext);
+  const {lists, isDataLoaded, editItemFromList, deleteItemFromList, translations, addToast } = useContext(DataContext);
   const { listId, itemId} = useParams();
   const [currentItem, setCurrentItem] =useState([]); 
   const [inputValueName, setInputValueName] = useState('');
@@ -23,17 +21,8 @@ function ModalViewItem() {
   const navigate = useNavigate();  
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [showModalEmptyName, setShowModalEmptyName] = useState(false);
-   const [toasts, setToasts] = useState([]);
 
-   const addToast = (message) => {    
-    setToasts((prevToasts) => [...prevToasts, message]);
-  };
-
-  const handleToastClose = (closedToast) => {
-    setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
-  };
-
-  const updateData = () => {    
+   const updateData = () => {    
     const editedItem = {
       ...currentItem,
       name: inputValueName,
@@ -60,8 +49,9 @@ function ModalViewItem() {
     setShowModalDelete(!showModalDelete);       
   }
   const deleteItem = () => {
-    deleteItemFromList(listId, itemId);    
-    navigate(`/lists/${listId}/?toast=${translations.toastItemDeleted}`)
+    deleteItemFromList(listId, itemId);
+    addToast(translations.toastItemDeleted);
+    navigate(`/lists/${listId}`, { replace: true })
   }
   const goBack = (e) => {
     if (inputValueName == ''){
@@ -72,7 +62,10 @@ function ModalViewItem() {
     }
     if (e) {
       e.preventDefault()}
-    updateData();   
+    updateData();
+    if (inputValueName !== currentItem?.name) {
+      addToast(translations.toastItemNameEdited);
+    }
     navigate(`/lists/${listId}`); 
   };
 
@@ -101,7 +94,6 @@ function ModalViewItem() {
   
   return (  
     <NotebookSheet>    
-      <Toast messages={toasts} onClose={handleToastClose} />         
       {
       (showModalDelete)
         ? <ModalConfirm title={`"${currentItem.name}"`} subtitle={translations.deleteItemConfirmMsg} yesText={translations.deleteItemYesText} notText={translations.deleteItemNotText}

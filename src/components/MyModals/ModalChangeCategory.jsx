@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import ModalButton from '../ModalButton/ModalButton';
-import { FiXCircle, FiTag, FiSave } from 'react-icons/fi';
+import { FiXCircle, FiTag, FiSave, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import Modal from './Modal';
 import './Modal.css';
 import styles from './ModalChangeCategory.module.css';
@@ -15,7 +15,7 @@ export const ModalChangeCategory = ({
   setItemCategory,
   onSave
 }) => {
-  const { translations, addCategory, editItemFromList, categories, categoriesColors } = useContext(DataContext);
+  const { translations, addCategory, editCategory, deleteCategory, editItemFromList, categories, categoriesColors, addToast } = useContext(DataContext);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [showNewCategory, setShowNewCategory] = useState(false);
@@ -23,6 +23,11 @@ export const ModalChangeCategory = ({
   const [selectedColor, setSelectedColor] = useState(categoriesColors[0]);
   const [selectedColorId, setSelectedColorId] = useState(categoriesColors[1]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [editCategoryName, setEditCategoryName] = useState('');
+  const [editCategoryColorId, setEditCategoryColorId] = useState(null);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const listRef = useRef(null);
   const bottomRef = useRef(null);
@@ -61,9 +66,11 @@ const sortedCategories = searchTerm
 : [...categories].sort((a, b) => a.name.localeCompare(b.name));
 
 // Si existe una categoría actual (ya sea seleccionada o asignada), la ponemos al inicio
-const current_Category = selectedCategory || itemCategory;
-const finalCategories = current_Category
-? [current_Category, ...sortedCategories.filter(cat => cat.id !== current_Category.id)]
+// Validamos que la categoría siga existiendo (por si fue eliminada)
+const currentValid = (selectedCategory && categories.some(c => c.id === selectedCategory.id) ? selectedCategory : null)
+  || (itemCategory && categories.some(c => c.id === itemCategory.id) ? itemCategory : null);
+const finalCategories = currentValid
+? [currentValid, ...sortedCategories.filter(cat => cat.id !== currentValid.id)]
 : sortedCategories;
 
 
@@ -82,6 +89,7 @@ const finalCategories = current_Category
       colorId: selectedColorId
     };
     addCategory(newCat);
+    addToast(translations.toastCategoryCreated);
     setSelectedCategory(newCat);
     setSearchTerm(newCat.name);
     setShowNewCategory(false);
@@ -103,12 +111,50 @@ const finalCategories = current_Category
     }
   };
 
+  const handleStartEdit = (category) => {
+    setEditingCategory(category);
+    setEditCategoryName(category.name);
+    setEditCategoryColorId(category.colorId);
+    setShowNewCategory(false);
+    setShowEditModal(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCategory(null);
+    setEditCategoryName('');
+    setEditCategoryColorId(null);
+    setShowEditModal(false);
+  };
+
+  const handleSaveEditCategory = () => {
+    if (editCategoryName.trim() === '') return;
+    editCategory(editingCategory.id, { name: editCategoryName.trim(), colorId: editCategoryColorId });
+    addToast(translations.toastCategoryEdited);
+    setSelectedCategory({ ...editingCategory, name: editCategoryName.trim(), colorId: editCategoryColorId });
+    setSearchTerm(editCategoryName.trim());
+    handleCancelEdit();
+  };
+
+  const handleDeleteCategory = () => {
+    deleteCategory(editingCategory.id);
+    addToast(translations.toastCategoryDeleted);
+    const sinCategoria = categories.find(c => c.id === 0) || { id: 0, name: 'Sin categoría', colorId: '0' };
+    if (selectedCategory && selectedCategory.id === editingCategory.id) {
+      setSelectedCategory(sinCategoria);
+      setSearchTerm('');
+    }
+    if (itemCategory && itemCategory.id === editingCategory.id && setItemCategory) {
+      setItemCategory(sinCategoria);
+    }
+    handleCancelEdit();
+  };
+
   const updateData = () => {    
     const editedItem = {
-      ...item,
       categoryId: selectedCategory.id,      
     }
-    editItemFromList(listId, item.id, editedItem);    
+    editItemFromList(listId, item.id, editedItem);
+    addToast(translations.toastCategoryChanged);
     setItemCategory(selectedCategory);
   }
 
@@ -129,8 +175,7 @@ const handleChangeSearchTerm = (e) => {
 } 
 
 
-  // La categoría actual es la seleccionada o la asignada inicialmente.
-  const currentCategory = selectedCategory || itemCategory;
+  const currentCategory = currentValid;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -160,11 +205,67 @@ const handleChangeSearchTerm = (e) => {
             }}
             onClick={() => handleSelectCategory(category)}
           >
-            <FiTag /> {category.name}
+            <FiTag /> <span style={{ flex: 1 }}>{category.name}</span>
+            {category.id !== 0 && (
+              <button
+                className={styles.editCatBtn}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleStartEdit(category);
+                }}
+              >
+                <FiEdit2 />
+              </button>
+            )}
           </li>
         ))}
       </ul>
 
+
+      {showEditModal && editingCategory && (
+        <Modal isOpen={showEditModal} onClose={handleCancelEdit}>
+          <p className="modal-content-paragraph">{translations.editCategoryTitle}</p>
+
+          <div style={{ position: 'relative' }}>
+            <input
+              className={styles.modalChangeCatEditInput}
+              type="text"
+              value={editCategoryName}
+              onChange={(e) => setEditCategoryName(e.target.value)}
+              style={{ backgroundColor: categoriesColors[editCategoryColorId] }}
+            />
+            <FiTag className={styles.modalChangeCatNewInputIcon} />
+          </div>
+
+          <div className={styles.modalChangeCatColors}>
+            {Object.entries(categoriesColors).map(([key, data]) => (
+              <button
+                key={key}
+                className={styles.modalChangeCatColorBtn}
+                style={{
+                  backgroundColor: data,
+                  border: editCategoryColorId == key ? '2px solid #333' : 'none',
+                }}
+                onClick={() => setEditCategoryColorId(key)}
+              />
+            ))}
+          </div>
+          <div className={styles.modalChangeCatEditButtons}>
+            <button
+              className={styles.modalChangeCatCreateBtn}
+              onClick={handleSaveEditCategory}
+            >
+              {translations.editCategorySaveButton}
+            </button>
+            <button
+              className={styles.modalChangeCatDeleteBtn}
+              onClick={handleDeleteCategory}
+            >
+              <FiTrash2 /> {translations.editCategoryDeleteButton}
+            </button>
+          </div>
+        </Modal>
+      )}
 
       <label className={styles.modalChangeCatLabel} htmlFor='showNewCategory'>
         {translations.createNewCategoryAnswer}

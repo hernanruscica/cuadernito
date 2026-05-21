@@ -140,3 +140,74 @@
     border: solid 1px var(--notebookAccentColor);
   }
   
+  .editCatBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    color: #555;
+    transition: background-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+  
+  .editCatBtn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #000;
+  }
+  
+  .editCatBtn svg {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .modalChangeCatEditWrapper {
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    padding: 12px 12px;
+    border-radius: 8px;
+    background-color: #fafafa;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+  }
+  
+  .modalChangeCatEditInput {
+    width: 100%;
+    padding: 14px 8px 14px 32px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+    font-family: inherit;
+    font-size: var(--rowFontSizeButton);
+  }
+  
+  .modalChangeCatEditButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+  
+  .modalChangeCatDeleteBtn {
+    padding: 14px;
+    font-size: var(--rowFontSizeButton);
+    border: solid 1px #e74c3c;
+    border-radius: 6px;
+    background-color: #e74c3c;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .modalChangeCatDeleteBtn:hover {
+    background-color: #c0392b;
+  }
+  

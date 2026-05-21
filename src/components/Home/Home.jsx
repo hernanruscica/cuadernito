@@ -1,9 +1,8 @@
-import { useState, useContext, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { DataContext } from '../../context/DataContext';
 
-import Toast from "../Toast/Toast";
 import { GetNewName } from "../../utils/GetNewName";
 import MiniList from "../MiniList/MiniList";
 import styles from './Home.module.css';
@@ -24,12 +23,8 @@ import {
 import HomeDropZone from "../HomeDropZone/HomeDropZone";
 
 function Home() {
-  const { lists, addList, deleteListFromContext, translations, isDataLoaded } = useContext(DataContext);
-  const [toasts, setToasts] = useState([]);
+  const { lists, addList, deleteListFromContext, translations, addToast } = useContext(DataContext);
   const navigate = useNavigate();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const toastMessage = queryParams.get("toast");
   const [searchInputText, setSearchInputText] = useState('');
 
   const [activeId, setActiveId] = useState(null);
@@ -46,22 +41,9 @@ function Home() {
     })
   );
 
-  useEffect(() => {
-    if (toastMessage) {
-      addToast(toastMessage);
-    }
-  }, []);
-
   const filteredLists = lists.filter(list =>
     list.name.toLowerCase().includes(searchInputText)
   );
-
-  const addToast = (message) => {
-    setToasts((prevToasts) => [...prevToasts, message]);
-  };
-  const handleToastClose = (closedToast) => {
-    setToasts((prevToasts) => prevToasts.filter((toast) => toast !== closedToast));
-  };
 
   const handleAddNewList = (e) => {
     e.preventDefault();
@@ -150,8 +132,6 @@ function Home() {
       onDragCancel={handleDragCancel}
     >
       <div className={styles.MiniListContainer}>
-        <Toast messages={toasts} onClose={handleToastClose} />
-
         <ModalConfirm
           isOpen={showDeleteConfirm}
           onClose={handleCancelDelete}

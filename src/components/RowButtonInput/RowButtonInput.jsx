@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 import styles from "./RowButtonInput.module.css";
 
-const RowButtonInput = forwardRef(({ placeholder = "", children, button, textValue='', setTextValue, handleAction, onFocus, onKeyDown }, ref) => {
+const RowButtonInput = forwardRef(({ placeholder = "", children, button, textValue='', setTextValue, handleAction, onFocus, onKeyDown, onBlur }, ref) => {
 
 
   return (
@@ -16,6 +16,7 @@ const RowButtonInput = forwardRef(({ placeholder = "", children, button, textVal
           onChange={handleAction}
           onFocus={onFocus}
           onKeyDown={onKeyDown}
+          onBlur={onBlur}
           ref={ref} 
         />
         {button}

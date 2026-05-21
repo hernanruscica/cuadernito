@@ -47,6 +47,14 @@
     "toastListEdited": "List name edited. 😄",
     "toastListWithoutName" : "The list needs a name. 🙄",
     "toastNewList": "New list created! 🗒️",
+    "toastCategoryChanged": "Category changed. 🏷️",
+    "toastCategoryEdited": "Category edited. ✏️",
+    "toastCategoryDeleted": "Category deleted. 🗑️",
+    "toastItemNameEdited": "Item name edited. ✏️",
+    "toastItemChecked": "Item checked. ✅",
+    "toastItemUnchecked": "Item unchecked. 🔄",
+    "toastCategoryCreated": "New category created. 🏷️",
+    "toastSettingsSaved": "Settings saved. 💾",
     "inputSearchList": "Search list by name",
     "foundedList" : "Founded list ",
     "changeCategoryTitle": "Change category",
@@ -55,6 +63,10 @@
     "searchCategoryPlaceholder": "Search category",
     "inputNewCategoryNamePlaceholder": "New category name...",
     "ViewItemTitle": "Edit item",
+    "editCategoryTitle": "Edit category",
+    "editCategorySaveButton": "Save category",
+    "editCategoryDeleteButton": "Delete category",
+    "deleteCategoryConfirmMsg": "Delete this category?",
   
     "es": {
       "appName": "Cuadernito App",  
@@ -105,6 +117,14 @@
       "toastListEdited": "Nombre de la lista editado. 😄",
       "toastListWithoutName" : "La lista necesita un nombre. 🙄",
       "toastNewList": "Nueva lista creada! 🗒️",
+      "toastCategoryChanged": "Categoría cambiada. 🏷️",
+      "toastCategoryEdited": "Categoría editada. ✏️",
+      "toastCategoryDeleted": "Categoría eliminada. 🗑️",
+      "toastItemNameEdited": "Nombre del item editado. ✏️",
+      "toastItemChecked": "Item chequeado. ✅",
+      "toastItemUnchecked": "Item deschequeado. 🔄",
+      "toastCategoryCreated": "Nueva categoría creada. 🏷️",
+      "toastSettingsSaved": "Preferencias guardadas. 💾",
       "foundedList" : "Listas encontradas ",
       "inputSearchList": "Busque la lista por su nombre",
       "changeCategoryTitle": "Cambiar categoria",
@@ -112,7 +132,11 @@
       "createNewCategoryButton": " Crear nueva categoria",
       "searchCategoryPlaceholder": "Buscar categoria",
       "inputNewCategoryNamePlaceholder": "Nuevo nombre de categoria...",
-      "ViewItemTitle": "Editar item"
+      "ViewItemTitle": "Editar item",
+      "editCategoryTitle": "Editar categoría",
+      "editCategorySaveButton": "Guardar categoría",
+      "editCategoryDeleteButton": "Eliminar categoría",
+      "deleteCategoryConfirmMsg": "¿Eliminar esta categoría?"
     },
   
     "en": {
@@ -164,6 +188,14 @@
       "toastListEdited": "List name edited. 😄",
       "toastListWithoutName" : "The list needs a name. 🙄",
       "toastNewList": "New list created! 🗒️",
+      "toastCategoryChanged": "Category changed. 🏷️",
+      "toastCategoryEdited": "Category edited. ✏️",
+      "toastCategoryDeleted": "Category deleted. 🗑️",
+      "toastItemNameEdited": "Item name edited. ✏️",
+      "toastItemChecked": "Item checked. ✅",
+      "toastItemUnchecked": "Item unchecked. 🔄",
+      "toastCategoryCreated": "New category created. 🏷️",
+      "toastSettingsSaved": "Settings saved. 💾",
       "foundedList" : "Founded list ",
       "inputSearchList": "Search list by name",
       "changeCategoryTitle": "Change category",
@@ -171,6 +203,10 @@
       "createNewCategoryButton": " Create new category",
       "searchCategoryPlaceholder": "Search category",
       "inputNewCategoryNamePlaceholder": "New category name...",
-      "ViewItemTitle": "Edit item"
+      "ViewItemTitle": "Edit item",
+      "editCategoryTitle": "Edit category",
+      "editCategorySaveButton": "Save category",
+      "editCategoryDeleteButton": "Delete category",
+      "deleteCategoryConfirmMsg": "Delete this category?"
     }
   }

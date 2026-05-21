@@ -6,20 +6,42 @@ import HeaderAppButton from "./HeaderAppButton";
 import { useContext, useState, useEffect } from 'react';
 import { DataContext } from '../../context/DataContext';
 import { ModalSettings } from '../MyModals/ModalSettings';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const HeaderApp = () => {
     const imageSiteUrl = import.meta.env.VITE_IMAGE_DIRECTORY;  
-    const { translations, isDataLoaded, userSettings, editUserSetting, themes } = useContext(DataContext);  
+    const { translations, isDataLoaded, userSettings, editUserSetting, themes, addToast } = useContext(DataContext);  
     const [ showSettingsModal, setShowSettingsModal] = useState(false);
     const [ currentUserSettings, setCurrentUserSettings] = useState({});
     const [ backupUserSettings, setBackupUserSettings] = useState({});
     const navigate =  useNavigate();
-   
+    const location = useLocation();
+
     const handlerSettings = (e) => {
         e.preventDefault();        
         setBackupUserSettings(userSettings);
         setShowSettingsModal(!showSettingsModal);
+    }
+
+    const GoBack = (e) => {
+        e.preventDefault();
+        const path = location.pathname;
+
+        if (path === '/') return;
+
+        const itemMatch = path.match(/^\/lists\/(\d+)\/items\/\d+$/);
+        if (itemMatch) {
+            navigate(`/lists/${itemMatch[1]}`);
+            return;
+        }
+
+        const listMatch = path.match(/^\/lists\/(\d+)$/);
+        if (listMatch) {
+            navigate('/');
+            return;
+        }
+
+        navigate(-1);
     }
 
     const handlerSelectThemeChange = (e) => {           
@@ -38,6 +60,7 @@ const HeaderApp = () => {
     const handlerSaveSettings = (e) => {        
         e.preventDefault();
         setShowSettingsModal(!showSettingsModal);
+        addToast(translations.toastSettingsSaved);
     }
 
     const handlerCancelSettings = (e) => {    
@@ -45,11 +68,6 @@ const HeaderApp = () => {
         editUserSetting(backupUserSettings);
         setShowSettingsModal(false);        
     }    
-
-    const GoBack = (e) => {
-        e.preventDefault();        
-        navigate(-1);
-    }
     
     useEffect(() => {
         if (isDataLoaded){

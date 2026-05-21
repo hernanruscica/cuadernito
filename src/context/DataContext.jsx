@@ -22,7 +22,10 @@ const DataProvider = ({ children }) => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [translations, setTranslations] = useState(translationsSrc);
   const [locale, setLocale] = useState(initialState.userSettings.language);
-  const [currentTrans, setCurrentTrans] = useState({}); 
+  const [currentTrans, setCurrentTrans] = useState({});
+  const [toasts, setToasts] = useState([]);
+  const addToast = (message) => setToasts((prev) => [...prev, message]);
+  const removeToast = (closedToast) => setToasts((prev) => prev.filter((t) => t !== closedToast)); 
 
   const migratePositions = (lists) => {
     let migrated = false;
@@ -184,6 +187,39 @@ const DataProvider = ({ children }) => {
     localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
   };
 
+  const editCategory = (categoryId, updatedFields) => {
+    const updatedData = {
+      ...data,
+      categories: data.categories.map(cat =>
+        cat.id === categoryId ? { ...cat, ...updatedFields } : cat
+      ),
+    };
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+
+  const deleteCategory = (categoryId) => {
+    const updatedLists = data.lists.map(list => ({
+      ...list,
+      items: list.items.map(item =>
+        item.categoryId == categoryId
+          ? { ...item, categoryId: 0 }
+          : item
+      ),
+    }));
+    updatedLists.forEach(list => {
+      reassignPositions(list.items, 0);
+      reassignPositions(list.items, categoryId);
+    });
+    const updatedData = {
+      ...data,
+      lists: updatedLists,
+      categories: data.categories.filter(cat => cat.id !== categoryId),
+    };
+    setData(updatedData);
+    localStorage.setItem(localStorageDataName, JSON.stringify(updatedData));
+  };
+
   /* DND FUNCTIONS: Reorder items and move items between categories */
 
   const reorderItems = (listId, activeId, overId) => {
@@ -287,12 +323,17 @@ const DataProvider = ({ children }) => {
       categoriesColors: data.categoriesColors,
       isDataLoaded: isDataLoaded,
       translations: currentTrans,
+      toasts,
+      addToast,
+      removeToast,
       userSettings: data.userSettings,
       themes: data.themes,
       addList,
       editList,
       addItem,
       addCategory,
+      editCategory,
+      deleteCategory,
       addItemToList, 
       editItemFromList,
       deleteItemFromList,
