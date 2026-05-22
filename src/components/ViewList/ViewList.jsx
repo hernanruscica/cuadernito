@@ -406,7 +406,7 @@ function ViewList() {
             return (
               <div className={styles.saveRow}>
                 <button className={styles.saveButton} onClick={handleOpenSaveAsNew}>
-                  <FiSave /> {translations.saveAsNewTemplate}
+                  {translations.saveAsNewTemplate} <FiSave />
                 </button>
               </div>
             );
@@ -426,12 +426,14 @@ function ViewList() {
               </RowNormal>
               <div className={styles.saveRow}>
                 <button className={styles.updateButton} onClick={handleUpdateTemplate}>
-                   {translations.updateTemplate}<FiRefreshCw />
+                   <span>{translations.updateTemplate}</span>
+                   <FiRefreshCw />
                 </button>
               </div>
               <div className={styles.saveRow}>
                 <button className={styles.saveButton} onClick={handleOpenSaveAsNew}>
-                   {translations.saveAsNewTemplate}<FiSave />
+                   <span>{translations.saveAsNewTemplate}</span>
+                   <FiSave />
                 </button>
               </div>
             </>
