@@ -109,7 +109,7 @@ function ViewList() {
   const deleteList = () => {
     deleteListFromContext(listId);
     addToast(translations.toastListDeleted);
-    navigate('/', { replace: true });
+    navigate('/lists', { replace: true });
   };
 
   const listNameRef = useRef('');
@@ -417,14 +417,21 @@ function ViewList() {
             : existingTemplate.name;
           return (
             <>
+              
+              <RowNormal>
+                <span className={styles.infoRow}>{translations.currentTemplateText}</span>                
+              </RowNormal>
+              <RowNormal>
+                <span className={styles.infoRow}><strong>"{templateName}"</strong></span>                
+              </RowNormal>
               <div className={styles.saveRow}>
                 <button className={styles.updateButton} onClick={handleUpdateTemplate}>
-                  <FiRefreshCw /> {translations.updateTemplate}: {templateName}
+                   {translations.updateTemplate}<FiRefreshCw />
                 </button>
               </div>
               <div className={styles.saveRow}>
                 <button className={styles.saveButton} onClick={handleOpenSaveAsNew}>
-                  <FiSave /> {translations.saveAsNewTemplate}
+                   {translations.saveAsNewTemplate}<FiSave />
                 </button>
               </div>
             </>

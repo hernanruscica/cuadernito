@@ -1,0 +1,98 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 140px);
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  animation: fadeInScale 0.8s ease-out;
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.title {
+  font-family: var(--appInfoFontFamily);
+  font-size: 2.2rem;
+  margin-top: 1.5rem;
+  color: var(--textNormalColor);
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+.description {
+  font-family: var(--appInfoFontFamily);
+  font-size: 1.1rem;
+  margin-top: 0.8rem;
+  max-width: 320px;
+  line-height: 1.5;
+  color: var(--textNormalColor);
+  opacity: 0.85;
+  animation: fadeInUp 0.6s ease-out 0.5s both;
+}
+
+.startButton {
+  margin-top: 2.5rem;
+  padding: 14px 40px;
+  font-family: var(--appFontFamily);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  background-color: var(--rowNormalColor);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeInUp 0.6s ease-out 0.7s both;
+}
+
+.startButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.startButton:active {
+  transform: scale(0.97);
+}
+
+.helpLink {
+  margin-top: 2rem;
+  font-family: var(--appInfoFontFamily);
+  font-size: 0.95rem;
+  color: var(--textNormalColor);
+  opacity: 0.7;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  animation: fadeInUp 0.6s ease-out 0.9s both;
+}
+
+.helpLink:hover {
+  opacity: 1;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

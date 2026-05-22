@@ -27,21 +27,27 @@ const HeaderApp = () => {
         e.preventDefault();
         const path = location.pathname;
 
-        if (path === '/') return;
+        if (path === '/') {
+            return;
+        }
 
-        const itemMatch = path.match(/^\/lists\/(\d+)\/items\/\d+$/);
-        if (itemMatch) {
-            navigate(`/lists/${itemMatch[1]}`);
+        if (path === '/help' || path === '/ayuda') {
+            navigate('/');
             return;
         }
 
         const listMatch = path.match(/^\/lists\/(\d+)$/);
         if (listMatch) {
-            navigate('/');
+            navigate('/lists');
             return;
         }
 
-        navigate(-1);
+        navigate('/');
+    }
+
+    const goHome = (e) => {
+        e.preventDefault();
+        navigate('/');
     }
 
     const handlerSelectThemeChange = (e) => {           
@@ -64,7 +70,7 @@ const HeaderApp = () => {
     }
 
     const handlerCancelSettings = (e) => {    
-        e.preventDefault();
+        if (e) e.preventDefault();
         editUserSetting(backupUserSettings);
         setShowSettingsModal(false);        
     }    
@@ -94,7 +100,7 @@ const HeaderApp = () => {
             data={data}
             />             
     
-            <img src={`${imageSiteUrl}/Cuadernitoapp50opacity.png`} alt="Cuadernito app" title="Cuadernito app"  className={styles.headerImage}/>
+            <img src={`${imageSiteUrl}/Cuadernitoapp50opacity.png`} alt="Cuadernito app" title="Cuadernito app"  className={styles.headerImage} onClick={goHome}/>
 
             <HeaderAppButton onClickHandler={GoBack} 
                 text={translations.backButton} >
@@ -107,7 +113,7 @@ const HeaderApp = () => {
                 <SettingsButton />
             </HeaderAppButton>
 
-            <HeaderAppButton url="/" 
+            <HeaderAppButton url="/lists" 
                 text={translations.headerListButton} >
                 <NotebookButton />
             </HeaderAppButton>

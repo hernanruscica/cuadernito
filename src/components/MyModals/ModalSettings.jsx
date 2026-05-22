@@ -1,16 +1,20 @@
 import RowSelect from "../RowSelect/RowSelect";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import ModalButton from '../ModalButton/ModalButton';
 import SaveButton from '../Buttons/SaveButton';
 import { FiSave } from "react-icons/fi";
-import { FiArrowLeft  } from "react-icons/fi";
+import { FiArrowLeft, FiHelpCircle } from "react-icons/fi";
 import Modal from './Modal';
 import './Modal.css';
 
 
 export const ModalSettings = ({ onClose, title='title', subtitle='subtitle', onClickYes, isOpen, data=null}) => {
-    const { translations} = useContext(DataContext); 
+    const { translations, userSettings} = useContext(DataContext);
+    const navigate = useNavigate();
+    const lang = userSettings.language || 'es';
+    const helpUrl = lang === 'es' ? '/ayuda' : '/help';
     
     return(            
         <Modal isOpen={isOpen} onClose={onClose} >
@@ -29,9 +33,13 @@ export const ModalSettings = ({ onClose, title='title', subtitle='subtitle', onC
                      options={data.languages}
                      selectedValue={data.userSettings.language}
                      handlerSelect = {data.setLanguageHandler}
-                 />                       
-                
+                 />
+
                  <div className="buttons-container">
+                     <ModalButton onClickHandler={() => { onClose(); navigate(helpUrl); }}
+                         text={lang === 'es' ? 'Ayuda' : 'Help'} >
+                        <FiHelpCircle />
+                     </ModalButton>
                      <ModalButton onClickHandler={onClose}
                          text={translations.backButton} >
                         <FiArrowLeft />                          

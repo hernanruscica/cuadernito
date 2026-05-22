@@ -1,8 +1,9 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import SplashHome from "./components/SplashHome/SplashHome";
 import Home from "./components/Home/Home";
 import ViewList from "./components/ViewList/ViewList";
-import ViewItem from "./components/ViewItem/ViewItem";
+import HelpPage from "./components/HelpPage/HelpPage";
 import HeaderApp from "./components/HeaderApp/HeaderApp";
 import Toast from "./components/Toast/Toast";
 import "./App.css";
@@ -24,9 +25,11 @@ function App() {
             <ToastContainer />
             <HeaderApp />          
           <Routes>          
-            <Route path="/" element={<Home />} />      
+            <Route path="/" element={<SplashHome />} />
+            <Route path="/lists" element={<Home />} />
             <Route path="/lists/:listId" element={<ViewList />} />  
-            <Route path="/lists/:listId/items/:itemId" element={<ViewItem />} />              
+            <Route path="/help" element={<HelpPage />} />
+            <Route path="/ayuda" element={<HelpPage />} />
           </Routes>
         </DataProvider>
       </div>

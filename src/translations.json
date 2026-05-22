@@ -76,6 +76,7 @@
     "toastTemplateSaved": "Template saved!",
     "toastTemplateUpdated": "Template updated!",
     "noChangesToSave": "No changes to save",
+    "currentTemplateText": "Current template",
     "updateTemplate": "Update template",
     "saveAsNewTemplate": "Save as new template",
     "listSettingsButton": "List settings",
@@ -83,6 +84,11 @@
     "selectTemplateDescription": "How do you want to start your list?",
     "startFromScratch": "Start from scratch",
     "useTemplate": "Use a template",
+    "splashDescription": "Your daily companion for organizing lists, tasks, and more.",
+    "splashButton": "Get started",
+    "helpTutorialTitle": "How to use Cuadernito",
+    "helpFAQTitle": "FAQ",
+    "helpVersionTitle": "App version",
   
     "es": {
       "appName": "Cuadernito App",  
@@ -162,13 +168,19 @@
       "toastTemplateSaved": "¡Plantilla guardada!",
       "toastTemplateUpdated": "¡Plantilla actualizada!",
       "noChangesToSave": "Sin cambios para guardar",
+      "currentTemplateText": "Plantilla actual",
       "updateTemplate": "Actualizar plantilla",
-      "saveAsNewTemplate": "Guardar como nueva plantilla",
+      "saveAsNewTemplate": "Guardar nueva plantilla",
       "listSettingsButton": "Configuración de lista",
       "selectTemplateTitle": "Elegir plantilla o empezar desde cero",
       "selectTemplateDescription": "¿Cómo querés empezar tu lista?",
       "startFromScratch": "Empezar desde cero",
-      "useTemplate": "Usar una plantilla"
+      "useTemplate": "Usar una plantilla",
+      "splashDescription": "Tu compañero diario para organizar listas, tareas y más.",
+      "splashButton": "Empezar",
+      "helpTutorialTitle": "Cómo usar Cuadernito",
+      "helpFAQTitle": "Preguntas frecuentes",
+      "helpVersionTitle": "Versión de la app"
     },
   
     "en": {
@@ -249,12 +261,18 @@
       "toastTemplateSaved": "Template saved!",
       "toastTemplateUpdated": "Template updated!",
       "noChangesToSave": "No changes to save",
+      "currentTemplateText": "Current template",
       "updateTemplate": "Update template",
       "saveAsNewTemplate": "Save as new template",
       "listSettingsButton": "List settings",
       "selectTemplateTitle": "Choose a template or start from scratch",
       "selectTemplateDescription": "How do you want to start your list?",
       "startFromScratch": "Start from scratch",
-      "useTemplate": "Use a template"
+      "useTemplate": "Use a template",
+      "splashDescription": "Your daily companion for organizing lists, tasks, and more.",
+      "splashButton": "Get started",
+      "helpTutorialTitle": "How to use Cuadernito",
+      "helpFAQTitle": "FAQ",
+      "helpVersionTitle": "App version"
     }
   }
